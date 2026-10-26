@@ -107,7 +107,6 @@
       text-align: left;
     }
 
-    /* Password Input Wrapper for Eye Icon */
     .password-input-wrapper {
       position: relative;
       width: 100%;
@@ -338,19 +337,6 @@
       align-items: center;
       gap: 6px;
       white-space: nowrap;
-    }
-
-    .overdue-alert-badge {
-      background-color: var(--accent-red-light);
-      color: var(--accent-red);
-      font-size: 11.5px;
-      font-weight: 700;
-      padding: 6px 12px;
-      border-radius: 20px;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      cursor: pointer;
     }
 
     .quick-btn {
@@ -699,7 +685,8 @@
       background: var(--bg-cream-light);
       border-top: 1px solid var(--border-cream);
       display: flex;
-      justify-content: flex-end;
+      justify-content: space-between;
+      align-items: center;
       gap: 8px;
     }
 
@@ -711,6 +698,22 @@
       font-size: 12.5px;
       font-weight: 600;
       cursor: pointer;
+    }
+
+    .btn-danger-outline {
+      background: transparent;
+      border: 1px solid var(--accent-red);
+      color: var(--accent-red);
+      padding: 8px 14px;
+      border-radius: var(--radius-md);
+      font-size: 12.5px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-danger-outline:hover {
+      background: var(--accent-red-light);
     }
 
     .grid-2 {
@@ -958,7 +961,7 @@
         <i class="fa-solid fa-user-plus"></i> Input Siswa Baru
       </a>
       <a class="menu-item" onclick="openModal('modalImport')">
-        <i class="fa-solid fa-file-import"></i> Upload / Sinkron Data
+        <i class="fa-solid fa-file-import"></i> Upload / Reset Data
       </a>
       <a class="menu-item" onclick="exportBackupJSON()">
         <i class="fa-solid fa-download"></i> Backup Data JSON
@@ -977,7 +980,7 @@
     </nav>
 
     <div class="sidebar-footer">
-      <p><strong>Pustaka Syamilah v3.0</strong></p>
+      <p><strong>Pustaka Syamilah v3.1</strong></p>
       <p style="margin-top: 2px;">SD Islam Makarima Kartasura</p>
     </div>
   </aside>
@@ -997,7 +1000,6 @@
       </div>
 
       <div class="user-profile">
-        <div id="overdueBadgeContainer"></div>
         <button class="quick-btn" onclick="openModal('modalPinjam')">
           <i class="fa-solid fa-hand-holding-hand"></i> <span>Pinjam</span>
         </button>
@@ -1147,7 +1149,7 @@
       <section id="sec-sirkulasi" class="section-content">
         <div class="card-panel">
           <div class="panel-header">
-            <h3><i class="fa-solid fa-arrow-right-arrow-left"></i> Rekap Sirkulasi Peminjaman & Denda</h3>
+            <h3><i class="fa-solid fa-arrow-right-arrow-left"></i> Rekap Sirkulasi Peminjaman & Pengembalian</h3>
             <button class="quick-btn" onclick="openModal('modalPinjam')">
               <i class="fa-solid fa-plus"></i> Catat Peminjaman
             </button>
@@ -1163,7 +1165,6 @@
                   <th>Judul Buku</th>
                   <th>Tgl Pinjam</th>
                   <th>Jatuh Tempo</th>
-                  <th>Keterlambatan / Denda</th>
                   <th>Status</th>
                   <th style="text-align: right;">Tindakan</th>
                 </tr>
@@ -1385,16 +1386,16 @@
     </div>
   </div>
 
-  <!-- MODAL: UPLOAD / IMPORT DATA -->
+  <!-- MODAL: UPLOAD / IMPORT DATA / RESET DATA -->
   <div id="modalImport" class="modal-overlay">
     <div class="modal-card">
       <div class="modal-header">
-        <h4><i class="fa-solid fa-file-csv"></i> Import Massal Data Excel / CSV</h4>
+        <h4><i class="fa-solid fa-file-csv"></i> Import File & Reset Data</h4>
         <button class="btn-close" onclick="closeModal('modalImport')">&times;</button>
       </div>
       <div class="modal-body">
         <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 14px;">
-          Fitur ini memungkinkan petugas memperbarui atau menambah daftar buku/siswa secara instan dari dokumen eksternal.
+          Unggah dokumen Excel/CSV untuk menambah data, atau klik tombol <strong>Reset Data ke Awal</strong> bila terjadi kesalahan unggah.
         </p>
         <div class="form-group">
           <label>Pilih Jenis Data</label>
@@ -1409,8 +1410,13 @@
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn-secondary" onclick="closeModal('modalImport')">Batal</button>
-        <button type="button" class="quick-btn" onclick="processImport()">Unggah & Sinkronkan</button>
+        <button type="button" class="btn-danger-outline" onclick="resetDataAwal()" title="Gunakan ini jika terjadi kesalahan upload">
+          <i class="fa-solid fa-rotate-left"></i> Reset ke Data Awal
+        </button>
+        <div style="display: flex; gap: 8px;">
+          <button type="button" class="btn-secondary" onclick="closeModal('modalImport')">Batal</button>
+          <button type="button" class="quick-btn" onclick="processImport()">Unggah & Sinkron</button>
+        </div>
       </div>
     </div>
   </div>
@@ -1425,7 +1431,6 @@
   <script>
     // ACCESS PASSWORD CONFIGURATION
     const APP_PASSWORD = "bismillah";
-    const DENDA_PER_HARI = 1000; // Rp 1.000 per hari keterlambatan
 
     function togglePasswordVisibility() {
       const pinInput = document.getElementById('inputPin');
@@ -1515,14 +1520,15 @@
       { id: 21, nama: "Ahmad Alfian Arsyad", kelas: "Kelas 6 Al Fattah" }
     ];
 
-    let loans = [
-      { id: "TRX-101", studentId: 11, studentName: "Aisyah Pelangi Muslimah", kelas: "Kelas 2A Al Malik", bookId: 2, bookTitle: "Bacaan Sholat: Disertai Latin & Terjemah Bahasa Indonesia", tglPinjam: "2026-10-10", tglKembali: "2026-10-17", status: "Dipinjam" },
+    let initialLoans = [
+      { id: "TRX-101", studentId: 11, studentName: "Aisyah Pelangi Muslimah", kelas: "Kelas 2A Al Malik", bookId: 2, bookTitle: "Bacaan Sholat: Disertai Latin & Terjemah Bahasa Indonesia", tglPinjam: "2026-10-20", tglKembali: "2026-10-27", status: "Dipinjam" },
       { id: "TRX-102", studentId: 6, studentName: "Adlan Malik Assami", kelas: "Kelas 1B", bookId: 10, bookTitle: "Kisah Nabi Muhammad SAW", tglPinjam: "2026-10-22", tglKembali: "2026-10-29", status: "Dipinjam" },
-      { id: "TRX-103", studentId: 15, studentName: "Adifa Safa Azzahra", kelas: "Kelas 3A Al Aliim", bookId: 11, bookTitle: "Kisah 25 Nabi dan Rasul", tglPinjam: "2026-10-01", tglKembali: "2026-10-08", status: "Dipinjam" }
+      { id: "TRX-103", studentId: 15, studentName: "Adifa Safa Azzahra", kelas: "Kelas 3A Al Aliim", bookId: 11, bookTitle: "Kisah 25 Nabi dan Rasul", tglPinjam: "2026-10-18", tglKembali: "2026-10-25", status: "Terlambat" }
     ];
 
     let books = JSON.parse(localStorage.getItem('makarima_books')) || initialBooks;
     let students = JSON.parse(localStorage.getItem('makarima_students')) || initialStudents;
+    let loans = JSON.parse(localStorage.getItem('makarima_loans')) || initialLoans;
     let categoryChartInstance = null;
 
     document.addEventListener("DOMContentLoaded", () => {
@@ -1538,12 +1544,33 @@
       renderKatalog();
       renderMurid();
       renderSirkulasi();
-      checkOverdueAlerts();
     });
 
     function saveData() {
       localStorage.setItem('makarima_books', JSON.stringify(books));
       localStorage.setItem('makarima_students', JSON.stringify(students));
+      localStorage.setItem('makarima_loans', JSON.stringify(loans));
+    }
+
+    function resetDataAwal() {
+      if (confirm("Apakah Anda yakin ingin mengembalikan seluruh data ke kondisi awal sekolah? Semua data hasil import/perubahan baru akan di-reset.")) {
+        localStorage.removeItem('makarima_books');
+        localStorage.removeItem('makarima_students');
+        localStorage.removeItem('makarima_loans');
+
+        books = JSON.parse(JSON.stringify(initialBooks));
+        students = JSON.parse(JSON.stringify(initialStudents));
+        loans = JSON.parse(JSON.stringify(initialLoans));
+
+        saveData();
+        initFilters();
+        renderDashboard();
+        renderKatalog();
+        renderMurid();
+        renderSirkulasi();
+        closeModal('modalImport');
+        showToast("Data berhasil di-reset kembali ke data awal!");
+      }
     }
 
     function exportBackupJSON() {
@@ -1590,7 +1617,7 @@
         'dashboard': ['Dashboard Perpustakaan', 'Sistem Rekap & Sirkulasi Pustaka Syamilah Makarima'],
         'katalog': ['Katalog Inventaris Buku', 'Pencarian, Manajemen Stok & Input Koleksi Buku'],
         'murid': ['Daftar Murid Sekolah', 'Rekap Keanggotaan Murid SD Islam Makarima'],
-        'sirkulasi': ['Sirkulasi Peminjaman', 'Pencatatan Keluar Masuk Buku & Hitungan Denda']
+        'sirkulasi': ['Sirkulasi Peminjaman', 'Pencatatan Keluar Masuk Buku & Keterlambatan']
       };
 
       if(titles[tabId]) {
@@ -1637,29 +1664,6 @@
       classes.forEach(c => {
         classSelect.innerHTML += `<option value="${c}">${c}</option>`;
       });
-    }
-
-    function checkOverdueAlerts() {
-      const today = new Date().toISOString().split('T')[0];
-      let overdueCount = 0;
-
-      loans.forEach(l => {
-        if (l.status !== 'Dikembalikan' && l.tglKembali < today) {
-          overdueCount++;
-        }
-      });
-
-      const container = document.getElementById('overdueBadgeContainer');
-      if (overdueCount > 0) {
-        container.innerHTML = `
-          <div class="overdue-alert-badge" onclick="switchTab('sirkulasi')">
-            <i class="fa-solid fa-triangle-exclamation"></i>
-            <span>${overdueCount} Buku Terlambat</span>
-          </div>
-        `;
-      } else {
-        container.innerHTML = '';
-      }
     }
 
     function renderDashboard() {
@@ -1771,24 +1775,12 @@
     function renderSirkulasi() {
       const tbody = document.getElementById('tableSirkulasiBody');
       tbody.innerHTML = '';
-      const today = new Date();
+      const todayStr = new Date().toISOString().split('T')[0];
 
       loans.forEach(l => {
-        let fineInfo = "-";
         let statusTag = l.status;
-
-        if (l.status !== 'Dikembalikan') {
-          const dueDate = new Date(l.tglKembali);
-          const diffTime = today - dueDate;
-          const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-
-          if (diffDays > 0) {
-            statusTag = 'Terlambat';
-            const fineAmount = diffDays * DENDA_PER_HARI;
-            fineInfo = `<span style="color:var(--accent-red); font-weight:700;">+${diffDays} Hari (Rp ${fineAmount.toLocaleString('id-ID')})</span>`;
-          } else {
-            fineInfo = `<span style="color:var(--accent-green);">Tepat Waktu</span>`;
-          }
+        if (l.status !== 'Dikembalikan' && l.tglKembali < todayStr) {
+          statusTag = 'Terlambat';
         }
 
         const badgeClass = statusTag === 'Dipinjam' ? 'badge-warning' : (statusTag === 'Terlambat' ? 'badge-danger' : 'badge-success');
@@ -1805,14 +1797,11 @@
             <td>${l.bookTitle}</td>
             <td>${l.tglPinjam}</td>
             <td>${l.tglKembali}</td>
-            <td>${fineInfo}</td>
             <td><span class="badge ${badgeClass}">${statusTag}</span></td>
             <td style="text-align: right;">${actionBtn}</td>
           </tr>
         `;
       });
-
-      checkOverdueAlerts();
     }
 
     function cetakKartuSiswa(id) {
