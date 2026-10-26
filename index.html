@@ -22,8 +22,6 @@
       --accent-green-light: #EBF2ED;
       --accent-red: #C85A5A;
       --accent-red-light: #FDF0F0;
-      --accent-purple: #7C51A1;
-      --accent-purple-light: #F2ECF9;
       --text-dark: #2D2A26;
       --text-muted: #7A756C;
       --border-cream: #E8E2D5;
@@ -464,14 +462,14 @@
       align-items: center;
       flex-wrap: wrap;
       width: 100%;
-      max-width: 680px;
+      max-width: 650px;
       justify-content: flex-end;
     }
 
     .search-box {
       position: relative;
       flex-grow: 1;
-      min-width: 170px;
+      min-width: 180px;
     }
 
     .search-input {
@@ -546,7 +544,7 @@
       background-color: #FAF8F3;
     }
 
-    /* Badges & Special Tags */
+    /* Badges */
     .badge {
       display: inline-block;
       padding: 3px 9px;
@@ -560,13 +558,6 @@
     .badge-success { background-color: #E6F4EA; color: #1E7E34; }
     .badge-warning { background-color: #FEF3D6; color: #B7791F; }
     .badge-danger { background-color: #FCE8E6; color: #C5221F; }
-    
-    /* Subtle Purple Badge for Special Program Students */
-    .badge-purple { 
-      background-color: var(--accent-purple-light); 
-      color: var(--accent-purple); 
-      border: 1px solid rgba(124, 81, 161, 0.2);
-    }
 
     /* Action Buttons */
     .btn-action {
@@ -989,7 +980,7 @@
     </nav>
 
     <div class="sidebar-footer">
-      <p><strong>Pustaka Syamilah v3.2</strong></p>
+      <p><strong>Pustaka Syamilah v3.3</strong></p>
       <p style="margin-top: 2px;">SD Islam Makarima Kartasura</p>
     </div>
   </aside>
@@ -1126,11 +1117,6 @@
                 <i class="fa-solid fa-magnifying-glass"></i>
                 <input type="text" id="searchMurid" class="search-input" placeholder="Cari nama murid..." oninput="renderMurid()"/>
               </div>
-              <select id="filterKategoriSiswa" class="select-input" onchange="renderMurid()">
-                <option value="">Semua Siswa</option>
-                <option value="reguler">Siswa Reguler</option>
-                <option value="khusus">Program Khusus (Ungu)</option>
-              </select>
               <select id="filterKelas" class="select-input" onchange="renderMurid()">
                 <option value="">Semua Kelas</option>
               </select>
@@ -1147,7 +1133,6 @@
                   <th>No</th>
                   <th>Nama Lengkap Siswa</th>
                   <th>Kelas</th>
-                  <th>Kategori Siswa</th>
                   <th>Status Peminjaman</th>
                   <th style="text-align: right;">Aksi</th>
                 </tr>
@@ -1315,18 +1300,10 @@
           </div>
           <div class="form-group">
             <label>Kelas (Dapat Diketik Bebas)</label>
-            <input type="text" id="inKelasSiswa" class="form-control" list="classList" required placeholder="Contoh: Kelas 1A Al-Kautsar, Kelas 2B Al Hakim, dll..."/>
+            <input type="text" id="inKelasSiswa" class="form-control" list="classList" required placeholder="Contoh: Kelas 1A, Kelas 2A Al Malik, dll..."/>
             <datalist id="classList">
               <!-- Populated dynamically -->
             </datalist>
-          </div>
-          <div class="form-group">
-            <label>Kategori Penandaan Siswa</label>
-            <select id="inTipeSiswa" class="form-control">
-              <option value="reguler">Siswa Reguler (Putih)</option>
-              <option value="khusus">Program Khusus (Ungu)</option>
-            </select>
-            <div class="form-hint">Siswa Program Khusus akan diberi penanda warna ungu di tabel data murid.</div>
           </div>
         </div>
         <div class="modal-footer">
@@ -1353,17 +1330,10 @@
           </div>
           <div class="form-group">
             <label>Kelas Siswa</label>
-            <input type="text" id="editKelasSiswa" class="form-control" list="classListEdit" required placeholder="Masukkan nama kelas baru atau tambahan..."/>
+            <input type="text" id="editKelasSiswa" class="form-control" list="classListEdit" required placeholder="Masukkan nama kelas..."/>
             <datalist id="classListEdit">
               <!-- Populated dynamically -->
             </datalist>
-          </div>
-          <div class="form-group">
-            <label>Kategori Penandaan Siswa</label>
-            <select id="editTipeSiswa" class="form-control">
-              <option value="reguler">Siswa Reguler (Putih)</option>
-              <option value="khusus">Program Khusus (Ungu)</option>
-            </select>
           </div>
         </div>
         <div class="modal-footer">
@@ -1524,35 +1494,297 @@
       { id: 15, kode: "BM/002", judul: "Bahasa Indonesia SD Kelas 2", penerbit: "Erlangga", tahun: "2023", kategori: "Buku Mapel", stok: 20, tersedia: 19, kondisi: "Baik" }
     ];
 
-    // Initial Active Students Dataset (Siswa merah otomatis dieliminasi; Ungu = Program Khusus; Putih = Reguler)
+    // Lengkap 283 Siswa dari Dokumen SD Islam Makarima TA 2026/2027
     const initialStudents = [
-      { id: 1, nama: "Ambalika Sora Pratama", kelas: "Kelas 1A", tipe: "reguler" },
-      { id: 2, nama: "Annasya Adreena", kelas: "Kelas 1A", tipe: "reguler" },
-      { id: 3, nama: "Arkania Embun Ahmada", kelas: "Kelas 1A", tipe: "reguler" },
-      { id: 4, nama: "Arroyan Dylan Alfarizqy Purnomo", kelas: "Kelas 1A", tipe: "khusus" },
-      { id: 5, nama: "Aurora Alunasvara Pradana", kelas: "Kelas 1A", tipe: "reguler" },
-      { id: 6, nama: "Adlan Malik Assami", kelas: "Kelas 1B", tipe: "reguler" },
-      { id: 7, nama: "Aldi Rafaeyza", kelas: "Kelas 1B", tipe: "reguler" },
-      { id: 8, nama: "Alvarendra Arasya Widhiyatmoko", kelas: "Kelas 1B", tipe: "khusus" },
-      { id: 9, nama: "Abiandra Ibrahim", kelas: "Kelas 1C", tipe: "reguler" },
-      { id: 10, nama: "Ahza Apzarini Frastika", kelas: "Kelas 1C", tipe: "reguler" },
-      { id: 11, nama: "Aisyah Pelangi Muslimah", kelas: "Kelas 2A Al Malik", tipe: "reguler" },
-      { id: 12, nama: "Almeera Nahla WS", kelas: "Kelas 2A Al Malik", tipe: "reguler" },
-      { id: 13, nama: "Affan Ali Adzani", kelas: "Kelas 2B Al Hakim", tipe: "khusus" },
-      { id: 14, nama: "Al Hisyam Hamizananta", kelas: "Kelas 2C Al Aziiz", tipe: "reguler" },
-      { id: 15, nama: "Adifa Safa Azzahra", kelas: "Kelas 3A Al Aliim", tipe: "reguler" },
-      { id: 16, nama: "Adeeva Shaqeena Akhmad", kelas: "Kelas 3B Al Hafizh", tipe: "reguler" },
-      { id: 17, nama: "Abyan Faatih Alfarizqi", kelas: "Kelas 3C Ar Rasyiid", tipe: "khusus" },
-      { id: 18, nama: "Abhimananta Al Fatih", kelas: "Kelas 4A Al Amiin", tipe: "reguler" },
-      { id: 19, nama: "Alesha Almahyra Putri Farisa", kelas: "Kelas 4B Al Waasi’", tipe: "reguler" },
-      { id: 20, nama: "Aditya Zharif Arkan", kelas: "Kelas 5 Al Kariim", tipe: "reguler" },
-      { id: 21, nama: "Ahmad Alfian Arsyad", kelas: "Kelas 6 Al Fattah", tipe: "reguler" }
+      { id: 1, nama: "Ambalika Sora Pratama", kelas: "Kelas 1A" },
+      { id: 2, nama: "Annasya Adreena", kelas: "Kelas 1A" },
+      { id: 3, nama: "Arkania Embun Ahmada", kelas: "Kelas 1A" },
+      { id: 4, nama: "Arroyan Dylan Alfarizqy Purnomo", kelas: "Kelas 1A" },
+      { id: 5, nama: "Aurora Alunasvara Pradana", kelas: "Kelas 1A" },
+      { id: 6, nama: "Azizan Abqory", kelas: "Kelas 1A" },
+      { id: 7, nama: "Azzahra Shanum Nugroho", kelas: "Kelas 1A" },
+      { id: 8, nama: "Bara Atlancea Tosca Atmaja", kelas: "Kelas 1A" },
+      { id: 9, nama: "Carissa Almeira Misel", kelas: "Kelas 1A" },
+      { id: 10, nama: "Crystal Sea Dahayu", kelas: "Kelas 1A" },
+      { id: 11, nama: "Dahayu Gendhis Nareswari", kelas: "Kelas 1A" },
+      { id: 12, nama: "Embun Pangayuh Aydia Gutomo", kelas: "Kelas 1A" },
+      { id: 13, nama: "Freya Safa Ayesha", kelas: "Kelas 1A" },
+      { id: 14, nama: "Ghania Almeera Qiana P", kelas: "Kelas 1A" },
+      { id: 15, nama: "Irsyad Ibrahim Artha", kelas: "Kelas 1A" },
+      { id: 16, nama: "Michelle Quenna Manggala", kelas: "Kelas 1A" },
+      { id: 17, nama: "Nadhif Abyan Hafidz", kelas: "Kelas 1A" },
+      { id: 18, nama: "Noushafarina Chloe Mahendra", kelas: "Kelas 1A" },
+      { id: 19, nama: "Ozora Atthariq Aldebaran", kelas: "Kelas 1A" },
+      { id: 20, nama: "Prabu Gadang Prasetyo", kelas: "Kelas 1A" },
+      { id: 21, nama: "Qiana Almahyra Zea P", kelas: "Kelas 1A" },
+      { id: 22, nama: "Rania Azzahra Salsabila", kelas: "Kelas 1A" },
+      { id: 23, nama: "Shaqueena Mikhaylova", kelas: "Kelas 1A" },
+      { id: 24, nama: "Sharga Virendra Ahzafani", kelas: "Kelas 1A" },
+      { id: 25, nama: "Zahsy Arisha Putri Alista", kelas: "Kelas 1A" },
+      { id: 26, nama: "Adlan Malik Assami", kelas: "Kelas 1B" },
+      { id: 27, nama: "Aldi Rafaeyza", kelas: "Kelas 1B" },
+      { id: 28, nama: "Alvarendra Arasya Widhiyatmoko", kelas: "Kelas 1B" },
+      { id: 29, nama: "Banafsha Alesha Zoya", kelas: "Kelas 1B" },
+      { id: 30, nama: "Dhanesh Kalle Nugroho", kelas: "Kelas 1B" },
+      { id: 31, nama: "Fisa Efda Al Qisthi", kelas: "Kelas 1B" },
+      { id: 32, nama: "Gaffar Sinambrama Mandegani", kelas: "Kelas 1B" },
+      { id: 33, nama: "Haikal Zavier Pradefa", kelas: "Kelas 1B" },
+      { id: 34, nama: "Hamizhan Satria Manggala", kelas: "Kelas 1B" },
+      { id: 35, nama: "Hana Mekka Arkadewi", kelas: "Kelas 1B" },
+      { id: 36, nama: "Hilya Annasya Zea", kelas: "Kelas 1B" },
+      { id: 37, nama: "Kareem Benzema Zehiya Khan", kelas: "Kelas 1B" },
+      { id: 38, nama: "Lingga Rajendra Wibowo", kelas: "Kelas 1B" },
+      { id: 39, nama: "Mayzura Zayn", kelas: "Kelas 1B" },
+      { id: 40, nama: "Muhammad Farell Abdillah", kelas: "Kelas 1B" },
+      { id: 41, nama: "Muhammad Faris Akbar", kelas: "Kelas 1B" },
+      { id: 42, nama: "Narendra Pasa Alfarizqi", kelas: "Kelas 1B" },
+      { id: 43, nama: "Rashdan Ashim Nugroho", kelas: "Kelas 1B" },
+      { id: 44, nama: "Rumaysa Nuha Aghnia", kelas: "Kelas 1B" },
+      { id: 45, nama: "Sheo Eiji Akira Misdaq", kelas: "Kelas 1B" },
+      { id: 46, nama: "Syafika Fauziah", kelas: "Kelas 1B" },
+      { id: 47, nama: "Tsaqif Hanan Al Fawwaz", kelas: "Kelas 1B" },
+      { id: 48, nama: "Yusya Macaire Abdullah", kelas: "Kelas 1B" },
+      { id: 49, nama: "Abiandra Ibrahim", kelas: "Kelas 1C" },
+      { id: 50, nama: "Ahza Apzarini Frastika", kelas: "Kelas 1C" },
+      { id: 51, nama: "Ardan Wardana", kelas: "Kelas 1C" },
+      { id: 52, nama: "Arfan Putra Alfarizqi", kelas: "Kelas 1C" },
+      { id: 53, nama: "Azra Hanina Adira Farzana", kelas: "Kelas 1C" },
+      { id: 54, nama: "Ceisya Ranita Putri Sandiya", kelas: "Kelas 1C" },
+      { id: 55, nama: "Fayyola Inara Naufalyn", kelas: "Kelas 1C" },
+      { id: 56, nama: "Giscara Jan Desmaura", kelas: "Kelas 1C" },
+      { id: 57, nama: "Hamizan Kareem Al Ayari", kelas: "Kelas 1C" },
+      { id: 58, nama: "Khalisa Salwa Azzahra", kelas: "Kelas 1C" },
+      { id: 59, nama: "Kim Solla Kartika Utari", kelas: "Kelas 1C" },
+      { id: 60, nama: "Muhammad Aldebaran Hadiprawira", kelas: "Kelas 1C" },
+      { id: 61, nama: "Muhammad Haafizh Sagara", kelas: "Kelas 1C" },
+      { id: 62, nama: "Muhammad Reyhan Azizan", kelas: "Kelas 1C" },
+      { id: 63, nama: "Musfira Jariyah Ansar", kelas: "Kelas 1C" },
+      { id: 64, nama: "Nabila Chyara Putri Arliansyah", kelas: "Kelas 1C" },
+      { id: 65, nama: "Nameera Aniqah Pamula", kelas: "Kelas 1C" },
+      { id: 66, nama: "Qalesya Alena Kinarian Haryono", kelas: "Kelas 1C" },
+      { id: 67, nama: "Rakai Novendra Artama Kusuma", kelas: "Kelas 1C" },
+      { id: 68, nama: "Rasyid Nur Laqif Gaharutama", kelas: "Kelas 1C" },
+      { id: 69, nama: "Rayyandra Atharizky", kelas: "Kelas 1C" },
+      { id: 70, nama: "Shizasana Ziya Budianta", kelas: "Kelas 1C" },
+      { id: 71, nama: "Tazkiya Putri Azzahra", kelas: "Kelas 1C" },
+      { id: 72, nama: "Zidane Omera Diova", kelas: "Kelas 1C" },
+      { id: 73, nama: "Aisyah Pelangi Muslimah", kelas: "Kelas 2A Al Malik" },
+      { id: 74, nama: "Almeera Nahla WS", kelas: "Kelas 2A Al Malik" },
+      { id: 75, nama: "Almira Savaira Putri", kelas: "Kelas 2A Al Malik" },
+      { id: 76, nama: "Astama Ayyubi Al Ghifari", kelas: "Kelas 2A Al Malik" },
+      { id: 77, nama: "Asyagita Krisswindayu", kelas: "Kelas 2A Al Malik" },
+      { id: 78, nama: "Aurelie Ramadhani Putri", kelas: "Kelas 2A Al Malik" },
+      { id: 79, nama: "Aurora Shafina Zahra R", kelas: "Kelas 2A Al Malik" },
+      { id: 80, nama: "Ayskaa Zaina Tarhib Ramadhani", kelas: "Kelas 2A Al Malik" },
+      { id: 81, nama: "Azril Rahandika Zhafir Fauzi", kelas: "Kelas 2A Al Malik" },
+      { id: 82, nama: "Clarissa Adeeva", kelas: "Kelas 2A Al Malik" },
+      { id: 83, nama: "Farzana Zea Sabhira A", kelas: "Kelas 2A Al Malik" },
+      { id: 84, nama: "Kenzo Widjaya Ramadhan", kelas: "Kelas 2A Al Malik" },
+      { id: 85, nama: "Keyrani Hira Widayat", kelas: "Kelas 2A Al Malik" },
+      { id: 86, nama: "Mikhaila Hasika Arthawidya", kelas: "Kelas 2A Al Malik" },
+      { id: 87, nama: "Mikhayla Dewi Noureen", kelas: "Kelas 2A Al Malik" },
+      { id: 88, nama: "Muhammad Adnan Danish", kelas: "Kelas 2A Al Malik" },
+      { id: 89, nama: "Muhammad Ali Umar A", kelas: "Kelas 2A Al Malik" },
+      { id: 90, nama: "Muhammad Salman A", kelas: "Kelas 2A Al Malik" },
+      { id: 91, nama: "Mukhbita Azzahra Rahma", kelas: "Kelas 2A Al Malik" },
+      { id: 92, nama: "Omar Furqan Millian", kelas: "Kelas 2A Al Malik" },
+      { id: 93, nama: "Prada Paramartha H", kelas: "Kelas 2A Al Malik" },
+      { id: 94, nama: "Rumaisha Dewi Wanov Chalondra", kelas: "Kelas 2A Al Malik" },
+      { id: 95, nama: "Rumaisha Nidya Yutaka", kelas: "Kelas 2A Al Malik" },
+      { id: 96, nama: "Shannon Deya Paramesti Waskito", kelas: "Kelas 2A Al Malik" },
+      { id: 97, nama: "Shazfa Rebecca Ariana", kelas: "Kelas 2A Al Malik" },
+      { id: 98, nama: "Shea Mallika Y. Naafi", kelas: "Kelas 2A Al Malik" },
+      { id: 99, nama: "Affan Ali Adzani", kelas: "Kelas 2B Al Hakim" },
+      { id: 100, nama: "Aisyah Shadiqah Ismail", kelas: "Kelas 2B Al Hakim" },
+      { id: 101, nama: "Akleema Nadya Zawiya", kelas: "Kelas 2B Al Hakim" },
+      { id: 102, nama: "Alesha Orlin Celmira", kelas: "Kelas 2B Al Hakim" },
+      { id: 103, nama: "Arsakha Khalif", kelas: "Kelas 2B Al Hakim" },
+      { id: 104, nama: "Arsela Putri Maritza", kelas: "Kelas 2B Al Hakim" },
+      { id: 105, nama: "Ashia Dima Ramadhanisa", kelas: "Kelas 2B Al Hakim" },
+      { id: 106, nama: "Azhalea Daniaa Askha", kelas: "Kelas 2B Al Hakim" },
+      { id: 107, nama: "Azzgaevano Elziandra Alafasyi", kelas: "Kelas 2B Al Hakim" },
+      { id: 108, nama: "Destya Fitriani", kelas: "Kelas 2B Al Hakim" },
+      { id: 109, nama: "Dhanessena Fatharian Awib", kelas: "Kelas 2B Al Hakim" },
+      { id: 110, nama: "Dylano Putra Prasetya", kelas: "Kelas 2B Al Hakim" },
+      { id: 111, nama: "Fata Zhafi Arazka", kelas: "Kelas 2B Al Hakim" },
+      { id: 112, nama: "Gentamas Endaru Hussein Alkahfi", kelas: "Kelas 2B Al Hakim" },
+      { id: 113, nama: "Husein Ali Rezka", kelas: "Kelas 2B Al Hakim" },
+      { id: 114, nama: "Ichiro Keenan Syahreza", kelas: "Kelas 2B Al Hakim" },
+      { id: 115, nama: "Kevin Alfatih Hidayat", kelas: "Kelas 2B Al Hakim" },
+      { id: 116, nama: "Khrisna Maulana Yusuf", kelas: "Kelas 2B Al Hakim" },
+      { id: 117, nama: "Muhammad Taqaa El Fatih", kelas: "Kelas 2B Al Hakim" },
+      { id: 118, nama: "Musfar Fahlila Ansar", kelas: "Kelas 2B Al Hakim" },
+      { id: 119, nama: "Naylah Tsabita Almahira", kelas: "Kelas 2B Al Hakim" },
+      { id: 120, nama: "Nesya Areta Putri", kelas: "Kelas 2B Al Hakim" },
+      { id: 121, nama: "Rayhan Yahya Zulqisthi", kelas: "Kelas 2B Al Hakim" },
+      { id: 122, nama: "Rayyan Hafizh Nandana", kelas: "Kelas 2B Al Hakim" },
+      { id: 123, nama: "Sakhi Mauza Fardan", kelas: "Kelas 2B Al Hakim" },
+      { id: 124, nama: "Al Hisyam Hamizananta", kelas: "Kelas 2C Al Aziiz" },
+      { id: 125, nama: "Alvaro Raffasya Mardiansyah", kelas: "Kelas 2C Al Aziiz" },
+      { id: 126, nama: "Arcely Maysha Maheswari", kelas: "Kelas 2C Al Aziiz" },
+      { id: 127, nama: "Arvinza Budi Narendra", kelas: "Kelas 2C Al Aziiz" },
+      { id: 128, nama: "Aviano Pranadipa", kelas: "Kelas 2C Al Aziiz" },
+      { id: 129, nama: "Azkia Odellia Zahra", kelas: "Kelas 2C Al Aziiz" },
+      { id: 130, nama: "Bilqis Nabila Faiha", kelas: "Kelas 2C Al Aziiz" },
+      { id: 131, nama: "Elzio Sabriel Rayyan Candra", kelas: "Kelas 2C Al Aziiz" },
+      { id: 132, nama: "Evan Hasbuna Arasyi Nugroho", kelas: "Kelas 2C Al Aziiz" },
+      { id: 133, nama: "Galih Jaladri Hakim", kelas: "Kelas 2C Al Aziiz" },
+      { id: 134, nama: "Keinarra Aqila Rujiyatno", kelas: "Kelas 2C Al Aziiz" },
+      { id: 135, nama: "Khalil Hulaifi", kelas: "Kelas 2C Al Aziiz" },
+      { id: 136, nama: "Labibah Kamania Rizani", kelas: "Kelas 2C Al Aziiz" },
+      { id: 137, nama: "Lintang Sekar Jagad", kelas: "Kelas 2C Al Aziiz" },
+      { id: 138, nama: "Mohammad Rafa Albiansyah", kelas: "Kelas 2C Al Aziiz" },
+      { id: 139, nama: "Muhammad Dima Ramadhan", kelas: "Kelas 2C Al Aziiz" },
+      { id: 140, nama: "Muhammad Firdhan Hafizduddin", kelas: "Kelas 2C Al Aziiz" },
+      { id: 141, nama: "Muhammad Nadhif Safaraz Zafri", kelas: "Kelas 2C Al Aziiz" },
+      { id: 142, nama: "Nadhifa Maritza Nur Qoyyum", kelas: "Kelas 2C Al Aziiz" },
+      { id: 143, nama: "Narendra Arthur Sangramawijaya", kelas: "Kelas 2C Al Aziiz" },
+      { id: 144, nama: "Pradipta Adijaya Wirabudi", kelas: "Kelas 2C Al Aziiz" },
+      { id: 145, nama: "Rezvan Adipati Aprilio", kelas: "Kelas 2C Al Aziiz" },
+      { id: 146, nama: "Shaka Mumtaz Ghani Wilalodra", kelas: "Kelas 2C Al Aziiz" },
+      { id: 147, nama: "Syahan Al Khairat Santoso", kelas: "Kelas 2C Al Aziiz" },
+      { id: 148, nama: "Wildan Rajendra Al Kafabi", kelas: "Kelas 2C Al Aziiz" },
+      { id: 149, nama: "Adifa Safa Azzahra", kelas: "Kelas 3A Al Aliim" },
+      { id: 150, nama: "Albirru Devdas Rafaeyza Prastya", kelas: "Kelas 3A Al Aliim" },
+      { id: 151, nama: "Alfarezky Widya Hartanto", kelas: "Kelas 3A Al Aliim" },
+      { id: 152, nama: "Anindya Zhahira Ahmad", kelas: "Kelas 3A Al Aliim" },
+      { id: 153, nama: "Annasya Meila Hermawan", kelas: "Kelas 3A Al Aliim" },
+      { id: 154, nama: "Arsyta Vionesha", kelas: "Kelas 3A Al Aliim" },
+      { id: 155, nama: "Chelmira Noya Almakhzumi", kelas: "Kelas 3A Al Aliim" },
+      { id: 156, nama: "Davano Putra Prasetyo", kelas: "Kelas 3A Al Aliim" },
+      { id: 157, nama: "Gema Nalikaning Arundaya", kelas: "Kelas 3A Al Aliim" },
+      { id: 158, nama: "Ghina Althafunisa", kelas: "Kelas 3A Al Aliim" },
+      { id: 159, nama: "Listuaji Banyu Krisnarendra", kelas: "Kelas 3A Al Aliim" },
+      { id: 160, nama: "Muhammad Fata Rabbani", kelas: "Kelas 3A Al Aliim" },
+      { id: 161, nama: "Muhammad Rafisqy Khailas", kelas: "Kelas 3A Al Aliim" },
+      { id: 162, nama: "Muzhaffar Adam Hazim", kelas: "Kelas 3A Al Aliim" },
+      { id: 163, nama: "Nayaka Elok Prasetyo", kelas: "Kelas 3A Al Aliim" },
+      { id: 164, nama: "Ranu Panggalih Jagatru", kelas: "Kelas 3A Al Aliim" },
+      { id: 165, nama: "Razqa Syathir Pramono", kelas: "Kelas 3A Al Aliim" },
+      { id: 166, nama: "Sahla Lubna Farasya", kelas: "Kelas 3A Al Aliim" },
+      { id: 167, nama: "Sultan Ainul Yaqin Alfikri", kelas: "Kelas 3A Al Aliim" },
+      { id: 168, nama: "Utsman Abdul Lathif", kelas: "Kelas 3A Al Aliim" },
+      { id: 169, nama: "Vidar Baihaqi Kurniansyah", kelas: "Kelas 3A Al Aliim" },
+      { id: 170, nama: "Wishaka Dirgantara Pranadipa", kelas: "Kelas 3A Al Aliim" },
+      { id: 171, nama: "Zaskia Almira Shanum", kelas: "Kelas 3A Al Aliim" },
+      { id: 172, nama: "Adeeva Shaqeena Akhmad", kelas: "Kelas 3B Al Hafizh" },
+      { id: 173, nama: "Ahmad Rafardhan Athallah", kelas: "Kelas 3B Al Hafizh" },
+      { id: 174, nama: "Aiko Arsyila Akselia Candra", kelas: "Kelas 3B Al Hafizh" },
+      { id: 175, nama: "Aqila Ega Naura", kelas: "Kelas 3B Al Hafizh" },
+      { id: 176, nama: "Bondan Ethes Mahira", kelas: "Kelas 3B Al Hafizh" },
+      { id: 177, nama: "Claudya Natasha Putri", kelas: "Kelas 3B Al Hafizh" },
+      { id: 178, nama: "Dzaka Rasyad Al Fayyadh", kelas: "Kelas 3B Al Hafizh" },
+      { id: 179, nama: "Gentara Jan Diandra", kelas: "Kelas 3B Al Hafizh" },
+      { id: 180, nama: "Ghania Aurell Maulidina", kelas: "Kelas 3B Al Hafizh" },
+      { id: 181, nama: "Gilang Kresna Mahaeswara", kelas: "Kelas 3B Al Hafizh" },
+      { id: 182, nama: "Kenzie Putra Aliando", kelas: "Kelas 3B Al Hafizh" },
+      { id: 183, nama: "Khaira Nadeeva Almaira", kelas: "Kelas 3B Al Hafizh" },
+      { id: 184, nama: "Kinnanthi Maharani Putri A", kelas: "Kelas 3B Al Hafizh" },
+      { id: 185, nama: "Muhammad Narendra Jayawardhana", kelas: "Kelas 3B Al Hafizh" },
+      { id: 186, nama: "Pranaja Alsya Zani A", kelas: "Kelas 3B Al Hafizh" },
+      { id: 187, nama: "Abyan Faatih Alfarizqi", kelas: "Kelas 3C Ar Rasyiid" },
+      { id: 188, nama: "Alvorenzo Evanovigo A", kelas: "Kelas 3C Ar Rasyiid" },
+      { id: 189, nama: "Anella Setya Indria Jeany", kelas: "Kelas 3C Ar Rasyiid" },
+      { id: 190, nama: "Aqilla Fariza Mufia", kelas: "Kelas 3C Ar Rasyiid" },
+      { id: 191, nama: "Azalea Naura Salsabila", kelas: "Kelas 3C Ar Rasyiid" },
+      { id: 192, nama: "Bagus Hendratno", kelas: "Kelas 3C Ar Rasyiid" },
+      { id: 193, nama: "Eldric Arzanka Al Fikhri", kelas: "Kelas 3C Ar Rasyiid" },
+      { id: 194, nama: "Freedella Afra Ahmadi", kelas: "Kelas 3C Ar Rasyiid" },
+      { id: 195, nama: "Ibrahim Abqary Faiz", kelas: "Kelas 3C Ar Rasyiid" },
+      { id: 196, nama: "Keenan Latief Pratama", kelas: "Kelas 3C Ar Rasyiid" },
+      { id: 197, nama: "Maulana Mishbakhur Ridlo Al-Arief", kelas: "Kelas 3C Ar Rasyiid" },
+      { id: 198, nama: "Mazaya Ghaisani Morella Prasetya", kelas: "Kelas 3C Ar Rasyiid" },
+      { id: 199, nama: "Mutia Arifa Rahma", kelas: "Kelas 3C Ar Rasyiid" },
+      { id: 200, nama: "Nararya Aufhar Sangramawijaya", kelas: "Kelas 3C Ar Rasyiid" },
+      { id: 201, nama: "Rafkadyan Arshaka Rasyid", kelas: "Kelas 3C Ar Rasyiid" },
+      { id: 202, nama: "Thalita Khumaira Aryawan", kelas: "Kelas 3C Ar Rasyiid" },
+      { id: 203, nama: "Abhimananta Al Fatih", kelas: "Kelas 4A Al Amiin" },
+      { id: 204, nama: "Air Zhafran El Langit", kelas: "Kelas 4A Al Amiin" },
+      { id: 205, nama: "Airlangga Putra Wijaya", kelas: "Kelas 4A Al Amiin" },
+      { id: 206, nama: "Alea Bellvania Zahra", kelas: "Kelas 4A Al Amiin" },
+      { id: 207, nama: "Arsya Virendra Rony Pratama", kelas: "Kelas 4A Al Amiin" },
+      { id: 208, nama: "Arsyila Syaqueena Ismail", kelas: "Kelas 4A Al Amiin" },
+      { id: 209, nama: "Aruna Hayu Sitoresmi", kelas: "Kelas 4A Al Amiin" },
+      { id: 210, nama: "Avianyta Locita Astagina", kelas: "Kelas 4A Al Amiin" },
+      { id: 211, nama: "Ayash Raqila Fardan", kelas: "Kelas 4A Al Amiin" },
+      { id: 212, nama: "Azka Ahsan Fathurrahman", kelas: "Kelas 4A Al Amiin" },
+      { id: 213, nama: "Chiello Adivyan Hafuzy", kelas: "Kelas 4A Al Amiin" },
+      { id: 214, nama: "Fathan Al Fattah Fauzy Rasjid", kelas: "Kelas 4A Al Amiin" },
+      { id: 215, nama: "Gavin Athariz", kelas: "Kelas 4A Al Amiin" },
+      { id: 216, nama: "Khaira Dhia Syarafana", kelas: "Kelas 4A Al Amiin" },
+      { id: 217, nama: "Lintang Kirana Roosprobosari", kelas: "Kelas 4A Al Amiin" },
+      { id: 218, nama: "Maryam Safira Irawan", kelas: "Kelas 4A Al Amiin" },
+      { id: 219, nama: "Muhammad Shuan Qorizio", kelas: "Kelas 4A Al Amiin" },
+      { id: 220, nama: "Octaviani Aqeela", kelas: "Kelas 4A Al Amiin" },
+      { id: 221, nama: "Reynand Azfar Nugroho", kelas: "Kelas 4A Al Amiin" },
+      { id: 222, nama: "Rizky Akbar", kelas: "Kelas 4A Al Amiin" },
+      { id: 223, nama: "Samudra Arsa Pratama", kelas: "Kelas 4A Al Amiin" },
+      { id: 224, nama: "Sultan Muhammad Yusuf", kelas: "Kelas 4A Al Amiin" },
+      { id: 225, nama: "Alesha Almahyra Putri Farisa", kelas: "Kelas 4B Al Waasi’" },
+      { id: 226, nama: "Alfathar Nathanazell Kurniawan", kelas: "Kelas 4B Al Waasi’" },
+      { id: 227, nama: "Andara Inas Farzana Ardiyanto", kelas: "Kelas 4B Al Waasi’" },
+      { id: 228, nama: "Anindita Keisha Syakira", kelas: "Kelas 4B Al Waasi’" },
+      { id: 229, nama: "Arsyila Kanaya Putri Danendra", kelas: "Kelas 4B Al Waasi’" },
+      { id: 230, nama: "Ayra Anindita Septiani", kelas: "Kelas 4B Al Waasi’" },
+      { id: 231, nama: "Dinda Kirana", kelas: "Kelas 4B Al Waasi’" },
+      { id: 232, nama: "Dirga Yudha Nurmantyo", kelas: "Kelas 4B Al Waasi’" },
+      { id: 233, nama: "Ditama Sevenda", kelas: "Kelas 4B Al Waasi’" },
+      { id: 234, nama: "Gavin Fattah Riga Buana", kelas: "Kelas 4B Al Waasi’" },
+      { id: 235, nama: "Haffizha Kirana", kelas: "Kelas 4B Al Waasi’" },
+      { id: 236, nama: "Hasna Alfa Kemala", kelas: "Kelas 4B Al Waasi’" },
+      { id: 237, nama: "Kamila Riskita Sulistyandani", kelas: "Kelas 4B Al Waasi’" },
+      { id: 238, nama: "Maghfira Shabrina Mumtaz", kelas: "Kelas 4B Al Waasi’" },
+      { id: 239, nama: "Muhammad Argo Herdian", kelas: "Kelas 4B Al Waasi’" },
+      { id: 240, nama: "Muhammad Navy Al Arfa", kelas: "Kelas 4B Al Waasi’" },
+      { id: 241, nama: "Muhammad Zhafran Al Ghifari", kelas: "Kelas 4B Al Waasi’" },
+      { id: 242, nama: "Naufal Firzha Alfiansyah", kelas: "Kelas 4B Al Waasi’" },
+      { id: 243, nama: "Nayla Chairunnisa Hapsari", kelas: "Kelas 4B Al Waasi’" },
+      { id: 244, nama: "Rafael Kenzie Putra", kelas: "Kelas 4B Al Waasi’" },
+      { id: 245, nama: "Rafasya Kriswindana", kelas: "Kelas 4B Al Waasi’" },
+      { id: 246, nama: "Rafay Utsman Halim", kelas: "Kelas 4B Al Waasi’" },
+      { id: 247, nama: "Aditya Zharif Arkan", kelas: "Kelas 5 Al Kariim" },
+      { id: 248, nama: "Adna Zea Almahyra", kelas: "Kelas 5 Al Kariim" },
+      { id: 249, nama: "Aisyah Ghaida Tsurayya", kelas: "Kelas 5 Al Kariim" },
+      { id: 250, nama: "Ashfa Sinar Dzikri An Nashir", kelas: "Kelas 5 Al Kariim" },
+      { id: 251, nama: "Az-Zahra Dima Cahya Dewi", kelas: "Kelas 5 Al Kariim" },
+      { id: 252, nama: "Haidar Agra Rizqi", kelas: "Kelas 5 Al Kariim" },
+      { id: 253, nama: "Idris Suseno Putra", kelas: "Kelas 5 Al Kariim" },
+      { id: 254, nama: "Kamea Afsheen Mayasa", kelas: "Kelas 5 Al Kariim" },
+      { id: 255, nama: "Latifa Athaya Queen", kelas: "Kelas 5 Al Kariim" },
+      { id: 256, nama: "Muhammad Bagus Wuragil", kelas: "Kelas 5 Al Kariim" },
+      { id: 257, nama: "Muhammad Hafizh Ahnaf P", kelas: "Kelas 5 Al Kariim" },
+      { id: 258, nama: "Nafisa Nuria Adzka", kelas: "Kelas 5 Al Kariim" },
+      { id: 259, nama: "Najwa Rahma Alfilla", kelas: "Kelas 5 Al Kariim" },
+      { id: 260, nama: "Qinanty Hikari Azzahra", kelas: "Kelas 5 Al Kariim" },
+      { id: 261, nama: "Rifqiady Aghazka", kelas: "Kelas 5 Al Kariim" },
+      { id: 262, nama: "Syailendra Maheswara Putra R.", kelas: "Kelas 5 Al Kariim" },
+      { id: 263, nama: "Yuan Sebastian", kelas: "Kelas 5 Al Kariim" },
+      { id: 264, nama: "Ahmad Alfian Arsyad", kelas: "Kelas 6 Al Fattah" },
+      { id: 265, nama: "Aisha Kanaka Hariandini", kelas: "Kelas 6 Al Fattah" },
+      { id: 266, nama: "Anggito Ahmad Hafidzin", kelas: "Kelas 6 Al Fattah" },
+      { id: 267, nama: "Aulia Syafara Yusnaputri", kelas: "Kelas 6 Al Fattah" },
+      { id: 268, nama: "Azzam Althaf Faeyza", kelas: "Kelas 6 Al Fattah" },
+      { id: 269, nama: "Dhega Mahardhika Hermawan", kelas: "Kelas 6 Al Fattah" },
+      { id: 270, nama: "Fahri Nugroho", kelas: "Kelas 6 Al Fattah" },
+      { id: 271, nama: "Fania Raudati", kelas: "Kelas 6 Al Fattah" },
+      { id: 272, nama: "Fathan Kamil", kelas: "Kelas 6 Al Fattah" },
+      { id: 273, nama: "Galendra Althario Radeva", kelas: "Kelas 6 Al Fattah" },
+      { id: 274, nama: "Hideo Pradipta Alfatih", kelas: "Kelas 6 Al Fattah" },
+      { id: 275, nama: "Husain Athallah Musyaffa", kelas: "Kelas 6 Al Fattah" },
+      { id: 276, nama: "Ivandher Elang Prabangkoro", kelas: "Kelas 6 Al Fattah" },
+      { id: 277, nama: "Kaisa Adni Al Ayari", kelas: "Kelas 6 Al Fattah" },
+      { id: 278, nama: "Khalif Andhitya", kelas: "Kelas 6 Al Fattah" },
+      { id: 279, nama: "Muhammad Gibran Naufalih", kelas: "Kelas 6 Al Fattah" },
+      { id: 280, nama: "Muhammad Hilmi Nur Al Fatih", kelas: "Kelas 6 Al Fattah" },
+      { id: 281, nama: "Muhammad Rifai Suharto", kelas: "Kelas 6 Al Fattah" },
+      { id: 282, nama: "Raisya Bilqis Nuriasya", kelas: "Kelas 6 Al Fattah" },
+      { id: 283, nama: "Syakila Aulia Putri Wicaksono", kelas: "Kelas 6 Al Fattah" }
     ];
 
     let initialLoans = [
-      { id: "TRX-101", studentId: 11, studentName: "Aisyah Pelangi Muslimah", kelas: "Kelas 2A Al Malik", bookId: 2, bookTitle: "Bacaan Sholat: Disertai Latin & Terjemah Bahasa Indonesia", tglPinjam: "2026-10-20", tglKembali: "2026-10-27", status: "Dipinjam" },
-      { id: "TRX-102", studentId: 6, studentName: "Adlan Malik Assami", kelas: "Kelas 1B", bookId: 10, bookTitle: "Kisah Nabi Muhammad SAW", tglPinjam: "2026-10-22", tglKembali: "2026-10-29", status: "Dipinjam" },
-      { id: "TRX-103", studentId: 15, studentName: "Adifa Safa Azzahra", kelas: "Kelas 3A Al Aliim", bookId: 11, bookTitle: "Kisah 25 Nabi dan Rasul", tglPinjam: "2026-10-18", tglKembali: "2026-10-25", status: "Terlambat" }
+      { id: "TRX-101", studentId: 73, studentName: "Aisyah Pelangi Muslimah", kelas: "Kelas 2A Al Malik", bookId: 2, bookTitle: "Bacaan Sholat: Disertai Latin & Terjemah Bahasa Indonesia", tglPinjam: "2026-10-20", tglKembali: "2026-10-27", status: "Dipinjam" },
+      { id: "TRX-102", studentId: 26, studentName: "Adlan Malik Assami", kelas: "Kelas 1B", bookId: 10, bookTitle: "Kisah Nabi Muhammad SAW", tglPinjam: "2026-10-22", tglKembali: "2026-10-29", status: "Dipinjam" },
+      { id: "TRX-103", studentId: 149, studentName: "Adifa Safa Azzahra", kelas: "Kelas 3A Al Aliim", bookId: 11, bookTitle: "Kisah 25 Nabi dan Rasul", tglPinjam: "2026-10-18", tglKembali: "2026-10-25", status: "Terlambat" }
     ];
 
     let books = JSON.parse(localStorage.getItem('makarima_books')) || initialBooks;
@@ -1769,13 +2001,11 @@
     function renderMurid() {
       const q = document.getElementById('searchMurid').value.toLowerCase();
       const k = document.getElementById('filterKelas').value;
-      const t = document.getElementById('filterKategoriSiswa').value;
 
       const filtered = students.filter(s => {
         const matchQ = s.nama.toLowerCase().includes(q);
         const matchK = k === "" || s.kelas === k;
-        const matchT = t === "" || (s.tipe || "reguler") === t;
-        return matchQ && matchK && matchT;
+        return matchQ && matchK;
       });
 
       const tbody = document.getElementById('tableMuridBody');
@@ -1787,17 +2017,11 @@
           ? `<span class="badge badge-warning"><i class="fa-solid fa-book-reader"></i> Meminjam Buku</span>`
           : `<span class="badge badge-success"><i class="fa-solid fa-check"></i> Bebas Pinjaman</span>`;
 
-        // Subtle Purple Tag for Special Program Students
-        const typeBadge = (s.tipe === "khusus")
-          ? `<span class="badge badge-purple"><i class="fa-solid fa-star"></i> Program Khusus</span>`
-          : `<span class="badge" style="background:#F4ECE0; color:var(--text-muted);">Siswa Reguler</span>`;
-
         tbody.innerHTML += `
           <tr>
             <td>${idx + 1}</td>
             <td style="font-weight:700; color:var(--text-dark);">${s.nama}</td>
             <td><span class="badge badge-class">${s.kelas}</span></td>
-            <td>${typeBadge}</td>
             <td>${statusBadge}</td>
             <td style="text-align: right;">
               <button class="btn-action" title="Cetak Kartu Anggota" onclick="cetakKartuSiswa(${s.id})"><i class="fa-solid fa-id-card"></i></button>
@@ -1859,7 +2083,6 @@
       document.getElementById('editMuridId').value = st.id;
       document.getElementById('editNamaSiswa').value = st.nama;
       document.getElementById('editKelasSiswa').value = st.kelas;
-      document.getElementById('editTipeSiswa').value = st.tipe || "reguler";
 
       openModal('modalEditMurid');
     }
@@ -1869,13 +2092,11 @@
       const id = parseInt(document.getElementById('editMuridId').value);
       const namaBaru = document.getElementById('editNamaSiswa').value.trim();
       const kelasBaru = document.getElementById('editKelasSiswa').value.trim();
-      const tipeBaru = document.getElementById('editTipeSiswa').value;
 
       const st = students.find(s => s.id === id);
       if(st) {
         st.nama = namaBaru;
         st.kelas = kelasBaru;
-        st.tipe = tipeBaru;
 
         loans.forEach(l => {
           if(l.studentId === id) {
@@ -1899,8 +2120,7 @@
       const newStudent = {
         id: Date.now(),
         nama: document.getElementById('inNamaSiswa').value.trim(),
-        kelas: document.getElementById('inKelasSiswa').value.trim(),
-        tipe: document.getElementById('inTipeSiswa').value
+        kelas: document.getElementById('inKelasSiswa').value.trim()
       };
 
       students.unshift(newStudent);
