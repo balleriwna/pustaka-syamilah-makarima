@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Pustaka Syamilah - SD Islam Makarima</title>
+  <!-- Google Fonts & FontAwesome & Chart.js -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -33,6 +34,7 @@
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; }
     body { background-color: var(--bg-cream-main); color: var(--text-dark); min-height: 100vh; display: flex; }
 
+    /* LOCK SCREEN OVERLAY */
     .lock-screen-overlay {
       position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
       background-color: var(--bg-cream-main); z-index: 99999;
@@ -43,7 +45,7 @@
       border-radius: var(--radius-lg); padding: 32px 28px; width: 100%; max-width: 380px; text-align: center;
       box-shadow: 0 10px 30px rgba(90, 80, 65, 0.1);
     }
-    .lock-logo { width: 64px; height: 64px; object-fit: contain; margin-bottom: 12px; background: white; padding: 4px; border-radius: 50%; }
+    .lock-logo { width: 64px; height: 64px; object-fit: contain; margin-bottom: 12px; background: white; padding: 4px; border-radius: 50%; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
     .lock-card h3 { font-size: 20px; font-weight: 800; color: var(--text-dark); margin-bottom: 2px; }
     .lock-card p { font-size: 13px; color: var(--text-muted); margin-bottom: 22px; }
     .lock-form label { display: block; font-size: 11.5px; font-weight: 700; color: var(--text-dark); margin-bottom: 8px; text-transform: uppercase; text-align: left; }
@@ -52,6 +54,7 @@
     .toggle-password-btn { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); color: var(--text-muted); cursor: pointer; font-size: 14px; }
     .lock-error { display: none; color: var(--accent-red); font-size: 12px; font-weight: 600; margin-top: 10px; text-align: center; }
 
+    /* SIDEBAR & OVERLAY */
     .sidebar-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(45, 42, 38, 0.4); z-index: 99; display: none; }
     .sidebar-overlay.active { display: block; }
 
@@ -60,60 +63,69 @@
       display: flex; flex-direction: column; position: fixed; height: 100vh; z-index: 100; transition: transform 0.3s ease;
     }
     .sidebar-header { padding: 20px; display: flex; align-items: center; gap: 12px; border-bottom: 1px solid var(--border-cream); }
-    .school-logo { width: 44px; height: 44px; object-fit: contain; background: white; padding: 4px; border-radius: 50%; }
+    .school-logo { width: 44px; height: 44px; object-fit: contain; background: white; padding: 4px; border-radius: 50%; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
     .sidebar-title h1 { font-size: 15px; font-weight: 700; color: var(--text-dark); line-height: 1.2; }
     .sidebar-title span { font-size: 11px; color: var(--accent-warm); font-weight: 600; text-transform: uppercase; }
 
     .sidebar-menu { padding: 16px 12px; flex-grow: 1; display: flex; flex-direction: column; gap: 4px; overflow-y: auto; }
-    .menu-label { font-size: 11px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; padding: 10px 12px 4px 12px; }
-    .menu-item { display: flex; align-items: center; gap: 12px; padding: 11px 14px; border-radius: var(--radius-md); color: var(--text-muted); text-decoration: none; font-size: 13.5px; font-weight: 600; cursor: pointer; }
+    .menu-label { font-size: 11px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.8px; padding: 10px 12px 4px 12px; }
+    .menu-item { display: flex; align-items: center; gap: 12px; padding: 11px 14px; border-radius: var(--radius-md); color: var(--text-muted); text-decoration: none; font-size: 13.5px; font-weight: 600; cursor: pointer; transition: all 0.2s; }
+    .menu-item i { font-size: 17px; width: 22px; text-align: center; }
     .menu-item:hover { background-color: var(--bg-cream-main); color: var(--text-dark); }
     .menu-item.active { background-color: var(--accent-warm); color: white; box-shadow: 0 4px 12px rgba(197, 160, 89, 0.3); }
     .menu-item.lock-btn { color: var(--accent-red); margin-top: 6px; }
+    .menu-item.lock-btn:hover { background-color: var(--accent-red-light); }
 
-    .sidebar-footer { padding: 16px 20px; border-top: 1px solid var(--border-cream); font-size: 12px; color: var(--text-muted); }
+    .sidebar-footer { padding: 16px 20px; border-top: 1px solid var(--border-cream); font-size: 12px; color: var(--text-muted); background: rgba(255, 255, 255, 0.4); }
 
+    /* MAIN WRAPPER */
     .main-wrapper { margin-left: 280px; flex-grow: 1; min-height: 100vh; display: flex; flex-direction: column; width: calc(100% - 280px); transition: margin-left 0.3s ease, width 0.3s ease; }
-    .top-header { background-color: var(--bg-cream-light); border-bottom: 1px solid var(--border-cream); padding: 16px 24px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 90; }
+    .top-header { background-color: var(--bg-cream-light); border-bottom: 1px solid var(--border-cream); padding: 16px 24px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 90; gap: 12px; }
     .header-left { display: flex; align-items: center; gap: 12px; }
     .btn-mobile-toggle { display: none; background: var(--bg-cream-main); border: 1px solid var(--border-cream); font-size: 18px; padding: 8px 12px; border-radius: var(--radius-md); cursor: pointer; }
-    .page-title h2 { font-size: 18px; font-weight: 700; }
+    .page-title h2 { font-size: 18px; font-weight: 700; color: var(--text-dark); }
     .page-title p { font-size: 12px; color: var(--text-muted); }
     .user-profile { display: flex; align-items: center; gap: 10px; }
-    .admin-badge { background-color: var(--accent-green-light); color: var(--accent-green); font-size: 11.5px; font-weight: 700; padding: 6px 12px; border-radius: 20px; }
+    .admin-badge { background-color: var(--accent-green-light); color: var(--accent-green); font-size: 11.5px; font-weight: 700; padding: 6px 12px; border-radius: 20px; display: flex; align-items: center; gap: 6px; white-space: nowrap; }
 
-    .quick-btn { background-color: var(--accent-warm); color: white; border: none; padding: 9px 16px; border-radius: var(--radius-md); font-weight: 600; font-size: 13px; cursor: pointer; display: flex; align-items: center; gap: 8px; }
-    .quick-btn:hover { background-color: var(--accent-warm-hover); }
+    .quick-btn { background-color: var(--accent-warm); color: white; border: none; padding: 9px 16px; border-radius: var(--radius-md); font-weight: 600; font-size: 13px; cursor: pointer; display: flex; align-items: center; gap: 8px; transition: all 0.2s; white-space: nowrap; }
+    .quick-btn:hover { background-color: var(--accent-warm-hover); transform: translateY(-1px); }
 
     .content-container { padding: 24px; flex-grow: 1; }
-    .section-content { display: none; }
+    .section-content { display: none; animation: fadeIn 0.3s ease-in-out; }
     .section-content.active { display: block; }
 
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+
+    /* METRIC CARDS */
     .metrics-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 24px; }
-    .metric-card { background: var(--bg-cream-card); border: 1px solid var(--border-cream); border-radius: var(--radius-lg); padding: 18px; display: flex; align-items: center; justify-content: space-between; }
-    .metric-info h3 { font-size: 11px; text-transform: uppercase; color: var(--text-muted); margin-bottom: 4px; }
-    .metric-info .val { font-size: 24px; font-weight: 800; }
+    .metric-card { background: var(--bg-cream-card); border: 1px solid var(--border-cream); border-radius: var(--radius-lg); padding: 18px; box-shadow: var(--shadow-soft); display: flex; align-items: center; justify-content: space-between; }
+    .metric-info h3 { font-size: 11px; text-transform: uppercase; color: var(--text-muted); letter-spacing: 0.5px; margin-bottom: 4px; }
+    .metric-info .val { font-size: 24px; font-weight: 800; color: var(--text-dark); }
     .metric-icon { width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 18px; }
     .icon-gold { background-color: #FAF4E5; color: var(--accent-warm); }
     .icon-green { background-color: var(--accent-green-light); color: var(--accent-green); }
     .icon-red { background-color: var(--accent-red-light); color: var(--accent-red); }
     .icon-blue { background-color: #EBF3FA; color: #3B82F6; }
 
-    .card-panel { background: var(--bg-cream-card); border: 1px solid var(--border-cream); border-radius: var(--radius-lg); padding: 20px; margin-bottom: 20px; }
+    /* CARD PANELS & TABLES */
+    .card-panel { background: var(--bg-cream-card); border: 1px solid var(--border-cream); border-radius: var(--radius-lg); padding: 20px; box-shadow: var(--shadow-soft); margin-bottom: 20px; }
     .panel-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; flex-wrap: wrap; gap: 12px; }
-    .panel-header h3 { font-size: 15px; font-weight: 700; display: flex; align-items: center; gap: 8px; }
+    .panel-header h3 { font-size: 15px; font-weight: 700; color: var(--text-dark); display: flex; align-items: center; gap: 8px; }
     .filter-tools { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; width: 100%; max-width: 650px; justify-content: flex-end; }
     .search-box { position: relative; flex-grow: 1; min-width: 180px; }
-    .search-input { width: 100%; background: var(--bg-cream-light); border: 1px solid var(--border-cream); padding: 8px 12px 8px 34px; border-radius: var(--radius-md); font-size: 13px; outline: none; }
+    .search-input { width: 100%; background: var(--bg-cream-light); border: 1px solid var(--border-cream); padding: 8px 12px 8px 34px; border-radius: var(--radius-md); font-size: 13px; outline: none; transition: all 0.2s; }
+    .search-input:focus { border-color: var(--accent-warm); background: #FFFFFF; }
     .search-box i { position: absolute; left: 11px; top: 50%; transform: translateY(-50%); color: var(--text-muted); font-size: 12px; }
-    .select-input { background: var(--bg-cream-light); border: 1px solid var(--border-cream); padding: 8px 12px; border-radius: var(--radius-md); font-size: 13px; outline: none; }
+    .select-input { background: var(--bg-cream-light); border: 1px solid var(--border-cream); padding: 8px 12px; border-radius: var(--radius-md); font-size: 13px; color: var(--text-dark); outline: none; cursor: pointer; }
 
-    .table-responsive { width: 100%; overflow-x: auto; }
+    .table-responsive { width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; }
     .custom-table { width: 100%; border-collapse: collapse; font-size: 13px; text-align: left; white-space: nowrap; }
-    .custom-table th { background-color: var(--bg-cream-main); color: var(--text-muted); font-weight: 700; text-transform: uppercase; font-size: 10.5px; padding: 10px 14px; border-bottom: 1px solid var(--border-cream); }
+    .custom-table th { background-color: var(--bg-cream-main); color: var(--text-muted); font-weight: 700; text-transform: uppercase; font-size: 10.5px; letter-spacing: 0.5px; padding: 10px 14px; border-bottom: 1px solid var(--border-cream); }
     .custom-table td { padding: 12px 14px; border-bottom: 1px solid var(--border-cream); color: var(--text-dark); }
     .custom-table tr:hover { background-color: #FAF8F3; }
 
+    /* BADGES & ACTION BUTTONS */
     .badge { display: inline-block; padding: 3px 9px; border-radius: 12px; font-size: 11px; font-weight: 700; }
     .badge-cat { background-color: #F5EFE0; color: #7A612A; }
     .badge-class { background-color: #EBF2ED; color: #365342; }
@@ -121,41 +133,70 @@
     .badge-warning { background-color: #FEF3D6; color: #B7791F; }
     .badge-danger { background-color: #FCE8E6; color: #C5221F; }
 
-    .btn-action { background: transparent; border: none; color: var(--text-muted); cursor: pointer; padding: 5px 8px; border-radius: var(--radius-sm); font-size: 13px; }
+    .btn-action { background: transparent; border: none; color: var(--text-muted); cursor: pointer; padding: 5px 8px; border-radius: var(--radius-sm); transition: all 0.2s; font-size: 13px; }
     .btn-action:hover { background-color: var(--bg-cream-main); color: var(--accent-warm); }
     .btn-action.delete:hover { color: var(--accent-red); background-color: var(--accent-red-light); }
 
-    .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(45, 42, 38, 0.4); z-index: 1000; display: none; align-items: center; justify-content: center; padding: 16px; }
+    /* MODAL SYSTEM */
+    .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(45, 42, 38, 0.4); backdrop-filter: blur(4px); z-index: 1000; display: none; align-items: center; justify-content: center; padding: 16px; }
     .modal-overlay.active { display: flex; }
-    .modal-card { background: var(--bg-cream-card); border-radius: var(--radius-lg); width: 100%; max-width: 500px; border: 1px solid var(--border-cream); overflow: hidden; }
+    .modal-card { background: var(--bg-cream-card); border-radius: var(--radius-lg); width: 100%; max-width: 520px; box-shadow: 0 10px 30px rgba(0,0,0,0.15); border: 1px solid var(--border-cream); overflow: hidden; animation: modalSlide 0.25s ease-out; }
+
+    @keyframes modalSlide { from { transform: translateY(15px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
     .modal-header { padding: 16px 20px; background: var(--bg-cream-light); border-bottom: 1px solid var(--border-cream); display: flex; justify-content: space-between; align-items: center; }
     .modal-header h4 { font-size: 15px; font-weight: 700; }
     .btn-close { background: none; border: none; font-size: 18px; color: var(--text-muted); cursor: pointer; }
     .modal-body { padding: 20px; max-height: 75vh; overflow-y: auto; }
+
+    /* MODAL TABS FOR INPUT SISWA */
+    .modal-tabs { display: flex; border-bottom: 1px solid var(--border-cream); margin-bottom: 16px; background: var(--bg-cream-light); border-radius: var(--radius-md); padding: 4px; gap: 4px; }
+    .tab-btn { flex: 1; padding: 8px 12px; border: none; background: transparent; font-size: 12.5px; font-weight: 700; color: var(--text-muted); border-radius: var(--radius-sm); cursor: pointer; transition: all 0.2s; text-align: center; }
+    .tab-btn.active { background: white; color: var(--text-dark); box-shadow: 0 2px 6px rgba(0,0,0,0.06); }
+
     .form-group { margin-bottom: 14px; }
-    .form-group label { display: block; font-size: 11.5px; font-weight: 700; margin-bottom: 5px; text-transform: uppercase; }
+    .form-group label { display: block; font-size: 11.5px; font-weight: 700; color: var(--text-dark); margin-bottom: 5px; text-transform: uppercase; letter-spacing: 0.5px; }
     .form-control { width: 100%; padding: 9px 12px; border: 1px solid var(--border-cream); border-radius: var(--radius-md); font-size: 13px; background: var(--bg-cream-light); outline: none; }
+    .form-control:focus { border-color: var(--accent-warm); background: #FFFFFF; }
+    .form-hint { font-size: 11px; color: var(--text-muted); margin-top: 4px; line-height: 1.4; }
+
     .modal-footer { padding: 14px 20px; background: var(--bg-cream-light); border-top: 1px solid var(--border-cream); display: flex; justify-content: space-between; align-items: center; gap: 8px; }
     .btn-secondary { background: transparent; border: 1px solid var(--border-cream); padding: 8px 14px; border-radius: var(--radius-md); font-size: 12.5px; font-weight: 600; cursor: pointer; }
-    .btn-danger-outline { background: transparent; border: 1px solid var(--accent-red); color: var(--accent-red); padding: 8px 14px; border-radius: var(--radius-md); font-size: 12.5px; font-weight: 600; cursor: pointer; }
+    .btn-danger-outline { background: transparent; border: 1px solid var(--accent-red); color: var(--accent-red); padding: 8px 14px; border-radius: var(--radius-md); font-size: 12.5px; font-weight: 600; cursor: pointer; transition: all 0.2s; }
+    .btn-danger-outline:hover { background: var(--accent-red-light); }
     .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
 
-    .member-card-preview { background: linear-gradient(135deg, #FFFDF9 0%, #F4ECE0 100%); border: 2px solid var(--accent-warm); border-radius: 12px; padding: 20px; width: 100%; max-width: 380px; margin: 0 auto; text-align: left; }
+    /* CARD MEMBER PREVIEW */
+    .member-card-preview { background: linear-gradient(135deg, #FFFDF9 0%, #F4ECE0 100%); border: 2px solid var(--accent-warm); border-radius: 12px; padding: 20px; width: 100%; max-width: 380px; margin: 0 auto; box-shadow: 0 4px 15px rgba(0,0,0,0.08); position: relative; text-align: left; }
     .member-card-header { display: flex; align-items: center; gap: 12px; border-bottom: 2px dashed var(--accent-warm); padding-bottom: 10px; margin-bottom: 14px; }
+    .member-card-header img { width: 42px; height: 42px; object-fit: contain; }
     .member-card-body { display: flex; gap: 14px; align-items: center; }
-    .member-avatar { width: 60px; height: 70px; background: #E8E2D5; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 24px; color: var(--text-muted); }
-    .barcode-lines { margin-top: 14px; letter-spacing: 4px; font-weight: bold; background: #FFF; padding: 6px; text-align: center; border: 1px solid var(--border-cream); font-size: 12px; }
+    .member-avatar { width: 60px; height: 70px; background: #E8E2D5; border-radius: 6px; display: flex; align-items: center; justify-content: center; color: var(--text-muted); font-size: 24px; border: 1px solid var(--border-cream); }
+    .barcode-lines { margin-top: 14px; font-family: 'Courier New', Courier, monospace; letter-spacing: 4px; font-weight: bold; background: #FFF; padding: 6px; border-radius: 4px; text-align: center; border: 1px solid var(--border-cream); font-size: 12px; }
 
-    .toast { position: fixed; bottom: 20px; right: 20px; background: var(--text-dark); color: white; padding: 12px 18px; border-radius: var(--radius-md); font-size: 12.5px; font-weight: 600; display: flex; align-items: center; gap: 8px; z-index: 2000; transform: translateY(100px); opacity: 0; transition: all 0.3s ease; }
+    /* TOAST */
+    .toast { position: fixed; bottom: 20px; right: 20px; background: var(--text-dark); color: white; padding: 12px 18px; border-radius: var(--radius-md); font-size: 12.5px; font-weight: 600; box-shadow: 0 4px 16px rgba(0,0,0,0.2); display: flex; align-items: center; gap: 8px; z-index: 2000; transform: translateY(100px); opacity: 0; transition: all 0.3s ease; }
     .toast.show { transform: translateY(0); opacity: 1; }
 
     @media (max-width: 768px) {
       .sidebar { transform: translateX(-100%); width: 260px; }
-      .sidebar.open { transform: translateX(0); }
+      .sidebar.open { transform: translateX(0); box-shadow: 4px 0 20px rgba(0,0,0,0.15); }
       .main-wrapper { margin-left: 0; width: 100%; }
       .btn-mobile-toggle { display: flex; }
-      .metrics-grid { grid-template-columns: 1fr 1fr; }
+      .top-header { padding: 12px 16px; }
+      .admin-badge span { display: none; }
+      .content-container { padding: 16px; }
+      .metrics-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
       .grid-2 { grid-template-columns: 1fr; }
+    }
+
+    @media print {
+      .lock-screen-overlay, .sidebar, .top-header, .filter-tools, .btn-action, .quick-btn, .sidebar-overlay, .modal-footer { display: none !important; }
+      .main-wrapper { margin-left: 0 !important; width: 100% !important; }
+      .content-container { padding: 0 !important; }
+      .card-panel { box-shadow: none !important; border: none !important; }
+      .modal-overlay { position: static !important; background: none !important; }
+      .modal-card { box-shadow: none !important; border: none !important; }
     }
   </style>
 </head>
@@ -164,7 +205,7 @@
   <!-- LOCK SCREEN OVERLAY -->
   <div id="lockScreen" class="lock-screen-overlay">
     <div class="lock-card">
-      <img src="logo makarima.webp" alt="Logo SD" class="lock-logo" onerror="this.src='https://via.placeholder.com/64?text=SDIM'"/>
+      <img src="logo makarima.webp" alt="Logo SD Islam Makarima" class="lock-logo" onerror="this.src='https://via.placeholder.com/64?text=SDIM'"/>
       <h3>Pustaka Syamilah</h3>
       <p>SD Islam Makarima Kartasura</p>
       
@@ -172,22 +213,25 @@
         <label for="inputPin">Akses Masuk Petugas</label>
         <div class="password-input-wrapper">
           <input type="password" id="inputPin" class="form-control" placeholder="Ketik password..." onkeypress="handleLockKeyPress(event)"/>
-          <i id="eyeIcon" class="fa-solid fa-eye toggle-password-btn" onclick="togglePasswordVisibility()"></i>
+          <i id="eyeIcon" class="fa-solid fa-eye toggle-password-btn" onclick="togglePasswordVisibility()" title="Lihat/Sembunyikan Password"></i>
         </div>
         <button class="quick-btn" style="width: 100%; justify-content: center; margin-top: 14px; padding: 10px;" onclick="checkPassword()">
           <i class="fa-solid fa-key"></i> Buka Akses Web
         </button>
-        <div id="lockError" class="lock-error">Password salah! Silakan coba lagi.</div>
+        <div id="lockError" class="lock-error">
+          <i class="fa-solid fa-circle-exclamation"></i> Password salah! Silakan coba lagi.
+        </div>
       </div>
     </div>
   </div>
 
+  <!-- Mobile Overlay -->
   <div id="sidebarOverlay" class="sidebar-overlay" onclick="toggleMobileSidebar()"></div>
 
   <!-- SIDEBAR NAVIGATION -->
   <aside id="sidebar" class="sidebar">
     <div class="sidebar-header">
-      <img src="logo makarima.webp" alt="Logo" class="school-logo" onerror="this.src='https://via.placeholder.com/44?text=SDIM'"/>
+      <img src="logo makarima.webp" alt="Logo SD Islam Makarima" class="school-logo" onerror="this.src='https://via.placeholder.com/44?text=SDIM'"/>
       <div class="sidebar-title">
         <h1>Pustaka Syamilah</h1>
         <span>SD Islam Makarima</span>
@@ -196,42 +240,71 @@
 
     <nav class="sidebar-menu">
       <div class="menu-label">Utama</div>
-      <a class="menu-item active" onclick="switchTab('dashboard')"><i class="fa-solid fa-chart-pie"></i> Dashboard</a>
-      <a class="menu-item" onclick="switchTab('katalog')"><i class="fa-solid fa-book-bookmark"></i> Katalog Buku</a>
-      <a class="menu-item" onclick="switchTab('murid')"><i class="fa-solid fa-user-graduate"></i> Data Murid (283)</a>
-      <a class="menu-item" onclick="switchTab('sirkulasi')"><i class="fa-solid fa-arrow-right-arrow-left"></i> Sirkulasi Pinjam</a>
+      <a class="menu-item active" onclick="switchTab('dashboard')">
+        <i class="fa-solid fa-chart-pie"></i> Dashboard
+      </a>
+      <a class="menu-item" onclick="switchTab('katalog')">
+        <i class="fa-solid fa-book-bookmark"></i> Katalog Buku
+      </a>
+      <a class="menu-item" onclick="switchTab('murid')">
+        <i class="fa-solid fa-user-graduate"></i> Data Murid
+      </a>
+      <a class="menu-item" onclick="switchTab('sirkulasi')">
+        <i class="fa-solid fa-arrow-right-arrow-left"></i> Sirkulasi Pinjam
+      </a>
 
       <div class="menu-label">Manajemen Data</div>
-      <a class="menu-item" onclick="openModal('modalInputBuku')"><i class="fa-solid fa-plus-circle"></i> Input Buku Baru</a>
-      <a class="menu-item" onclick="openModal('modalInputMurid')"><i class="fa-solid fa-user-plus"></i> Input Siswa Baru</a>
-      <a class="menu-item" onclick="openModal('modalImport')"><i class="fa-solid fa-file-import"></i> Reset / Upload Data</a>
-      <a class="menu-item" onclick="exportBackupJSON()"><i class="fa-solid fa-download"></i> Backup JSON</a>
-      <a class="menu-item" onclick="exportCSV('buku')"><i class="fa-solid fa-file-excel"></i> Ekspor CSV Buku</a>
-      <a class="menu-item" onclick="window.print()"><i class="fa-solid fa-print"></i> Cetak Laporan</a>
+      <a class="menu-item" onclick="openModal('modalInputBuku')">
+        <i class="fa-solid fa-plus-circle"></i> Input Buku Baru
+      </a>
+      <a class="menu-item" onclick="openModal('modalInputMurid')">
+        <i class="fa-solid fa-user-plus"></i> Input Siswa Baru
+      </a>
+      <a class="menu-item" onclick="openModal('modalImport')">
+        <i class="fa-solid fa-file-import"></i> Reset / Upload Data
+      </a>
+      <a class="menu-item" onclick="exportBackupJSON()">
+        <i class="fa-solid fa-download"></i> Backup JSON
+      </a>
+      <a class="menu-item" onclick="exportCSV('buku')">
+        <i class="fa-solid fa-file-excel"></i> Ekspor CSV Buku
+      </a>
+      <a class="menu-item" onclick="window.print()">
+        <i class="fa-solid fa-print"></i> Cetak Laporan
+      </a>
 
       <div class="menu-label">Keamanan</div>
-      <a class="menu-item lock-btn" onclick="lockApp()"><i class="fa-solid fa-lock"></i> Kunci Web</a>
+      <a class="menu-item lock-btn" onclick="lockApp()">
+        <i class="fa-solid fa-lock"></i> Kunci Web
+      </a>
     </nav>
 
     <div class="sidebar-footer">
-      <p><strong>Pustaka Syamilah v3.4</strong></p>
-      <p>SD Islam Makarima Kartasura</p>
+      <p><strong>Pustaka Syamilah v3.5</strong></p>
+      <p style="margin-top: 2px;">SD Islam Makarima Kartasura</p>
     </div>
   </aside>
 
-  <!-- MAIN CONTENT -->
+  <!-- MAIN WRAPPER -->
   <main class="main-wrapper">
     <header class="top-header">
       <div class="header-left">
-        <button class="btn-mobile-toggle" onclick="toggleMobileSidebar()"><i class="fa-solid fa-bars"></i></button>
+        <button class="btn-mobile-toggle" onclick="toggleMobileSidebar()" aria-label="Toggle Menu">
+          <i class="fa-solid fa-bars"></i>
+        </button>
         <div class="page-title">
           <h2 id="headerTitle">Dashboard Perpustakaan</h2>
           <p id="headerSub">Sistem Rekap & Sirkulasi Pustaka Syamilah Makarima</p>
         </div>
       </div>
+
       <div class="user-profile">
-        <button class="quick-btn" onclick="openModal('modalPinjam')"><i class="fa-solid fa-hand-holding-hand"></i> Pinjam</button>
-        <div class="admin-badge"><i class="fa-solid fa-shield-halved"></i> Petugas Admin</div>
+        <button class="quick-btn" onclick="openModal('modalPinjam')">
+          <i class="fa-solid fa-hand-holding-hand"></i> <span>Pinjam</span>
+        </button>
+        <div class="admin-badge">
+          <i class="fa-solid fa-shield-halved"></i> <span>Petugas Admin</span>
+        </div>
       </div>
     </header>
 
@@ -241,26 +314,41 @@
       <section id="sec-dashboard" class="section-content active">
         <div class="metrics-grid">
           <div class="metric-card">
-            <div class="metric-info"><h3>Total Judul Buku</h3><div class="val" id="statTotalJudul">0</div></div>
+            <div class="metric-info">
+              <h3>Total Judul Buku</h3>
+              <div class="val" id="statTotalJudul">0</div>
+            </div>
             <div class="metric-icon icon-gold"><i class="fa-solid fa-book"></i></div>
           </div>
+
           <div class="metric-card">
-            <div class="metric-info"><h3>Total Anggota Siswa</h3><div class="val" id="statTotalMurid">0</div></div>
+            <div class="metric-info">
+              <h3>Total Anggota Siswa</h3>
+              <div class="val" id="statTotalMurid">0</div>
+            </div>
             <div class="metric-icon icon-green"><i class="fa-solid fa-users"></i></div>
           </div>
+
           <div class="metric-card">
-            <div class="metric-info"><h3>Buku Dipinjam</h3><div class="val" id="statTotalDipinjam">0</div></div>
+            <div class="metric-info">
+              <h3>Buku Dipinjam</h3>
+              <div class="val" id="statTotalDipinjam">0</div>
+            </div>
             <div class="metric-icon icon-blue"><i class="fa-solid fa-book-reader"></i></div>
           </div>
+
           <div class="metric-card">
-            <div class="metric-info"><h3>Total Eksemplar Stok</h3><div class="val" id="statTotalStok">0</div></div>
+            <div class="metric-info">
+              <h3>Total Eksemplar Stok</h3>
+              <div class="val" id="statTotalStok">0</div>
+            </div>
             <div class="metric-icon icon-red"><i class="fa-solid fa-layer-group"></i></div>
           </div>
         </div>
 
         <div class="card-panel">
           <div class="panel-header">
-            <h3><i class="fa-solid fa-chart-bar" style="color:var(--accent-warm);"></i> Koleksi Buku Per Kategori</h3>
+            <h3><i class="fa-solid fa-chart-bar" style="color:var(--accent-warm);"></i> Distribusi Koleksi Buku Berdasarkan Kategori</h3>
           </div>
           <div style="position: relative; width: 100%; height: 320px;">
             <canvas id="categoryChart"></canvas>
@@ -272,21 +360,33 @@
       <section id="sec-katalog" class="section-content">
         <div class="card-panel">
           <div class="panel-header">
-            <h3><i class="fa-solid fa-books"></i> Katalog Buku Inventaris</h3>
+            <h3><i class="fa-solid fa-books"></i> Katalog Inventaris Buku</h3>
             <div class="filter-tools">
               <div class="search-box">
                 <i class="fa-solid fa-magnifying-glass"></i>
-                <input type="text" id="searchBuku" class="search-input" placeholder="Cari judul / penerbit..." oninput="renderKatalog()"/>
+                <input type="text" id="searchBuku" class="search-input" placeholder="Cari judul / penerbit / kode..." oninput="renderKatalog()"/>
               </div>
-              <select id="filterKategori" class="select-input" onchange="renderKatalog()"><option value="">Semua Kategori</option></select>
-              <button class="quick-btn" onclick="openModal('modalInputBuku')"><i class="fa-solid fa-plus"></i> Tambah Buku</button>
+              <select id="filterKategori" class="select-input" onchange="renderKatalog()">
+                <option value="">Semua Kategori</option>
+              </select>
+              <button class="quick-btn" onclick="openModal('modalInputBuku')">
+                <i class="fa-solid fa-plus"></i> Tambah Buku
+              </button>
             </div>
           </div>
+
           <div class="table-responsive">
             <table class="custom-table">
               <thead>
                 <tr>
-                  <th>Kode</th><th>Judul Buku</th><th>Kategori</th><th>Penerbit</th><th>Tahun</th><th>Stok Available</th><th>Kondisi</th><th style="text-align: right;">Aksi</th>
+                  <th>Kode</th>
+                  <th>Judul Buku</th>
+                  <th>Kategori</th>
+                  <th>Penerbit</th>
+                  <th>Tahun</th>
+                  <th>Stok Available</th>
+                  <th>Kondisi</th>
+                  <th style="text-align: right;">Aksi</th>
                 </tr>
               </thead>
               <tbody id="tableKatalogBody"></tbody>
@@ -299,21 +399,30 @@
       <section id="sec-murid" class="section-content">
         <div class="card-panel">
           <div class="panel-header">
-            <h3><i class="fa-solid fa-user-graduate"></i> Daftar Murid (283 Siswa)</h3>
+            <h3><i class="fa-solid fa-user-graduate"></i> Daftar Murid SD Islam Makarima</h3>
             <div class="filter-tools">
               <div class="search-box">
                 <i class="fa-solid fa-magnifying-glass"></i>
                 <input type="text" id="searchMurid" class="search-input" placeholder="Cari nama murid..." oninput="renderMurid()"/>
               </div>
-              <select id="filterKelas" class="select-input" onchange="renderMurid()"><option value="">Semua Kelas</option></select>
-              <button class="quick-btn" onclick="openModal('modalInputMurid')"><i class="fa-solid fa-user-plus"></i> Tambah Siswa</button>
+              <select id="filterKelas" class="select-input" onchange="renderMurid()">
+                <option value="">Semua Kelas</option>
+              </select>
+              <button class="quick-btn" onclick="openModal('modalInputMurid')">
+                <i class="fa-solid fa-user-plus"></i> Tambah Siswa
+              </button>
             </div>
           </div>
+
           <div class="table-responsive">
             <table class="custom-table">
               <thead>
                 <tr>
-                  <th>No</th><th>Nama Lengkap Siswa</th><th>Kelas</th><th>Status Peminjaman</th><th style="text-align: right;">Aksi</th>
+                  <th>No</th>
+                  <th>Nama Lengkap Siswa</th>
+                  <th>Kelas</th>
+                  <th>Status Peminjaman</th>
+                  <th style="text-align: right;">Aksi</th>
                 </tr>
               </thead>
               <tbody id="tableMuridBody"></tbody>
@@ -326,14 +435,24 @@
       <section id="sec-sirkulasi" class="section-content">
         <div class="card-panel">
           <div class="panel-header">
-            <h3><i class="fa-solid fa-arrow-right-arrow-left"></i> Sirkulasi Pinjam / Kembali</h3>
-            <button class="quick-btn" onclick="openModal('modalPinjam')"><i class="fa-solid fa-plus"></i> Catat Pinjam</button>
+            <h3><i class="fa-solid fa-arrow-right-arrow-left"></i> Rekap Sirkulasi Peminjaman & Pengembalian</h3>
+            <button class="quick-btn" onclick="openModal('modalPinjam')">
+              <i class="fa-solid fa-plus"></i> Catat Peminjaman
+            </button>
           </div>
+
           <div class="table-responsive">
             <table class="custom-table">
               <thead>
                 <tr>
-                  <th>ID TRX</th><th>Nama Siswa</th><th>Kelas</th><th>Judul Buku</th><th>Tgl Pinjam</th><th>Jatuh Tempo</th><th>Status</th><th style="text-align: right;">Tindakan</th>
+                  <th>ID Transaksi</th>
+                  <th>Nama Siswa</th>
+                  <th>Kelas</th>
+                  <th>Judul Buku</th>
+                  <th>Tgl Pinjam</th>
+                  <th>Jatuh Tempo</th>
+                  <th>Status</th>
+                  <th style="text-align: right;">Tindakan</th>
                 </tr>
               </thead>
               <tbody id="tableSirkulasiBody"></tbody>
@@ -345,27 +464,29 @@
     </div>
   </main>
 
-  <!-- MODAL: CETAK KARTU SISWA -->
+  <!-- MODAL: CETAK KARTU ANGGOTA SISWA -->
   <div id="modalCardSiswa" class="modal-overlay">
     <div class="modal-card">
       <div class="modal-header">
-        <h4><i class="fa-solid fa-id-card"></i> Cetak Kartu Anggota</h4>
+        <h4><i class="fa-solid fa-id-card"></i> Cetak Kartu Anggota Siswa</h4>
         <button class="btn-close" onclick="closeModal('modalCardSiswa')">&times;</button>
       </div>
       <div class="modal-body">
-        <div class="member-card-preview">
+        <div id="printableCard" class="member-card-preview">
           <div class="member-card-header">
             <img src="logo makarima.webp" alt="Logo" onerror="this.src='https://via.placeholder.com/42?text=SDIM'"/>
             <div>
-              <h4 style="font-size: 13px; font-weight: 800;">SD ISLAM MAKARIMA</h4>
+              <h4 style="font-size: 13px; font-weight: 800; color: var(--text-dark);">SD ISLAM MAKARIMA</h4>
               <p style="font-size: 10px; color: var(--accent-warm); font-weight: 700;">KARTU ANGGOTA PERPUSTAKAAN</p>
             </div>
           </div>
           <div class="member-card-body">
-            <div class="member-avatar"><i class="fa-solid fa-user"></i></div>
-            <div>
-              <h5 id="cardStudentName" style="font-size: 14px; font-weight: 800;">-</h5>
-              <p id="cardStudentClass" style="font-size: 12px; color: var(--text-muted);">-</p>
+            <div class="member-avatar">
+              <i class="fa-solid fa-user"></i>
+            </div>
+            <div style="flex-grow: 1;">
+              <h5 id="cardStudentName" style="font-size: 14px; font-weight: 800; color: var(--text-dark); margin-bottom: 2px;">-</h5>
+              <p id="cardStudentClass" style="font-size: 12px; color: var(--text-muted); font-weight: 600;">-</p>
               <p style="font-size: 10px; color: var(--accent-green); margin-top: 6px; font-weight: 700;">STATUS: ANGGOTA AKTIF</p>
             </div>
           </div>
@@ -379,30 +500,59 @@
     </div>
   </div>
 
-  <!-- MODAL: INPUT BUKU -->
+  <!-- MODAL: INPUT BUKU BARU -->
   <div id="modalInputBuku" class="modal-overlay">
     <div class="modal-card">
       <div class="modal-header">
-        <h4><i class="fa-solid fa-book-medical"></i> Input Buku Baru</h4>
+        <h4><i class="fa-solid fa-book-medical"></i> Input Data Buku Baru</h4>
         <button class="btn-close" onclick="closeModal('modalInputBuku')">&times;</button>
       </div>
       <form id="formTambahBuku" onsubmit="handleTambahBuku(event)">
         <div class="modal-body">
-          <div class="form-group"><label>Judul Buku</label><input type="text" id="inJudul" class="form-control" required/></div>
-          <div class="grid-2">
-            <div class="form-group"><label>Kode Label</label><input type="text" id="inKode" class="form-control" placeholder="AI/015"/></div>
-            <div class="form-group"><label>Kategori</label><input type="text" id="inKategori" class="form-control" required/></div>
+          <div class="form-group">
+            <label>Judul Buku</label>
+            <input type="text" id="inJudul" class="form-control" required placeholder="Contoh: 99 Asmaul Husna"/>
           </div>
           <div class="grid-2">
-            <div class="form-group"><label>Penerbit</label><input type="text" id="inPenerbit" class="form-control"/></div>
-            <div class="form-group"><label>Tahun</label><input type="text" id="inTahun" class="form-control"/></div>
-          </div>
-          <div class="grid-2">
-            <div class="form-group"><label>Jumlah Stok</label><input type="number" id="inStok" class="form-control" min="1" value="1" required/></div>
             <div class="form-group">
-              <label>Kondisi</label>
+              <label>Kode Label</label>
+              <input type="text" id="inKode" class="form-control" placeholder="Contoh: AI/015"/>
+            </div>
+            <div class="form-group">
+              <label>Kategori</label>
+              <input type="text" id="inKategori" class="form-control" list="kategoriList" required placeholder="Pilih / ketik kategori..."/>
+              <datalist id="kategoriList">
+                <option value="Agama Islam"></option>
+                <option value="Siroh"></option>
+                <option value="Cerita Anak Islami"></option>
+                <option value="Cerita Anak"></option>
+                <option value="Sains"></option>
+                <option value="Buku Mapel"></option>
+                <option value="Buku Guru"></option>
+              </datalist>
+            </div>
+          </div>
+          <div class="grid-2">
+            <div class="form-group">
+              <label>Penerbit</label>
+              <input type="text" id="inPenerbit" class="form-control" placeholder="Nama Penerbit"/>
+            </div>
+            <div class="form-group">
+              <label>Tahun Terbit</label>
+              <input type="text" id="inTahun" class="form-control" placeholder="2024"/>
+            </div>
+          </div>
+          <div class="grid-2">
+            <div class="form-group">
+              <label>Jumlah Stok</label>
+              <input type="number" id="inStok" class="form-control" min="1" value="1" required/>
+            </div>
+            <div class="form-group">
+              <label>Kondisi Buku</label>
               <select id="inKondisi" class="form-control">
-                <option value="Baik">Baik</option><option value="Rusak Ringan">Rusak Ringan</option>
+                <option value="Baik">Baik</option>
+                <option value="Rusak Ringan">Rusak Ringan</option>
+                <option value="Perlu Perbaikan">Perlu Perbaikan</option>
               </select>
             </div>
           </div>
@@ -415,27 +565,64 @@
     </div>
   </div>
 
-  <!-- MODAL: INPUT SISWA -->
+  <!-- MODAL: INPUT SISWA BARU (UPGRADED HAS TAB 1: SATUAN & TAB 2: MASSAL/BULK) -->
   <div id="modalInputMurid" class="modal-overlay">
     <div class="modal-card">
       <div class="modal-header">
-        <h4><i class="fa-solid fa-user-plus"></i> Tambah Siswa Baru</h4>
+        <h4><i class="fa-solid fa-user-plus"></i> Input Siswa Baru</h4>
         <button class="btn-close" onclick="closeModal('modalInputMurid')">&times;</button>
       </div>
-      <form id="formTambahMurid" onsubmit="handleTambahMurid(event)">
-        <div class="modal-body">
-          <div class="form-group"><label>Nama Lengkap Siswa</label><input type="text" id="inNamaSiswa" class="form-control" required/></div>
-          <div class="form-group"><label>Kelas</label><input type="text" id="inKelasSiswa" class="form-control" required placeholder="Contoh: Kelas 1A"/></div>
+
+      <div class="modal-body">
+        <!-- Navigation Tabs -->
+        <div class="modal-tabs">
+          <button id="btnTabSatuan" type="button" class="tab-btn active" onclick="toggleInputSiswaTab('satuan')">
+            <i class="fa-solid fa-user"></i> Input Satuan
+          </button>
+          <button id="btnTabMassal" type="button" class="tab-btn" onclick="toggleInputSiswaTab('massal')">
+            <i class="fa-solid fa-users"></i> Input Massal (Banyak)
+          </button>
         </div>
-        <div class="modal-footer">
-          <button type="button" class="btn-secondary" onclick="closeModal('modalInputMurid')">Batal</button>
-          <button type="submit" class="quick-btn">Simpan Siswa</button>
-        </div>
-      </form>
+
+        <!-- TAB 1: INPUT SATUAN -->
+        <form id="formTambahMuridSatuan" onsubmit="handleTambahMuridSatuan(event)">
+          <div class="form-group">
+            <label>Nama Lengkap Siswa</label>
+            <input type="text" id="inNamaSiswa" class="form-control" required placeholder="Contoh: Ahmad Zakaria"/>
+          </div>
+          <div class="form-group">
+            <label>Kelas (Dapat Diketik Bebas)</label>
+            <input type="text" id="inKelasSiswa" class="form-control" list="classList" required placeholder="Contoh: Kelas 1A, Kelas 2A Al Malik, dll..."/>
+            <datalist id="classList"></datalist>
+          </div>
+          <div style="display: flex; justify-content: flex-end; gap: 8px; margin-top: 18px;">
+            <button type="button" class="btn-secondary" onclick="closeModal('modalInputMurid')">Batal</button>
+            <button type="submit" class="quick-btn"><i class="fa-solid fa-check"></i> Simpan Siswa</button>
+          </div>
+        </form>
+
+        <!-- TAB 2: INPUT MASSAL / BULK -->
+        <form id="formTambahMuridMassal" onsubmit="handleTambahMuridMassal(event)" style="display: none;">
+          <div class="form-group">
+            <label>Kelas untuk Semua Siswa Ini</label>
+            <input type="text" id="inKelasMassal" class="form-control" list="classListMassal" required placeholder="Contoh: Kelas 1C, Kelas 3B Al Hafizh, dll..."/>
+            <datalist id="classListMassal"></datalist>
+          </div>
+          <div class="form-group">
+            <label>Daftar Nama Siswa (Satu nama per baris)</label>
+            <textarea id="inDaftarNamaMassal" class="form-control" rows="8" required placeholder="Paste atau ketik nama-nama murid di sini...&#10;Contoh:&#10;Adlan Malik&#10;Aisyah Pelangi&#10;Bara Atlancea"></textarea>
+            <div class="form-hint"><i class="fa-solid fa-circle-info"></i> Setiap baris baru akan otomatis diinput sebagai 1 nama siswa.</div>
+          </div>
+          <div style="display: flex; justify-content: flex-end; gap: 8px; margin-top: 18px;">
+            <button type="button" class="btn-secondary" onclick="closeModal('modalInputMurid')">Batal</button>
+            <button type="submit" class="quick-btn"><i class="fa-solid fa-users"></i> Import Semua Siswa</button>
+          </div>
+        </form>
+      </div>
     </div>
   </div>
 
-  <!-- MODAL: EDIT MURID -->
+  <!-- MODAL: EDIT DATA MURID -->
   <div id="modalEditMurid" class="modal-overlay">
     <div class="modal-card">
       <div class="modal-header">
@@ -445,8 +632,15 @@
       <form id="formEditMurid" onsubmit="handleSimpanEditMurid(event)">
         <input type="hidden" id="editMuridId"/>
         <div class="modal-body">
-          <div class="form-group"><label>Nama Lengkap Siswa</label><input type="text" id="editNamaSiswa" class="form-control" required/></div>
-          <div class="form-group"><label>Kelas Siswa</label><input type="text" id="editKelasSiswa" class="form-control" required/></div>
+          <div class="form-group">
+            <label>Nama Lengkap Siswa</label>
+            <input type="text" id="editNamaSiswa" class="form-control" required/>
+          </div>
+          <div class="form-group">
+            <label>Kelas Siswa</label>
+            <input type="text" id="editKelasSiswa" class="form-control" list="classListEdit" required placeholder="Masukkan nama kelas..."/>
+            <datalist id="classListEdit"></datalist>
+          </div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn-secondary" onclick="closeModal('modalEditMurid')">Batal</button>
@@ -456,20 +650,32 @@
     </div>
   </div>
 
-  <!-- MODAL: PINJAM BUKU -->
+  <!-- MODAL: CATAT PINJAM BUKU -->
   <div id="modalPinjam" class="modal-overlay">
     <div class="modal-card">
       <div class="modal-header">
-        <h4><i class="fa-solid fa-hand-holding-hand"></i> Transaksi Pinjam Buku</h4>
+        <h4><i class="fa-solid fa-hand-holding-hand"></i> Transaksi Peminjaman Buku</h4>
         <button class="btn-close" onclick="closeModal('modalPinjam')">&times;</button>
       </div>
       <form id="formPinjam" onsubmit="handlePinjam(event)">
         <div class="modal-body">
-          <div class="form-group"><label>Pilih Siswa</label><select id="pinjamSiswaId" class="form-control" required></select></div>
-          <div class="form-group"><label>Pilih Buku</label><select id="pinjamBukuId" class="form-control" required></select></div>
+          <div class="form-group">
+            <label>Pilih Siswa Peminjam</label>
+            <select id="pinjamSiswaId" class="form-control" required></select>
+          </div>
+          <div class="form-group">
+            <label>Pilih Buku (Stok Tersedia)</label>
+            <select id="pinjamBukuId" class="form-control" required></select>
+          </div>
           <div class="grid-2">
-            <div class="form-group"><label>Tgl Pinjam</label><input type="date" id="pinjamTgl" class="form-control" required/></div>
-            <div class="form-group"><label>Lama Pinjam (Hari)</label><input type="number" id="pinjamLama" class="form-control" value="7" min="1" required/></div>
+            <div class="form-group">
+              <label>Tanggal Pinjam</label>
+              <input type="date" id="pinjamTgl" class="form-control" required/>
+            </div>
+            <div class="form-group">
+              <label>Lama Pinjam (Hari)</label>
+              <input type="number" id="pinjamLama" class="form-control" value="7" min="1" max="30" required/>
+            </div>
           </div>
         </div>
         <div class="modal-footer">
@@ -480,59 +686,78 @@
     </div>
   </div>
 
-  <!-- MODAL: RESET & IMPORT DATA -->
+  <!-- MODAL: RESET DATA -->
   <div id="modalImport" class="modal-overlay">
     <div class="modal-card">
       <div class="modal-header">
-        <h4><i class="fa-solid fa-file-csv"></i> Reset & Import Data</h4>
+        <h4><i class="fa-solid fa-rotate-left"></i> Reset & Sinkronisasi Data</h4>
         <button class="btn-close" onclick="closeModal('modalImport')">&times;</button>
       </div>
       <div class="modal-body">
-        <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 14px;">
-          Klik tombol <strong>Reset ke Data Awal</strong> di bawah ini untuk mengembalikan seluruh 283 data murid dan 15 buku ke kondisi awal sekolah.
+        <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 14px; line-height: 1.5;">
+          Gunakan tombol <strong>Reset ke Data Awal Sekolah</strong> untuk mengembalikan seluruh 283 data siswa dan 15 buku inventaris ke kondisi awal dokumen resmi SD Islam Makarima.
         </p>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn-danger-outline" onclick="resetDataAwal()"><i class="fa-solid fa-rotate-left"></i> Reset ke Data Awal</button>
+        <button type="button" class="btn-danger-outline" onclick="resetDataAwal()">
+          <i class="fa-solid fa-rotate-left"></i> Reset ke Data Awal
+        </button>
         <button type="button" class="btn-secondary" onclick="closeModal('modalImport')">Tutup</button>
       </div>
     </div>
   </div>
 
-  <div id="toast" class="toast"><i class="fa-solid fa-circle-check" style="color: #4EAD73;"></i><span id="toastMsg">Sukses!</span></div>
+  <!-- TOAST NOTIFICATION -->
+  <div id="toast" class="toast">
+    <i class="fa-solid fa-circle-check" style="color: #4EAD73; font-size: 16px;"></i>
+    <span id="toastMsg">Sistem berhasil diperbarui!</span>
+  </div>
 
   <script>
+    // ACCESS PASSWORD CONFIG
     const APP_PASSWORD = "bismillah";
 
     function togglePasswordVisibility() {
       const pinInput = document.getElementById('inputPin');
       const eyeIcon = document.getElementById('eyeIcon');
       if (pinInput.type === "password") {
-        pinInput.type = "text"; eyeIcon.className = 'fa-solid fa-eye-slash toggle-password-btn';
+        pinInput.type = "text";
+        eyeIcon.className = 'fa-solid fa-eye-slash toggle-password-btn';
       } else {
-        pinInput.type = "password"; eyeIcon.className = 'fa-solid fa-eye toggle-password-btn';
+        pinInput.type = "password";
+        eyeIcon.className = 'fa-solid fa-eye toggle-password-btn';
       }
     }
 
     function checkPassword() {
       const input = document.getElementById('inputPin').value;
+      const errEl = document.getElementById('lockError');
+
       if (input === APP_PASSWORD) {
         document.getElementById('lockScreen').style.display = 'none';
+        errEl.style.display = 'none';
         sessionStorage.setItem('pustaka_auth', 'true');
-        showToast("Akses berhasil dibuka!");
+        showToast("Akses web berhasil dibuka!");
       } else {
-        document.getElementById('lockError').style.display = 'block';
+        errEl.style.display = 'block';
+        document.getElementById('inputPin').value = '';
+        document.getElementById('inputPin').focus();
       }
     }
 
-    function handleLockKeyPress(e) { if (e.key === 'Enter') checkPassword(); }
+    function handleLockKeyPress(e) {
+      if (e.key === 'Enter') checkPassword();
+    }
 
     function lockApp() {
       sessionStorage.removeItem('pustaka_auth');
+      document.getElementById('inputPin').value = '';
+      document.getElementById('lockError').style.display = 'none';
       document.getElementById('lockScreen').style.display = 'flex';
+      showToast("Akses web telah dikunci.");
     }
 
-    // 15 BUKU LENGKAP
+    // COMPLETE 15 BOOKS DATASET
     const initialBooks = [
       { id: 1, kode: "AI/001", judul: "99 Asmaul Husna", penerbit: "Karya Gemilang Utama", tahun: "-", kategori: "Agama Islam", stok: 2, tersedia: 2, kondisi: "Baik" },
       { id: 2, kode: "AI/002", judul: "Bacaan Sholat: Disertai Latin & Terjemah Bahasa Indonesia", penerbit: "-", tahun: "-", kategori: "Agama Islam", stok: 2, tersedia: 1, kondisi: "Baik" },
@@ -551,7 +776,7 @@
       { id: 15, kode: "BM/002", judul: "Bahasa Indonesia SD Kelas 2", penerbit: "Erlangga", tahun: "2023", kategori: "Buku Mapel", stok: 20, tersedia: 19, kondisi: "Baik" }
     ];
 
-    // 283 SISWA LENGKAP TANPA DUKUNGAN TERPOTONG
+    // COMPLETE 283 STUDENTS DATASET
     const initialStudents = [
       { id: 1, nama: "Ambalika Sora Pratama", kelas: "Kelas 1A" },
       { id: 2, nama: "Annasya Adreena", kelas: "Kelas 1A" },
@@ -839,13 +1064,13 @@
     ];
 
     let initialLoans = [
-      { id: "TRX-101", studentId: 73, studentName: "Aisyah Pelangi Muslimah", kelas: "Kelas 2A Al Malik", bookId: 2, bookTitle: "Bacaan Sholat", tglPinjam: "2026-10-20", tglKembali: "2026-10-27", status: "Dipinjam" }
+      { id: "TRX-101", studentId: 73, studentName: "Aisyah Pelangi Muslimah", kelas: "Kelas 2A Al Malik", bookId: 2, bookTitle: "Bacaan Sholat: Disertai Latin & Terjemah Bahasa Indonesia", tglPinjam: "2026-10-20", tglKembali: "2026-10-27", status: "Dipinjam" }
     ];
 
-    // Menggunakan key_v4 untuk langsung memaksa browser memuat 15 buku + 283 siswa
-    let books = JSON.parse(localStorage.getItem('makarima_books_v4')) || initialBooks;
-    let students = JSON.parse(localStorage.getItem('makarima_students_v4')) || initialStudents;
-    let loans = JSON.parse(localStorage.getItem('makarima_loans_v4')) || initialLoans;
+    // Key v5 forcing refresh to un-cached data
+    let books = JSON.parse(localStorage.getItem('makarima_books_v5')) || initialBooks;
+    let students = JSON.parse(localStorage.getItem('makarima_students_v5')) || initialStudents;
+    let loans = JSON.parse(localStorage.getItem('makarima_loans_v5')) || initialLoans;
     let categoryChartInstance = null;
 
     document.addEventListener("DOMContentLoaded", () => {
@@ -861,16 +1086,16 @@
     });
 
     function saveData() {
-      localStorage.setItem('makarima_books_v4', JSON.stringify(books));
-      localStorage.setItem('makarima_students_v4', JSON.stringify(students));
-      localStorage.setItem('makarima_loans_v4', JSON.stringify(loans));
+      localStorage.setItem('makarima_books_v5', JSON.stringify(books));
+      localStorage.setItem('makarima_students_v5', JSON.stringify(students));
+      localStorage.setItem('makarima_loans_v5', JSON.stringify(loans));
     }
 
     function resetDataAwal() {
-      if (confirm("Reset ulang seluruh data ke versi awal sekolah?")) {
-        localStorage.removeItem('makarima_books_v4');
-        localStorage.removeItem('makarima_students_v4');
-        localStorage.removeItem('makarima_loans_v4');
+      if (confirm("Reset ulang seluruh data ke versi awal sekolah? Semua siswa dan buku akan dikembalikan.")) {
+        localStorage.removeItem('makarima_books_v5');
+        localStorage.removeItem('makarima_students_v5');
+        localStorage.removeItem('makarima_loans_v5');
 
         books = JSON.parse(JSON.stringify(initialBooks));
         students = JSON.parse(JSON.stringify(initialStudents));
@@ -894,7 +1119,7 @@
       a.setAttribute("href", dataStr);
       a.setAttribute("download", `Backup_Pustaka_Syamilah_${new Date().toISOString().split('T')[0]}.json`);
       document.body.appendChild(a); a.click(); a.remove();
-      showToast("Data cadangan JSON diunduh!");
+      showToast("Data cadangan JSON berhasil diunduh!");
     }
 
     function exportCSV(type) {
@@ -930,7 +1155,7 @@
       const titles = {
         'dashboard': ['Dashboard Perpustakaan', 'Sistem Rekap & Sirkulasi Pustaka Syamilah Makarima'],
         'katalog': ['Katalog Buku Inventaris', 'Pencarian & Manajemen Stok Buku'],
-        'murid': ['Daftar Murid Sekolah (283)', 'Rekap Keanggotaan Murid SD Islam Makarima'],
+        'murid': ['Daftar Murid Sekolah', 'Rekap Keanggotaan Murid SD Islam Makarima'],
         'sirkulasi': ['Sirkulasi Peminjaman', 'Pencatatan Keluar Masuk Buku']
       };
 
@@ -939,15 +1164,48 @@
         document.getElementById('headerSub').innerText = titles[tabId][1];
       }
 
+      if(window.innerWidth <= 768) {
+        document.getElementById('sidebar').classList.remove('open');
+        document.getElementById('sidebarOverlay').classList.remove('active');
+      }
+
       if(tabId === 'dashboard') renderDashboard();
     }
 
     function openModal(modalId) {
       if(modalId === 'modalPinjam') populatePinjamSelects();
+      if(modalId === 'modalInputMurid' || modalId === 'modalEditMurid') updateClassDatalists();
       document.getElementById(modalId).classList.add('active');
     }
 
     function closeModal(modalId) { document.getElementById(modalId).classList.remove('active'); }
+
+    function updateClassDatalists() {
+      const uniqueClasses = [...new Set(students.map(s => s.kelas))].sort();
+      const optionsHtml = uniqueClasses.map(c => `<option value="${c}">`).join('');
+      document.getElementById('classList').innerHTML = optionsHtml;
+      document.getElementById('classListMassal').innerHTML = optionsHtml;
+      document.getElementById('classListEdit').innerHTML = optionsHtml;
+    }
+
+    function toggleInputSiswaTab(tab) {
+      const formSatuan = document.getElementById('formTambahMuridSatuan');
+      const formMassal = document.getElementById('formTambahMuridMassal');
+      const btnSatuan = document.getElementById('btnTabSatuan');
+      const btnMassal = document.getElementById('btnTabMassal');
+
+      if(tab === 'satuan') {
+        formSatuan.style.display = 'block';
+        formMassal.style.display = 'none';
+        btnSatuan.classList.add('active');
+        btnMassal.classList.remove('active');
+      } else {
+        formSatuan.style.display = 'none';
+        formMassal.style.display = 'block';
+        btnSatuan.classList.remove('active');
+        btnMassal.classList.add('active');
+      }
+    }
 
     function initFilters() {
       const categories = [...new Set(books.map(b => b.kategori))];
@@ -988,7 +1246,7 @@
       const cat = document.getElementById('filterKategori').value;
 
       const filtered = books.filter(b => {
-        const matchQ = b.judul.toLowerCase().includes(q) || b.penerbit.toLowerCase().includes(q);
+        const matchQ = b.judul.toLowerCase().includes(q) || b.penerbit.toLowerCase().includes(q) || (b.kode && b.kode.toLowerCase().includes(q));
         const matchCat = cat === "" || b.kategori === cat;
         return matchQ && matchCat;
       });
@@ -998,13 +1256,13 @@
       filtered.forEach((b, idx) => {
         tbody.innerHTML += `
           <tr>
-            <td><code>${b.kode || 'KB/'+(idx+1)}</code></td>
+            <td><code style="background:#FAF4E5; padding:3px 6px; border-radius:4px; font-weight:700; color:var(--accent-warm);">${b.kode || 'KB/'+(idx+1)}</code></td>
             <td style="font-weight:600;">${b.judul}</td>
             <td><span class="badge badge-cat">${b.kategori}</span></td>
             <td>${b.penerbit}</td>
             <td>${b.tahun}</td>
             <td><strong>${b.tersedia}</strong> / ${b.stok}</td>
-            <td><span class="badge ${b.kondisi === 'Baik' ? 'badge-success' : 'badge-warning'}">${b.kondisi}</span></td>
+            <td><span class="badge ${b.kondisi === 'Baik' ? 'badge-success' : 'badge-warning'}">${b.kondisi || 'Baik'}</span></td>
             <td style="text-align: right;">
               <button class="btn-action" onclick="editStokBuku(${b.id})" title="Edit Stok"><i class="fa-solid fa-pen"></i></button>
               <button class="btn-action delete" onclick="hapusBuku(${b.id})" title="Hapus Buku"><i class="fa-solid fa-trash"></i></button>
@@ -1033,7 +1291,7 @@
             <td>${idx + 1}</td>
             <td style="font-weight:700;">${s.nama}</td>
             <td><span class="badge badge-class">${s.kelas}</span></td>
-            <td>${activeLoan ? '<span class="badge badge-warning">Meminjam</span>' : '<span class="badge badge-success">Bebas Pinjaman</span>'}</td>
+            <td>${activeLoan ? '<span class="badge badge-warning"><i class="fa-solid fa-book-reader"></i> Meminjam</span>' : '<span class="badge badge-success"><i class="fa-solid fa-check"></i> Bebas Pinjaman</span>'}</td>
             <td style="text-align: right;">
               <button class="btn-action" onclick="cetakKartuSiswa(${s.id})" title="Cetak Kartu"><i class="fa-solid fa-id-card"></i></button>
               <button class="btn-action" onclick="bukaModalEditMurid(${s.id})" title="Edit Siswa"><i class="fa-solid fa-user-pen"></i></button>
@@ -1058,7 +1316,7 @@
             <td>${l.tglKembali}</td>
             <td><span class="badge ${l.status === 'Dipinjam' ? 'badge-warning' : 'badge-success'}">${l.status}</span></td>
             <td style="text-align: right;">
-              ${l.status !== 'Dikembalikan' ? `<button class="quick-btn" style="padding:4px 10px; font-size:11px;" onclick="kembalikanBuku('${l.id}')">Kembalikan</button>` : 'Selesai'}
+              ${l.status !== 'Dikembalikan' ? `<button class="quick-btn" style="padding:4px 10px; font-size:11px;" onclick="kembalikanBuku('${l.id}')"><i class="fa-solid fa-rotate-left"></i> Kembalikan</button>` : 'Selesai'}
             </td>
           </tr>
         `;
@@ -1092,22 +1350,59 @@
       const st = students.find(s => s.id === id);
       if(st) {
         st.nama = namaBaru; st.kelas = kelasBaru;
+        loans.forEach(l => {
+          if(l.studentId === id) { l.studentName = namaBaru; l.kelas = kelasBaru; }
+        });
         saveData(); initFilters(); renderMurid(); renderDashboard();
         closeModal('modalEditMurid');
         showToast("Perubahan data siswa berhasil disimpan!");
       }
     }
 
-    function handleTambahMurid(e) {
+    function handleTambahMuridSatuan(e) {
       e.preventDefault();
+      const nama = document.getElementById('inNamaSiswa').value.trim();
+      const kelas = document.getElementById('inKelasSiswa').value.trim();
+
+      if(!nama || !kelas) return;
+
       students.unshift({
         id: Date.now(),
-        nama: document.getElementById('inNamaSiswa').value.trim(),
-        kelas: document.getElementById('inKelasSiswa').value.trim()
+        nama: nama,
+        kelas: kelas
       });
+
       saveData(); initFilters(); renderMurid(); renderDashboard();
       closeModal('modalInputMurid');
-      showToast("Siswa berhasil disimpan!");
+      document.getElementById('formTambahMuridSatuan').reset();
+      showToast("1 siswa baru berhasil ditambahkan!");
+    }
+
+    function handleTambahMuridMassal(e) {
+      e.preventDefault();
+      const kelas = document.getElementById('inKelasMassal').value.trim();
+      const rawText = document.getElementById('inDaftarNamaMassal').value;
+
+      if(!kelas || !rawText) return;
+
+      const lines = rawText.split('\n').map(l => l.trim()).filter(l => l.length > 0);
+      if(lines.length === 0) {
+        alert("Masukkan minimal 1 nama siswa!");
+        return;
+      }
+
+      lines.forEach((nama, i) => {
+        students.unshift({
+          id: Date.now() + i,
+          nama: nama,
+          kelas: kelas
+        });
+      });
+
+      saveData(); initFilters(); renderMurid(); renderDashboard();
+      closeModal('modalInputMurid');
+      document.getElementById('formTambahMuridMassal').reset();
+      showToast(`Berhasil menambahkan ${lines.length} siswa baru ke ${kelas}!`);
     }
 
     function handleTambahBuku(e) {
@@ -1125,7 +1420,8 @@
       });
       saveData(); initFilters(); renderKatalog(); renderDashboard();
       closeModal('modalInputBuku');
-      showToast("Buku baru disimpan!");
+      document.getElementById('formTambahBuku').reset();
+      showToast("Buku baru berhasil disimpan!");
     }
 
     function populatePinjamSelects() {
@@ -1148,7 +1444,7 @@
       const st = students.find(s => s.id === studentId);
       const bk = books.find(b => b.id === bookId);
 
-      if(!st || !bk) return;
+      if(!st || !bk || bk.tersedia <= 0) return;
       bk.tersedia -= 1;
 
       const d = new Date(tglPinjam);
@@ -1163,7 +1459,7 @@
 
       saveData(); renderDashboard(); renderKatalog(); renderMurid(); renderSirkulasi();
       closeModal('modalPinjam');
-      showToast("Peminjaman dicatat!");
+      showToast(`Peminjaman "${bk.judul}" dicatat!`);
     }
 
     function editStokBuku(id) {
@@ -1186,13 +1482,14 @@
       const bk = books.find(b => b.id === loan.bookId);
       if(bk) bk.tersedia += 1;
       saveData(); renderDashboard(); renderKatalog(); renderMurid(); renderSirkulasi();
-      showToast("Buku dikembalikan!");
+      showToast("Buku telah dikembalikan!");
     }
 
     function hapusBuku(id) {
       if(confirm("Hapus buku ini?")) {
         books = books.filter(b => b.id !== id);
         saveData(); renderKatalog(); renderDashboard();
+        showToast("Buku berhasil dihapus.");
       }
     }
 
@@ -1200,6 +1497,7 @@
       if(confirm("Hapus data siswa ini?")) {
         students = students.filter(s => s.id !== id);
         saveData(); renderMurid(); renderDashboard();
+        showToast("Data siswa berhasil dihapus.");
       }
     }
   </script>
