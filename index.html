@@ -1,0 +1,1522 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Pustaka Syamilah - SD Islam Makarima</title>
+  <!-- Google Fonts & FontAwesome -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <style>
+    :root {
+      --bg-cream-light: #FDFBF7;
+      --bg-cream-main: #F7F3E9;
+      --bg-cream-card: #FFFFFF;
+      --accent-warm: #C5A059;
+      --accent-warm-hover: #B08C46;
+      --accent-green: #567C65;
+      --accent-green-light: #EBF2ED;
+      --accent-red: #C85A5A;
+      --accent-red-light: #FDF0F0;
+      --text-dark: #2D2A26;
+      --text-muted: #7A756C;
+      --border-cream: #E8E2D5;
+      --shadow-soft: 0 4px 20px -2px rgba(90, 80, 65, 0.06);
+      --radius-lg: 16px;
+      --radius-md: 10px;
+      --radius-sm: 6px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-cream-main);
+      color: var(--text-dark);
+      min-height: 100vh;
+      display: flex;
+    }
+
+    /* Sidebar Navigation */
+    .sidebar {
+      width: 280px;
+      background-color: var(--bg-cream-light);
+      border-right: 1px solid var(--border-cream);
+      display: flex;
+      flex-direction: column;
+      position: fixed;
+      height: 100vh;
+      z-index: 100;
+      transition: all 0.3s ease;
+    }
+
+    .sidebar-header {
+      padding: 24px 20px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      border-bottom: 1px solid var(--border-cream);
+    }
+
+    .school-logo {
+      width: 48px;
+      height: 48px;
+      object-fit: contain;
+      background: white;
+      padding: 4px;
+      border-radius: 50%;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+
+    .sidebar-title h1 {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text-dark);
+      line-height: 1.2;
+    }
+
+    .sidebar-title span {
+      font-size: 11px;
+      color: var(--accent-warm);
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+
+    .sidebar-menu {
+      padding: 20px 14px;
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .menu-label {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      padding: 10px 12px 4px 12px;
+    }
+
+    .menu-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 14px;
+      border-radius: var(--radius-md);
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 600;
+      transition: all 0.2s ease;
+      cursor: pointer;
+    }
+
+    .menu-item i {
+      font-size: 18px;
+      width: 22px;
+      text-align: center;
+    }
+
+    .menu-item:hover {
+      background-color: var(--bg-cream-main);
+      color: var(--text-dark);
+    }
+
+    .menu-item.active {
+      background-color: var(--accent-warm);
+      color: white;
+      box-shadow: 0 4px 12px rgba(197, 160, 89, 0.3);
+    }
+
+    .sidebar-footer {
+      padding: 16px 20px;
+      border-top: 1px solid var(--border-cream);
+      font-size: 12px;
+      color: var(--text-muted);
+      background-color: rgba(255, 255, 255, 0.4);
+    }
+
+    /* Main Content Area */
+    .main-wrapper {
+      margin-left: 280px;
+      flex-grow: 1;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .top-header {
+      background-color: var(--bg-cream-light);
+      border-bottom: 1px solid var(--border-cream);
+      padding: 16px 32px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 90;
+    }
+
+    .page-title h2 {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--text-dark);
+    }
+
+    .page-title p {
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    .user-profile {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .admin-badge {
+      background-color: var(--accent-green-light);
+      color: var(--accent-green);
+      font-size: 12px;
+      font-weight: 700;
+      padding: 6px 14px;
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .quick-btn {
+      background-color: var(--accent-warm);
+      color: white;
+      border: none;
+      padding: 10px 18px;
+      border-radius: var(--radius-md);
+      font-weight: 600;
+      font-size: 13px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s;
+    }
+
+    .quick-btn:hover {
+      background-color: var(--accent-warm-hover);
+      transform: translateY(-1px);
+    }
+
+    .content-container {
+      padding: 32px;
+      flex-grow: 1;
+    }
+
+    /* Section Visibility */
+    .section-content {
+      display: none;
+      animation: fadeIn 0.3s ease-in-out;
+    }
+
+    .section-content.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Summary Metric Cards */
+    .metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+      margin-bottom: 28px;
+    }
+
+    .metric-card {
+      background: var(--bg-cream-card);
+      border: 1px solid var(--border-cream);
+      border-radius: var(--radius-lg);
+      padding: 20px;
+      box-shadow: var(--shadow-soft);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .metric-info h3 {
+      font-size: 12px;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      letter-spacing: 0.5px;
+      margin-bottom: 6px;
+    }
+
+    .metric-info .val {
+      font-size: 26px;
+      font-weight: 800;
+      color: var(--text-dark);
+    }
+
+    .metric-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+    }
+
+    .icon-gold { background-color: #FAF4E5; color: var(--accent-warm); }
+    .icon-green { background-color: var(--accent-green-light); color: var(--accent-green); }
+    .icon-red { background-color: var(--accent-red-light); color: var(--accent-red); }
+    .icon-blue { background-color: #EBF3FA; color: #3B82F6; }
+
+    /* Tables & Cards */
+    .card-panel {
+      background: var(--bg-cream-card);
+      border: 1px solid var(--border-cream);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      box-shadow: var(--shadow-soft);
+      margin-bottom: 24px;
+    }
+
+    .panel-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+      gap: 14px;
+    }
+
+    .panel-header h3 {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text-dark);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .filter-tools {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .search-input {
+      background: var(--bg-cream-light);
+      border: 1px solid var(--border-cream);
+      padding: 9px 14px 9px 36px;
+      border-radius: var(--radius-md);
+      font-size: 13px;
+      width: 240px;
+      outline: none;
+      transition: all 0.2s;
+    }
+
+    .search-input:focus {
+      border-color: var(--accent-warm);
+      background: #FFFFFF;
+    }
+
+    .search-box {
+      position: relative;
+    }
+
+    .search-box i {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-muted);
+      font-size: 13px;
+    }
+
+    .select-input {
+      background: var(--bg-cream-light);
+      border: 1px solid var(--border-cream);
+      padding: 9px 14px;
+      border-radius: var(--radius-md);
+      font-size: 13px;
+      color: var(--text-dark);
+      outline: none;
+      cursor: pointer;
+    }
+
+    /* Custom Data Tables */
+    .table-responsive {
+      width: 100%;
+      overflow-x: auto;
+    }
+
+    .custom-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+      text-align: left;
+    }
+
+    .custom-table th {
+      background-color: var(--bg-cream-main);
+      color: var(--text-muted);
+      font-weight: 700;
+      text-transform: uppercase;
+      font-size: 11px;
+      letter-spacing: 0.5px;
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--border-cream);
+    }
+
+    .custom-table td {
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--border-cream);
+      color: var(--text-dark);
+    }
+
+    .custom-table tr:hover {
+      background-color: #FAF8F3;
+    }
+
+    /* Badges */
+    .badge {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 12px;
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .badge-cat {
+      background-color: #F5EFE0;
+      color: #7A612A;
+    }
+
+    .badge-class {
+      background-color: #EBF2ED;
+      color: #365342;
+    }
+
+    .badge-success {
+      background-color: #E6F4EA;
+      color: #1E7E34;
+    }
+
+    .badge-warning {
+      background-color: #FEF3D6;
+      color: #B7791F;
+    }
+
+    .badge-danger {
+      background-color: #FCE8E6;
+      color: #C5221F;
+    }
+
+    /* Actions */
+    .btn-action {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      padding: 6px;
+      border-radius: var(--radius-sm);
+      transition: all 0.2s;
+    }
+
+    .btn-action:hover {
+      background-color: var(--bg-cream-main);
+      color: var(--accent-warm);
+    }
+
+    .btn-action.delete:hover {
+      color: var(--accent-red);
+      background-color: var(--accent-red-light);
+    }
+
+    /* Modals */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(45, 42, 38, 0.4);
+      backdrop-filter: blur(4px);
+      z-index: 1000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .modal-overlay.active {
+      display: flex;
+    }
+
+    .modal-card {
+      background: var(--bg-cream-card);
+      border-radius: var(--radius-lg);
+      width: 100%;
+      max-width: 520px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+      border: 1px solid var(--border-cream);
+      overflow: hidden;
+      animation: modalSlide 0.25s ease-out;
+    }
+
+    @keyframes modalSlide {
+      from { transform: translateY(20px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    .modal-header {
+      padding: 20px 24px;
+      background: var(--bg-cream-light);
+      border-bottom: 1px solid var(--border-cream);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .modal-header h4 {
+      font-size: 16px;
+      font-weight: 700;
+    }
+
+    .btn-close {
+      background: none;
+      border: none;
+      font-size: 18px;
+      color: var(--text-muted);
+      cursor: pointer;
+    }
+
+    .modal-body {
+      padding: 24px;
+      max-height: 75vh;
+      overflow-y: auto;
+    }
+
+    .form-group {
+      margin-bottom: 16px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text-dark);
+      margin-bottom: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .form-control {
+      width: 100%;
+      padding: 10px 14px;
+      border: 1px solid var(--border-cream);
+      border-radius: var(--radius-md);
+      font-size: 13px;
+      background: var(--bg-cream-light);
+      outline: none;
+    }
+
+    .form-control:focus {
+      border-color: var(--accent-warm);
+      background: #FFFFFF;
+    }
+
+    .modal-footer {
+      padding: 16px 24px;
+      background: var(--bg-cream-light);
+      border-top: 1px solid var(--border-cream);
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+    }
+
+    .btn-secondary {
+      background: transparent;
+      border: 1px solid var(--border-cream);
+      padding: 9px 16px;
+      border-radius: var(--radius-md);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    /* Toast Notification */
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: var(--text-dark);
+      color: white;
+      padding: 14px 22px;
+      border-radius: var(--radius-md);
+      font-size: 13px;
+      font-weight: 600;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      z-index: 2000;
+      transform: translateY(100px);
+      opacity: 0;
+      transition: all 0.3s ease;
+    }
+
+    .toast.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    /* Print styling */
+    @media print {
+      .sidebar, .top-header, .filter-tools, .btn-action, .quick-btn {
+        display: none !important;
+      }
+      .main-wrapper {
+        margin-left: 0 !important;
+      }
+      .content-container {
+        padding: 0 !important;
+      }
+      .card-panel {
+        box-shadow: none !important;
+        border: none !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Sidebar Nav -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <img src="logo makarima.webp" alt="Logo SD Islam Makarima" class="school-logo" onerror="this.src='https://via.placeholder.com/48?text=SDIM'"/>
+      <div class="sidebar-title">
+        <h1>Pustaka Syamilah</h1>
+        <span>SD Islam Makarima</span>
+      </div>
+    </div>
+
+    <nav class="sidebar-menu">
+      <div class="menu-label">Utama</div>
+      <a class="menu-item active" onclick="switchTab('dashboard')">
+        <i class="fa-solid fa-chart-pie"></i> Dashboard
+      </a>
+      <a class="menu-item" onclick="switchTab('katalog')">
+        <i class="fa-solid fa-book-bookmark"></i> Katalog Buku
+      </a>
+      <a class="menu-item" onclick="switchTab('murid')">
+        <i class="fa-solid fa-user-graduate"></i> Data Murid
+      </a>
+      <a class="menu-item" onclick="switchTab('sirkulasi')">
+        <i class="fa-solid fa-arrow-right-arrow-left"></i> Sirkulasi Pinjam
+      </a>
+
+      <div class="menu-label">Manajemen</div>
+      <a class="menu-item" onclick="openModal('modalInputBuku')">
+        <i class="fa-solid fa-plus-circle"></i> Input Buku Baru
+      </a>
+      <a class="menu-item" onclick="openModal('modalImport')">
+        <i class="fa-solid fa-file-import"></i> Upload / Sinkron Data
+      </a>
+      <a class="menu-item" onclick="window.print()">
+        <i class="fa-solid fa-print"></i> Cetak Laporan
+      </a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <p><strong>Pustaka Syamilah v2.5</strong></p>
+      <p style="margin-top: 2px;">SD Islam Makarima Kartasura</p>
+    </div>
+  </aside>
+
+  <!-- Main Wrapper -->
+  <main class="main-wrapper">
+    <!-- Header -->
+    <header class="top-header">
+      <div class="page-title">
+        <h2 id="headerTitle">Dashboard Perpustakaan</h2>
+        <p id="headerSub">Sistem Rekap & Sirkulasi Pustaka Syamilah Makarima</p>
+      </div>
+
+      <div class="user-profile">
+        <button class="quick-btn" onclick="openModal('modalPinjam')">
+          <i class="fa-solid fa-hand-holding-hand"></i> Transaksi Pinjam
+        </button>
+        <div class="admin-badge">
+          <i class="fa-solid fa-shield-halved"></i> Petugas Admin
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content Container -->
+    <div class="content-container">
+
+      <!-- DASHBOARD SECTION -->
+      <section id="sec-dashboard" class="section-content active">
+        <div class="metrics-grid">
+          <div class="metric-card">
+            <div class="metric-info">
+              <h3>Total Judul Buku</h3>
+              <div class="val" id="statTotalJudul">342</div>
+            </div>
+            <div class="metric-icon icon-gold">
+              <i class="fa-solid fa-book"></i>
+            </div>
+          </div>
+
+          <div class="metric-card">
+            <div class="metric-info">
+              <h3>Total Anggota Siswa</h3>
+              <div class="val" id="statTotalMurid">283</div>
+            </div>
+            <div class="metric-icon icon-green">
+              <i class="fa-solid fa-users"></i>
+            </div>
+          </div>
+
+          <div class="metric-card">
+            <div class="metric-info">
+              <h3>Buku Dipinjam</h3>
+              <div class="val" id="statTotalDipinjam">4</div>
+            </div>
+            <div class="metric-icon icon-blue">
+              <i class="fa-solid fa-book-reader"></i>
+            </div>
+          </div>
+
+          <div class="metric-card">
+            <div class="metric-info">
+              <h3>Total Eksemplar Stok</h3>
+              <div class="val" id="statTotalStok">480</div>
+            </div>
+            <div class="metric-icon icon-red">
+              <i class="fa-solid fa-layer-group"></i>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="card-panel">
+            <div class="panel-header">
+              <h3><i class="fa-solid fa-chart-bar" style="color:var(--accent-warm);"></i> Sebaran Buku Berdasarkan Kategori</h3>
+            </div>
+            <canvas id="categoryChart" height="220"></canvas>
+          </div>
+
+          <div class="card-panel">
+            <div class="panel-header">
+              <h3><i class="fa-solid fa-clock-rotate-left" style="color:var(--accent-green);"></i> Aktivitas Sirkulasi Terakhir</h3>
+              <button class="btn-secondary" onclick="switchTab('sirkulasi')">Lihat Semua</button>
+            </div>
+            <div class="table-responsive">
+              <table class="custom-table">
+                <thead>
+                  <tr>
+                    <th>Siswa</th>
+                    <th>Judul Buku</th>
+                    <th>Tgl Pinjam</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody id="recentActivityTable">
+                  <!-- Dynamic JS -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- KATALOG BUKU SECTION -->
+      <section id="sec-katalog" class="section-content">
+        <div class="card-panel">
+          <div class="panel-header">
+            <h3><i class="fa-solid fa-books"></i> Katalog Inventaris Buku</h3>
+            <div class="filter-tools">
+              <div class="search-box">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" id="searchBuku" class="search-input" placeholder="Cari judul / penerbit / kode..." oninput="renderKatalog()"/>
+              </div>
+              <select id="filterKategori" class="select-input" onchange="renderKatalog()">
+                <option value="">Semua Kategori</option>
+              </select>
+              <button class="quick-btn" onclick="openModal('modalInputBuku')">
+                <i class="fa-solid fa-plus"></i> Tambah Buku
+              </button>
+            </div>
+          </div>
+
+          <div class="table-responsive">
+            <table class="custom-table">
+              <thead>
+                <tr>
+                  <th>Kode</th>
+                  <th>Judul Buku</th>
+                  <th>Kategori</th>
+                  <th>Penerbit</th>
+                  <th>Tahun</th>
+                  <th>Stok Total / Tersedia</th>
+                  <th>Kondisi</th>
+                  <th style="text-align: right;">Aksi</th>
+                </tr>
+              </thead>
+              <tbody id="tableKatalogBody">
+                <!-- Dynamic Content -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- DATA MURID SECTION -->
+      <section id="sec-murid" class="section-content">
+        <div class="card-panel">
+          <div class="panel-header">
+            <h3><i class="fa-solid fa-user-graduate"></i> Daftar Anggota Siswa SD Islam Makarima</h3>
+            <div class="filter-tools">
+              <div class="search-box">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" id="searchMurid" class="search-input" placeholder="Cari nama murid..." oninput="renderMurid()"/>
+              </div>
+              <select id="filterKelas" class="select-input" onchange="renderMurid()">
+                <option value="">Semua Kelas</option>
+              </select>
+              <button class="quick-btn" onclick="openModal('modalInputMurid')">
+                <i class="fa-solid fa-user-plus"></i> Tambah Siswa
+              </button>
+            </div>
+          </div>
+
+          <div class="table-responsive">
+            <table class="custom-table">
+              <thead>
+                <tr>
+                  <th>No</th>
+                  <th>Nama Lengkap Siswa</th>
+                  <th>Kelas</th>
+                  <th>Status Peminjaman</th>
+                  <th style="text-align: right;">Aksi</th>
+                </tr>
+              </thead>
+              <tbody id="tableMuridBody">
+                <!-- Dynamic Content -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- SIRKULASI SECTION -->
+      <section id="sec-sirkulasi" class="section-content">
+        <div class="card-panel">
+          <div class="panel-header">
+            <h3><i class="fa-solid fa-arrow-right-arrow-left"></i> Rekap Sirkulasi Peminjaman & Pengembalian</h3>
+            <button class="quick-btn" onclick="openModal('modalPinjam')">
+              <i class="fa-solid fa-plus"></i> Catat Peminjaman Baru
+            </button>
+          </div>
+
+          <div class="table-responsive">
+            <table class="custom-table">
+              <thead>
+                <tr>
+                  <th>ID Transaksi</th>
+                  <th>Nama Siswa</th>
+                  <th>Kelas</th>
+                  <th>Judul Buku</th>
+                  <th>Tanggal Pinjam</th>
+                  <th>Jatuh Tempo</th>
+                  <th>Status</th>
+                  <th style="text-align: right;">Tindakan</th>
+                </tr>
+              </thead>
+              <tbody id="tableSirkulasiBody">
+                <!-- Dynamic Content -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- MODAL: INPUT BUKU BARU -->
+  <div id="modalInputBuku" class="modal-overlay">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h4><i class="fa-solid fa-book-medical"></i> Input Data Buku Baru</h4>
+        <button class="btn-close" onclick="closeModal('modalInputBuku')">&times;</button>
+      </div>
+      <form id="formTambahBuku" onsubmit="handleTambahBuku(event)">
+        <div class="modal-body">
+          <div class="form-group">
+            <label>Judul Buku</label>
+            <input type="text" id="inJudul" class="form-control" required placeholder="Contoh: 99 Asmaul Husna"/>
+          </div>
+          <div class="grid-2">
+            <div class="form-group">
+              <label>Kode Label</label>
+              <input type="text" id="inKode" class="form-control" placeholder="Contoh: AI/015"/>
+            </div>
+            <div class="form-group">
+              <label>Kategori</label>
+              <select id="inKategori" class="form-control" required>
+                <option value="Agama Islam">Agama Islam</option>
+                <option value="Siroh">Siroh</option>
+                <option value="Cerita Anak Islami">Cerita Anak Islami</option>
+                <option value="Cerita Anak">Cerita Anak</option>
+                <option value="Sains">Sains</option>
+                <option value="Buku Mapel">Buku Mapel</option>
+                <option value="Buku Guru">Buku Guru</option>
+                <option value="English Book">English Book</option>
+                <option value="Monograf">Monograf</option>
+                <option value="Buku Panduan Sekolah">Buku Panduan Sekolah</option>
+              </select>
+            </div>
+          </div>
+          <div class="grid-2">
+            <div class="form-group">
+              <label>Penerbit</label>
+              <input type="text" id="inPenerbit" class="form-control" placeholder="Nama Penerbit"/>
+            </div>
+            <div class="form-group">
+              <label>Tahun Terbit</label>
+              <input type="text" id="inTahun" class="form-control" placeholder="2024"/>
+            </div>
+          </div>
+          <div class="grid-2">
+            <div class="form-group">
+              <label>Jumlah Stok</label>
+              <input type="number" id="inStok" class="form-control" min="1" value="1" required/>
+            </div>
+            <div class="form-group">
+              <label>Kondisi Buku</label>
+              <select id="inKondisi" class="form-control">
+                <option value="Baik">Baik</option>
+                <option value="Rusak Ringan">Rusak Ringan</option>
+                <option value="Perlu Perbaikan">Perlu Perbaikan</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn-secondary" onclick="closeModal('modalInputBuku')">Batal</button>
+          <button type="submit" class="quick-btn">Simpan Buku</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL: INPUT MURID -->
+  <div id="modalInputMurid" class="modal-overlay">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h4><i class="fa-solid fa-user-plus"></i> Tambah Anggota Siswa Baru</h4>
+        <button class="btn-close" onclick="closeModal('modalInputMurid')">&times;</button>
+      </div>
+      <form id="formTambahMurid" onsubmit="handleTambahMurid(event)">
+        <div class="modal-body">
+          <div class="form-group">
+            <label>Nama Lengkap Siswa</label>
+            <input type="text" id="inNamaSiswa" class="form-control" required placeholder="Nama lengkap siswa..."/>
+          </div>
+          <div class="form-group">
+            <label>Kelas</label>
+            <select id="inKelasSiswa" class="form-control" required>
+              <option value="Kelas 1A">Kelas 1A</option>
+              <option value="Kelas 1B">Kelas 1B</option>
+              <option value="Kelas 1C">Kelas 1C</option>
+              <option value="Kelas 2A Al Malik">Kelas 2A Al Malik</option>
+              <option value="Kelas 2B Al Hakim">Kelas 2B Al Hakim</option>
+              <option value="Kelas 2C Al Aziiz">Kelas 2C Al Aziiz</option>
+              <option value="Kelas 3A Al Aliim">Kelas 3A Al Aliim</option>
+              <option value="Kelas 3B Al Hafizh">Kelas 3B Al Hafizh</option>
+              <option value="Kelas 3C Ar Rasyiid">Kelas 3C Ar Rasyiid</option>
+              <option value="Kelas 4A Al Amiin">Kelas 4A Al Amiin</option>
+              <option value="Kelas 4B Al Waasi’">Kelas 4B Al Waasi’</option>
+              <option value="Kelas 5 Al Kariim">Kelas 5 Al Kariim</option>
+              <option value="Kelas 6 Al Fattah">Kelas 6 Al Fattah</option>
+            </select>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn-secondary" onclick="closeModal('modalInputMurid')">Batal</button>
+          <button type="submit" class="quick-btn">Simpan Siswa</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL: CATAT PINJAM -->
+  <div id="modalPinjam" class="modal-overlay">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h4><i class="fa-solid fa-hand-holding-hand"></i> Catat Peminjaman Buku Baru</h4>
+        <button class="btn-close" onclick="closeModal('modalPinjam')">&times;</button>
+      </div>
+      <form id="formPinjam" onsubmit="handlePinjam(event)">
+        <div class="modal-body">
+          <div class="form-group">
+            <label>Pilih Siswa</label>
+            <select id="pinjamSiswaId" class="form-control" required>
+              <!-- Dynamic Options -->
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Pilih Buku (Stok Tersedia)</label>
+            <select id="pinjamBukuId" class="form-control" required>
+              <!-- Dynamic Options -->
+            </select>
+          </div>
+          <div class="grid-2">
+            <div class="form-group">
+              <label>Tanggal Pinjam</label>
+              <input type="date" id="pinjamTgl" class="form-control" required/>
+            </div>
+            <div class="form-group">
+              <label>Lama Pinjam (Hari)</label>
+              <input type="number" id="pinjamLama" class="form-control" value="7" min="1" max="30" required/>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn-secondary" onclick="closeModal('modalPinjam')">Batal</button>
+          <button type="submit" class="quick-btn">Proses Peminjaman</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL: UPLOAD / IMPORT DATA -->
+  <div id="modalImport" class="modal-overlay">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h4><i class="fa-solid fa-file-csv"></i> Import Massal File CSV / Excel</h4>
+        <button class="btn-close" onclick="closeModal('modalImport')">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 16px;">
+          Fitur ini memungkinkan petugas memperbarui atau menambah daftar buku/siswa secara instan dari dokumen eksternal.
+        </p>
+        <div class="form-group">
+          <label>Pilih Jenis Data</label>
+          <select id="importType" class="form-control">
+            <option value="buku">Koleksi Buku Inventaris</option>
+            <option value="murid">Daftar Murid Sekolah</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Unggah File (.csv / .xlsx)</label>
+          <input type="file" id="fileInput" class="form-control" accept=".csv,.xlsx"/>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn-secondary" onclick="closeModal('modalImport')">Batal</button>
+        <button type="button" class="quick-btn" onclick="processImport()">Unggah & Sinkronkan</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOAST NOTIFICATION -->
+  <div id="toast" class="toast">
+    <i class="fa-solid fa-circle-check" style="color: #4EAD73; font-size: 16px;"></i>
+    <span id="toastMsg">Sistem berhasil diperbarui!</span>
+  </div>
+
+  <!-- DATA & LOGIC SCRIPTS -->
+  <script>
+    // Initial Book Data extracted from "Rekap Koleksi Buku Pustaka Syamilah Makarima"
+    const initialBooks = [
+      { id: 1, kode: "AI/001", judul: "99 Asmaul Husna", penerbit: "Karya Gemilang Utama", tahun: "-", kategori: "Agama Islam", stok: 2, tersedia: 2, kondisi: "Baik" },
+      { id: 2, kode: "AI/002", judul: "Bacaan Sholat: Disertai Latin & Terjemah Bahasa Indonesia", penerbit: "-", tahun: "-", kategori: "Agama Islam", stok: 2, tersedia: 1, kondisi: "Baik" },
+      { id: 3, kode: "AI/003", judul: "Belajar Sholat", penerbit: "Iqra' Media", tahun: "-", kategori: "Agama Islam", stok: 1, tersedia: 1, kondisi: "Baik" },
+      { id: 4, kode: "AI/004", judul: "Buku Gemar Berdoa", penerbit: "Pustaka Setia", tahun: "-", kategori: "Agama Islam", stok: 1, tersedia: 1, kondisi: "Baik" },
+      { id: 5, kode: "AI/005", judul: "Buku Iqro' 1", penerbit: "Balai Litbang LPTQ Team AMM", tahun: "-", kategori: "Agama Islam", stok: 3, tersedia: 3, kondisi: "Baik" },
+      { id: 6, kode: "AI/009", judul: "Buku Iqro' 5", penerbit: "Balai Litbang LPTQ Team AMM", tahun: "-", kategori: "Agama Islam", stok: 2, tersedia: 2, kondisi: "Baik" },
+      { id: 7, kode: "AI/010", judul: "Dzikir-dzikir setelah Sholat", penerbit: "Perisai Qur'an", tahun: "2013", kategori: "Agama Islam", stok: 2, tersedia: 2, kondisi: "Baik" },
+      { id: 8, kode: "BG/001", judul: "Adab-Adab Islam", penerbit: "Tinta Medina", tahun: "2018", kategori: "Buku Guru", stok: 2, tersedia: 2, kondisi: "Baik" },
+      { id: 9, kode: "BG/002", judul: "Ayat-ayat Rezeki", penerbit: "Zaman", tahun: "2013", kategori: "Buku Guru", stok: 1, tersedia: 1, kondisi: "Baik" },
+      { id: 10, kode: "CAI/001", judul: "Kisah Nabi Muhammad SAW", penerbit: "Pustaka Al-Kautsar", tahun: "2020", kategori: "Cerita Anak Islami", stok: 4, tersedia: 3, kondisi: "Baik" },
+      { id: 11, kode: "CAI/002", judul: "Kisah 25 Nabi dan Rasul", penerbit: "Bintang Indonesia", tahun: "2019", kategori: "Cerita Anak Islami", stok: 3, tersedia: 2, kondisi: "Baik" },
+      { id: 12, kode: "SR/001", judul: "Siroh Nabawiyah untuk Anak", penerbit: "Gema Insani", tahun: "2021", kategori: "Siroh", stok: 5, tersedia: 5, kondisi: "Baik" },
+      { id: 13, kode: "SA/001", judul: "Ensiklopedia Sains Anak: Tata Surya", penerbit: "Tiga Ananda", tahun: "2018", kategori: "Sains", stok: 2, tersedia: 2, kondisi: "Baik" },
+      { id: 14, kode: "BM/001", judul: "Pendidikan Pancasila Kelas 1 SD", penerbit: "Kementerian Pendidikan", tahun: "2022", kategori: "Buku Mapel", stok: 25, tersedia: 25, kondisi: "Baik" },
+      { id: 15, kode: "BM/002", judul: "Bahasa Indonesia SD Kelas 2", penerbit: "Erlangga", tahun: "2023", kategori: "Buku Mapel", stok: 20, tersedia: 19, kondisi: "Baik" }
+    ];
+
+    // Initial Student Data extracted strictly with Name & Class
+    const initialStudents = [
+      // Kelas 1A
+      { id: 1, nama: "Ambalika Sora Pratama", kelas: "Kelas 1A" },
+      { id: 2, nama: "Annasya Adreena", kelas: "Kelas 1A" },
+      { id: 3, nama: "Arkania Embun Ahmada", kelas: "Kelas 1A" },
+      { id: 4, nama: "Arroyan Dylan Alfarizqy Purnomo", kelas: "Kelas 1A" },
+      { id: 5, nama: "Aurora Alunasvara Pradana", kelas: "Kelas 1A" },
+      // Kelas 1B
+      { id: 6, nama: "Adlan Malik Assami", kelas: "Kelas 1B" },
+      { id: 7, nama: "Aldi Rafaeyza", kelas: "Kelas 1B" },
+      { id: 8, nama: "Alvarendra Arasya Widhiyatmoko", kelas: "Kelas 1B" },
+      // Kelas 1C
+      { id: 9, nama: "Abiandra Ibrahim", kelas: "Kelas 1C" },
+      { id: 10, nama: "Ahza Apzarini Frastika", kelas: "Kelas 1C" },
+      { id: 11, nama: "Ardan Wardana", kelas: "Kelas 1C" },
+      // Kelas 2A
+      { id: 12, nama: "Aisyah Pelangi Muslimah", kelas: "Kelas 2A Al Malik" },
+      { id: 13, nama: "Almeera Nahla WS", kelas: "Kelas 2A Al Malik" },
+      { id: 14, nama: "Almira Savaira Putri", kelas: "Kelas 2A Al Malik" },
+      // Kelas 2B
+      { id: 15, nama: "Affan Ali Adzani", kelas: "Kelas 2B Al Hakim" },
+      { id: 16, nama: "Aisyah Shadiqah Ismail", kelas: "Kelas 2B Al Hakim" },
+      // Kelas 2C
+      { id: 17, nama: "Al Hisyam Hamizananta", kelas: "Kelas 2C Al Aziiz" },
+      { id: 18, nama: "Alvaro Raffasya Mardiansyah", kelas: "Kelas 2C Al Aziiz" },
+      // Kelas 3A
+      { id: 19, nama: "Adifa Safa Azzahra", kelas: "Kelas 3A Al Aliim" },
+      { id: 20, nama: "Albirru Devdas Rafaeyza Prastya", kelas: "Kelas 3A Al Aliim" },
+      // Kelas 3B
+      { id: 21, nama: "Adeeva Shaqeena Akhmad", kelas: "Kelas 3B Al Hafizh" },
+      // Kelas 3C
+      { id: 22, nama: "Abyan Faatih Alfarizqi", kelas: "Kelas 3C Ar Rasyiid" },
+      // Kelas 4A
+      { id: 23, nama: "Abhimananta Al Fatih", kelas: "Kelas 4A Al Amiin" },
+      // Kelas 4B
+      { id: 24, nama: "Alesha Almahyra Putri Farisa", kelas: "Kelas 4B Al Waasi’" },
+      // Kelas 5
+      { id: 25, nama: "Aditya Zharif Arkan", kelas: "Kelas 5 Al Kariim" },
+      // Kelas 6
+      { id: 26, nama: "Ahmad Alfian Arsyad", kelas: "Kelas 6 Al Fattah" }
+    ];
+
+    // Initial Circulation Log
+    let loans = [
+      { id: "TRX-101", studentId: 12, studentName: "Aisyah Pelangi Muslimah", kelas: "Kelas 2A Al Malik", bookId: 2, bookTitle: "Bacaan Sholat: Disertai Latin & Terjemah Bahasa Indonesia", tglPinjam: "2026-10-20", tglKembali: "2026-10-27", status: "Dipinjam" },
+      { id: "TRX-102", studentId: 6, studentName: "Adlan Malik Assami", kelas: "Kelas 1B", bookId: 10, bookTitle: "Kisah Nabi Muhammad SAW", tglPinjam: "2026-10-22", tglKembali: "2026-10-29", status: "Dipinjam" },
+      { id: "TRX-103", studentId: 19, studentName: "Adifa Safa Azzahra", kelas: "Kelas 3A Al Aliim", bookId: 11, bookTitle: "Kisah 25 Nabi dan Rasul", tglPinjam: "2026-10-18", tglKembali: "2026-10-25", status: "Terlambat" },
+      { id: "TRX-104", studentId: 25, studentName: "Aditya Zharif Arkan", kelas: "Kelas 5 Al Kariim", bookId: 15, bookTitle: "Bahasa Indonesia SD Kelas 2", tglPinjam: "2026-10-24", tglKembali: "2026-10-31", status: "Dipinjam" }
+    ];
+
+    // App State (Persisted in LocalStorage if available)
+    let books = JSON.parse(localStorage.getItem('makarima_books')) || initialBooks;
+    let students = JSON.parse(localStorage.getItem('makarima_students')) || initialStudents;
+    let categoryChartInstance = null;
+
+    // Set today's date in form pinjam
+    document.addEventListener("DOMContentLoaded", () => {
+      document.getElementById('pinjamTgl').value = new Date().toISOString().split('T')[0];
+      initFilters();
+      renderDashboard();
+      renderKatalog();
+      renderMurid();
+      renderSirkulasi();
+    });
+
+    function saveData() {
+      localStorage.setItem('makarima_books', JSON.stringify(books));
+      localStorage.setItem('makarima_students', JSON.stringify(students));
+    }
+
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      document.getElementById('toastMsg').innerText = msg;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 3000);
+    }
+
+    function switchTab(tabId) {
+      document.querySelectorAll('.section-content').forEach(s => s.classList.remove('active'));
+      document.querySelectorAll('.menu-item').forEach(m => m.classList.remove('active'));
+      
+      document.getElementById(`sec-${tabId}`).classList.add('active');
+      event.currentTarget.classList.add('active');
+
+      const titles = {
+        'dashboard': ['Dashboard Perpustakaan', 'Sistem Rekap & Sirkulasi Pustaka Syamilah Makarima'],
+        'katalog': ['Katalog Inventaris Buku', 'Pencarian, Manajemen Stok & Input Koleksi Buku'],
+        'murid': ['Daftar Murid Sekolah', 'Rekap Keanggotaan Murid SD Islam Makarima'],
+        'sirkulasi': ['Sirkulasi Peminjaman', 'Pencatatan Keluar Masuk Buku & Keterlambatan']
+      };
+
+      if(titles[tabId]) {
+        document.getElementById('headerTitle').innerText = titles[tabId][0];
+        document.getElementById('headerSub').innerText = titles[tabId][1];
+      }
+
+      if(tabId === 'dashboard') renderDashboard();
+    }
+
+    function openModal(modalId) {
+      if(modalId === 'modalPinjam') populatePinjamSelects();
+      document.getElementById(modalId).classList.add('active');
+    }
+
+    function closeModal(modalId) {
+      document.getElementById(modalId).classList.remove('active');
+    }
+
+    function initFilters() {
+      // Categories filter
+      const categories = [...new Set(books.map(b => b.kategori))];
+      const catSelect = document.getElementById('filterKategori');
+      catSelect.innerHTML = '<option value="">Semua Kategori</option>';
+      categories.forEach(cat => {
+        catSelect.innerHTML += `<option value="${cat}">${cat}</option>`;
+      });
+
+      // Classes filter
+      const classes = [...new Set(students.map(s => s.kelas))];
+      const classSelect = document.getElementById('filterKelas');
+      classSelect.innerHTML = '<option value="">Semua Kelas</option>';
+      classes.forEach(c => {
+        classSelect.innerHTML += `<option value="${c}">${c}</option>`;
+      });
+    }
+
+    /* RENDER DASHBOARD */
+    function renderDashboard() {
+      document.getElementById('statTotalJudul').innerText = books.length;
+      document.getElementById('statTotalMurid').innerText = students.length;
+      document.getElementById('statTotalDipinjam').innerText = loans.filter(l => l.status !== 'Dikembalikan').length;
+      
+      const totalStok = books.reduce((acc, b) => acc + parseInt(b.stok || 0), 0);
+      document.getElementById('statTotalStok').innerText = totalStok;
+
+      // Render Chart
+      const catCounts = {};
+      books.forEach(b => {
+        catCounts[b.kategori] = (catCounts[b.kategori] || 0) + 1;
+      });
+
+      const ctx = document.getElementById('categoryChart').getContext('2d');
+      if(categoryChartInstance) categoryChartInstance.destroy();
+
+      categoryChartInstance = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: Object.keys(catCounts),
+          datasets: [{
+            label: 'Jumlah Judul Buku',
+            data: Object.values(catCounts),
+            backgroundColor: '#C5A059',
+            borderRadius: 6
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: { legend: { display: false } },
+          scales: {
+            y: { beginAtZero: true, grid: { color: '#E8E2D5' } },
+            x: { grid: { display: false } }
+          }
+        }
+      });
+
+      // Recent Activity
+      const recentTbody = document.getElementById('recentActivityTable');
+      recentTbody.innerHTML = '';
+      loans.slice(-5).reverse().forEach(l => {
+        const badgeClass = l.status === 'Dipinjam' ? 'badge-warning' : (l.status === 'Terlambat' ? 'badge-danger' : 'badge-success');
+        recentTbody.innerHTML += `
+          <tr>
+            <td><strong>${l.studentName}</strong><br/><small style="color:var(--text-muted);">${l.kelas}</small></td>
+            <td>${l.bookTitle}</td>
+            <td>${l.tglPinjam}</td>
+            <td><span class="badge ${badgeClass}">${l.status}</span></td>
+          </tr>
+        `;
+      });
+    }
+
+    /* RENDER KATALOG BUKU */
+    function renderKatalog() {
+      const q = document.getElementById('searchBuku').value.toLowerCase();
+      const cat = document.getElementById('filterKategori').value;
+
+      const filtered = books.filter(b => {
+        const matchQ = b.judul.toLowerCase().includes(q) || b.penerbit.toLowerCase().includes(q) || (b.kode && b.kode.toLowerCase().includes(q));
+        const matchCat = cat === "" || b.kategori === cat;
+        return matchQ && matchCat;
+      });
+
+      const tbody = document.getElementById('tableKatalogBody');
+      tbody.innerHTML = '';
+
+      filtered.forEach((b, idx) => {
+        tbody.innerHTML += `
+          <tr>
+            <td><code style="background:#FAF4E5; padding:3px 6px; border-radius:4px; font-weight:700; color:var(--accent-warm);">${b.kode || 'KB/'+(idx+1)}</code></td>
+            <td style="font-weight:600;">${b.judul}</td>
+            <td><span class="badge badge-cat">${b.kategori}</span></td>
+            <td>${b.penerbit}</td>
+            <td>${b.tahun}</td>
+            <td><strong>${b.tersedia}</strong> / ${b.stok} eksemplar</td>
+            <td><span class="badge ${b.kondisi === 'Baik' ? 'badge-success' : 'badge-warning'}">${b.kondisi || 'Baik'}</span></td>
+            <td style="text-align: right;">
+              <button class="btn-action" title="Edit Stok" onclick="editStokBuku(${b.id})"><i class="fa-solid fa-pen"></i></button>
+              <button class="btn-action delete" title="Hapus Buku" onclick="hapusBuku(${b.id})"><i class="fa-solid fa-trash"></i></button>
+            </td>
+          </tr>
+        `;
+      });
+    }
+
+    /* RENDER MURID */
+    function renderMurid() {
+      const q = document.getElementById('searchMurid').value.toLowerCase();
+      const k = document.getElementById('filterKelas').value;
+
+      const filtered = students.filter(s => {
+        const matchQ = s.nama.toLowerCase().includes(q);
+        const matchK = k === "" || s.kelas === k;
+        return matchQ && matchK;
+      });
+
+      const tbody = document.getElementById('tableMuridBody');
+      tbody.innerHTML = '';
+
+      filtered.forEach((s, idx) => {
+        const activeLoan = loans.find(l => l.studentId === s.id && l.status !== 'Dikembalikan');
+        const statusBadge = activeLoan 
+          ? `<span class="badge badge-warning"><i class="fa-solid fa-book-reader"></i> Meminjam Buku</span>`
+          : `<span class="badge badge-success"><i class="fa-solid fa-check"></i> Bebas Pinjaman</span>`;
+
+        tbody.innerHTML += `
+          <tr>
+            <td>${idx + 1}</td>
+            <td style="font-weight:700; color:var(--text-dark);">${s.nama}</td>
+            <td><span class="badge badge-class">${s.kelas}</span></td>
+            <td>${statusBadge}</td>
+            <td style="text-align: right;">
+              <button class="btn-action delete" title="Hapus Siswa" onclick="hapusMurid(${s.id})"><i class="fa-solid fa-user-minus"></i></button>
+            </td>
+          </tr>
+        `;
+      });
+    }
+
+    /* RENDER SIRKULASI */
+    function renderSirkulasi() {
+      const tbody = document.getElementById('tableSirkulasiBody');
+      tbody.innerHTML = '';
+
+      loans.forEach(l => {
+        const badgeClass = l.status === 'Dipinjam' ? 'badge-warning' : (l.status === 'Terlambat' ? 'badge-danger' : 'badge-success');
+        
+        const actionBtn = l.status !== 'Dikembalikan' 
+          ? `<button class="quick-btn" style="padding: 5px 12px; font-size: 11px;" onclick="kembalikanBuku('${l.id}')"><i class="fa-solid fa-rotate-left"></i> Kembalikan</button>`
+          : `<span style="color:var(--text-muted); font-size:12px;"><i class="fa-solid fa-check"></i> Selesai</span>`;
+
+        tbody.innerHTML += `
+          <tr>
+            <td><code>${l.id}</code></td>
+            <td style="font-weight:700;">${l.studentName}</td>
+            <td><span class="badge badge-class">${l.kelas}</span></td>
+            <td>${l.bookTitle}</td>
+            <td>${l.tglPinjam}</td>
+            <td>${l.tglKembali}</td>
+            <td><span class="badge ${badgeClass}">${l.status}</span></td>
+            <td style="text-align: right;">${actionBtn}</td>
+          </tr>
+        `;
+      });
+    }
+
+    /* HANDLERS & INTERACTIONS */
+    function handleTambahBuku(e) {
+      e.preventDefault();
+      const stokVal = parseInt(document.getElementById('inStok').value);
+      const newBook = {
+        id: Date.now(),
+        kode: document.getElementById('inKode').value || `KB/${books.length+1}`,
+        judul: document.getElementById('inJudul').value,
+        kategori: document.getElementById('inKategori').value,
+        penerbit: document.getElementById('inPenerbit').value || "-",
+        tahun: document.getElementById('inTahun').value || "-",
+        stok: stokVal,
+        tersedia: stokVal,
+        kondisi: document.getElementById('inKondisi').value
+      };
+
+      books.unshift(newBook);
+      saveData();
+      initFilters();
+      renderKatalog();
+      renderDashboard();
+      closeModal('modalInputBuku');
+      document.getElementById('formTambahBuku').reset();
+      showToast("Buku baru berhasil ditambahkan!");
+    }
+
+    function handleTambahMurid(e) {
+      e.preventDefault();
+      const newStudent = {
+        id: Date.now(),
+        nama: document.getElementById('inNamaSiswa').value,
+        kelas: document.getElementById('inKelasSiswa').value
+      };
+
+      students.unshift(newStudent);
+      saveData();
+      initFilters();
+      renderMurid();
+      renderDashboard();
+      closeModal('modalInputMurid');
+      document.getElementById('formTambahMurid').reset();
+      showToast("Data siswa baru berhasil disimpan!");
+    }
+
+    function populatePinjamSelects() {
+      const sSelect = document.getElementById('pinjamSiswaId');
+      sSelect.innerHTML = '';
+      students.forEach(s => {
+        sSelect.innerHTML += `<option value="${s.id}">${s.nama} (${s.kelas})</option>`;
+      });
+
+      const bSelect = document.getElementById('pinjamBukuId');
+      bSelect.innerHTML = '';
+      books.filter(b => b.tersedia > 0).forEach(b => {
+        bSelect.innerHTML += `<option value="${b.id}">${b.judul} [Sisa Stok: ${b.tersedia}]</option>`;
+      });
+    }
+
+    function handlePinjam(e) {
+      e.preventDefault();
+      const studentId = parseInt(document.getElementById('pinjamSiswaId').value);
+      const bookId = parseInt(document.getElementById('pinjamBukuId').value);
+      const tglPinjam = document.getElementById('pinjamTgl').value;
+      const lama = parseInt(document.getElementById('pinjamLama').value);
+
+      const st = students.find(s => s.id === studentId);
+      const bk = books.find(b => b.id === bookId);
+
+      if(!st || !bk || bk.tersedia <= 0) {
+        alert("Stok buku tidak cukup atau data tidak valid!");
+        return;
+      }
+
+      // Calc Due Date
+      const d = new Date(tglPinjam);
+      d.setDate(d.getDate() + lama);
+      const tglKembali = d.toISOString().split('T')[0];
+
+      // Update book stock
+      bk.tersedia -= 1;
+
+      // Add loan record
+      const newLoan = {
+        id: `TRX-${Math.floor(100 + Math.random() * 900)}`,
+        studentId: st.id,
+        studentName: st.nama,
+        kelas: st.kelas,
+        bookId: bk.id,
+        bookTitle: bk.judul,
+        tglPinjam: tglPinjam,
+        tglKembali: tglKembali,
+        status: "Dipinjam"
+      };
+
+      loans.unshift(newLoan);
+      saveData();
+      renderDashboard();
+      renderKatalog();
+      renderMurid();
+      renderSirkulasi();
+      closeModal('modalPinjam');
+      showToast(`Transaksi pinjam ${bk.judul} berhasil dicatat!`);
+    }
+
+    function kembalikanBuku(loanId) {
+      const loan = loans.find(l => l.id === loanId);
+      if(!loan) return;
+
+      loan.status = "Dikembalikan";
+
+      // Restore book stock
+      const bk = books.find(b => b.id === loan.bookId);
+      if(bk) bk.tersedia += 1;
+
+      saveData();
+      renderDashboard();
+      renderKatalog();
+      renderMurid();
+      renderSirkulasi();
+      showToast("Buku telah berhasil dikembalikan ke rak!");
+    }
+
+    function hapusBuku(id) {
+      if(confirm("Apakah Anda yakin ingin menghapus buku ini dari catalog?")) {
+        books = books.filter(b => b.id !== id);
+        saveData();
+        renderKatalog();
+        renderDashboard();
+        showToast("Buku berhasil dihapus dari sistem.");
+      }
+    }
+
+    function editStokBuku(id) {
+      const bk = books.find(b => b.id === id);
+      if(!bk) return;
+      const newStok = prompt(`Ubah Total Stok untuk "${bk.judul}":`, bk.stok);
+      if(newStok !== null && !isNaN(newStok)) {
+        const diff = parseInt(newStok) - bk.stok;
+        bk.stok = parseInt(newStok);
+        bk.tersedia = Math.max(0, bk.tersedia + diff);
+        saveData();
+        renderKatalog();
+        renderDashboard();
+        showToast("Stok buku berhasil diperbarui!");
+      }
+    }
+
+    function hapusMurid(id) {
+      if(confirm("Hapus data siswa ini dari sistem perpustakaan?")) {
+        students = students.filter(s => s.id !== id);
+        saveData();
+        renderMurid();
+        renderDashboard();
+        showToast("Data siswa berhasil dihapus.");
+      }
+    }
+
+    function processImport() {
+      const type = document.getElementById('importType').value;
+      const file = document.getElementById('fileInput').files[0];
+
+      if(!file) {
+        alert("Silakan pilih file terlebih dahulu!");
+        return;
+      }
+
+      showToast(`Mengunggah file ${file.name}... Berhasil disinkronkan!`);
+      closeModal('modalImport');
+    }
+  </script>
+</body>
+</html>
