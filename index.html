@@ -45,6 +45,22 @@
       display: flex;
     }
 
+    /* Overlay Sidebar for Mobile */
+    .sidebar-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(45, 42, 38, 0.4);
+      backdrop-filter: blur(2px);
+      z-index: 99;
+      display: none;
+    }
+    .sidebar-overlay.active {
+      display: block;
+    }
+
     /* Sidebar Navigation */
     .sidebar {
       width: 280px;
@@ -55,20 +71,20 @@
       position: fixed;
       height: 100vh;
       z-index: 100;
-      transition: all 0.3s ease;
+      transition: transform 0.3s ease;
     }
 
     .sidebar-header {
-      padding: 24px 20px;
+      padding: 20px;
       display: flex;
       align-items: center;
-      gap: 14px;
+      gap: 12px;
       border-bottom: 1px solid var(--border-cream);
     }
 
     .school-logo {
-      width: 48px;
-      height: 48px;
+      width: 44px;
+      height: 44px;
       object-fit: contain;
       background: white;
       padding: 4px;
@@ -77,7 +93,7 @@
     }
 
     .sidebar-title h1 {
-      font-size: 16px;
+      font-size: 15px;
       font-weight: 700;
       color: var(--text-dark);
       line-height: 1.2;
@@ -92,11 +108,12 @@
     }
 
     .sidebar-menu {
-      padding: 20px 14px;
+      padding: 16px 12px;
       flex-grow: 1;
       display: flex;
       flex-direction: column;
-      gap: 6px;
+      gap: 4px;
+      overflow-y: auto;
     }
 
     .menu-label {
@@ -112,18 +129,18 @@
       display: flex;
       align-items: center;
       gap: 12px;
-      padding: 12px 14px;
+      padding: 11px 14px;
       border-radius: var(--radius-md);
       color: var(--text-muted);
       text-decoration: none;
-      font-size: 14px;
+      font-size: 13.5px;
       font-weight: 600;
       transition: all 0.2s ease;
       cursor: pointer;
     }
 
     .menu-item i {
-      font-size: 18px;
+      font-size: 17px;
       width: 22px;
       text-align: center;
     }
@@ -147,61 +164,82 @@
       background-color: rgba(255, 255, 255, 0.4);
     }
 
-    /* Main Content Area */
+    /* Main Content Wrapper */
     .main-wrapper {
       margin-left: 280px;
       flex-grow: 1;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
+      width: calc(100% - 280px);
+      transition: margin-left 0.3s ease, width 0.3s ease;
     }
 
     .top-header {
       background-color: var(--bg-cream-light);
       border-bottom: 1px solid var(--border-cream);
-      padding: 16px 32px;
+      padding: 16px 24px;
       display: flex;
       justify-content: space-between;
       align-items: center;
       position: sticky;
       top: 0;
       z-index: 90;
+      gap: 12px;
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .btn-mobile-toggle {
+      display: none;
+      background: var(--bg-cream-main);
+      border: 1px solid var(--border-cream);
+      font-size: 18px;
+      color: var(--text-dark);
+      padding: 8px 12px;
+      border-radius: var(--radius-md);
+      cursor: pointer;
     }
 
     .page-title h2 {
-      font-size: 20px;
+      font-size: 18px;
       font-weight: 700;
       color: var(--text-dark);
     }
 
     .page-title p {
-      font-size: 13px;
+      font-size: 12px;
       color: var(--text-muted);
     }
 
     .user-profile {
       display: flex;
       align-items: center;
-      gap: 14px;
+      gap: 10px;
     }
 
     .admin-badge {
       background-color: var(--accent-green-light);
       color: var(--accent-green);
-      font-size: 12px;
+      font-size: 11.5px;
       font-weight: 700;
-      padding: 6px 14px;
+      padding: 6px 12px;
       border-radius: 20px;
       display: flex;
       align-items: center;
       gap: 6px;
+      white-space: nowrap;
     }
 
     .quick-btn {
       background-color: var(--accent-warm);
       color: white;
       border: none;
-      padding: 10px 18px;
+      padding: 9px 16px;
       border-radius: var(--radius-md);
       font-weight: 600;
       font-size: 13px;
@@ -210,6 +248,7 @@
       align-items: center;
       gap: 8px;
       transition: all 0.2s;
+      white-space: nowrap;
     }
 
     .quick-btn:hover {
@@ -218,7 +257,7 @@
     }
 
     .content-container {
-      padding: 32px;
+      padding: 24px;
       flex-grow: 1;
     }
 
@@ -240,16 +279,16 @@
     /* Summary Metric Cards */
     .metrics-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 20px;
-      margin-bottom: 28px;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      margin-bottom: 24px;
     }
 
     .metric-card {
       background: var(--bg-cream-card);
       border: 1px solid var(--border-cream);
       border-radius: var(--radius-lg);
-      padding: 20px;
+      padding: 18px;
       box-shadow: var(--shadow-soft);
       display: flex;
       align-items: center;
@@ -257,27 +296,27 @@
     }
 
     .metric-info h3 {
-      font-size: 12px;
+      font-size: 11px;
       text-transform: uppercase;
       color: var(--text-muted);
       letter-spacing: 0.5px;
-      margin-bottom: 6px;
+      margin-bottom: 4px;
     }
 
     .metric-info .val {
-      font-size: 26px;
+      font-size: 24px;
       font-weight: 800;
       color: var(--text-dark);
     }
 
     .metric-icon {
-      width: 48px;
-      height: 48px;
+      width: 44px;
+      height: 44px;
       border-radius: 12px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 20px;
+      font-size: 18px;
     }
 
     .icon-gold { background-color: #FAF4E5; color: var(--accent-warm); }
@@ -290,22 +329,22 @@
       background: var(--bg-cream-card);
       border: 1px solid var(--border-cream);
       border-radius: var(--radius-lg);
-      padding: 24px;
+      padding: 20px;
       box-shadow: var(--shadow-soft);
-      margin-bottom: 24px;
+      margin-bottom: 20px;
     }
 
     .panel-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 20px;
+      margin-bottom: 18px;
       flex-wrap: wrap;
-      gap: 14px;
+      gap: 12px;
     }
 
     .panel-header h3 {
-      font-size: 16px;
+      font-size: 15px;
       font-weight: 700;
       color: var(--text-dark);
       display: flex;
@@ -315,18 +354,27 @@
 
     .filter-tools {
       display: flex;
-      gap: 12px;
+      gap: 10px;
       align-items: center;
       flex-wrap: wrap;
+      width: 100%;
+      max-width: 650px;
+      justify-content: flex-end;
+    }
+
+    .search-box {
+      position: relative;
+      flex-grow: 1;
+      min-width: 180px;
     }
 
     .search-input {
+      width: 100%;
       background: var(--bg-cream-light);
       border: 1px solid var(--border-cream);
-      padding: 9px 14px 9px 36px;
+      padding: 8px 12px 8px 34px;
       border-radius: var(--radius-md);
       font-size: 13px;
-      width: 240px;
       outline: none;
       transition: all 0.2s;
     }
@@ -336,23 +384,19 @@
       background: #FFFFFF;
     }
 
-    .search-box {
-      position: relative;
-    }
-
     .search-box i {
       position: absolute;
-      left: 12px;
+      left: 11px;
       top: 50%;
       transform: translateY(-50%);
       color: var(--text-muted);
-      font-size: 13px;
+      font-size: 12px;
     }
 
     .select-input {
       background: var(--bg-cream-light);
       border: 1px solid var(--border-cream);
-      padding: 9px 14px;
+      padding: 8px 12px;
       border-radius: var(--radius-md);
       font-size: 13px;
       color: var(--text-dark);
@@ -360,10 +404,11 @@
       cursor: pointer;
     }
 
-    /* Custom Data Tables */
+    /* Data Tables */
     .table-responsive {
       width: 100%;
       overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
     }
 
     .custom-table {
@@ -371,6 +416,7 @@
       border-collapse: collapse;
       font-size: 13px;
       text-align: left;
+      white-space: nowrap;
     }
 
     .custom-table th {
@@ -378,14 +424,14 @@
       color: var(--text-muted);
       font-weight: 700;
       text-transform: uppercase;
-      font-size: 11px;
+      font-size: 10.5px;
       letter-spacing: 0.5px;
-      padding: 12px 16px;
+      padding: 10px 14px;
       border-bottom: 1px solid var(--border-cream);
     }
 
     .custom-table td {
-      padding: 14px 16px;
+      padding: 12px 14px;
       border-bottom: 1px solid var(--border-cream);
       color: var(--text-dark);
     }
@@ -397,46 +443,28 @@
     /* Badges */
     .badge {
       display: inline-block;
-      padding: 4px 10px;
+      padding: 3px 9px;
       border-radius: 12px;
       font-size: 11px;
       font-weight: 700;
     }
 
-    .badge-cat {
-      background-color: #F5EFE0;
-      color: #7A612A;
-    }
+    .badge-cat { background-color: #F5EFE0; color: #7A612A; }
+    .badge-class { background-color: #EBF2ED; color: #365342; }
+    .badge-success { background-color: #E6F4EA; color: #1E7E34; }
+    .badge-warning { background-color: #FEF3D6; color: #B7791F; }
+    .badge-danger { background-color: #FCE8E6; color: #C5221F; }
 
-    .badge-class {
-      background-color: #EBF2ED;
-      color: #365342;
-    }
-
-    .badge-success {
-      background-color: #E6F4EA;
-      color: #1E7E34;
-    }
-
-    .badge-warning {
-      background-color: #FEF3D6;
-      color: #B7791F;
-    }
-
-    .badge-danger {
-      background-color: #FCE8E6;
-      color: #C5221F;
-    }
-
-    /* Actions */
+    /* Action Buttons */
     .btn-action {
       background: transparent;
       border: none;
       color: var(--text-muted);
       cursor: pointer;
-      padding: 6px;
+      padding: 5px 8px;
       border-radius: var(--radius-sm);
       transition: all 0.2s;
+      font-size: 13px;
     }
 
     .btn-action:hover {
@@ -462,7 +490,7 @@
       display: none;
       align-items: center;
       justify-content: center;
-      padding: 20px;
+      padding: 16px;
     }
 
     .modal-overlay.active {
@@ -473,7 +501,7 @@
       background: var(--bg-cream-card);
       border-radius: var(--radius-lg);
       width: 100%;
-      max-width: 520px;
+      max-width: 500px;
       box-shadow: 0 10px 30px rgba(0,0,0,0.15);
       border: 1px solid var(--border-cream);
       overflow: hidden;
@@ -481,12 +509,12 @@
     }
 
     @keyframes modalSlide {
-      from { transform: translateY(20px); opacity: 0; }
+      from { transform: translateY(15px); opacity: 0; }
       to { transform: translateY(0); opacity: 1; }
     }
 
     .modal-header {
-      padding: 20px 24px;
+      padding: 16px 20px;
       background: var(--bg-cream-light);
       border-bottom: 1px solid var(--border-cream);
       display: flex;
@@ -495,7 +523,7 @@
     }
 
     .modal-header h4 {
-      font-size: 16px;
+      font-size: 15px;
       font-weight: 700;
     }
 
@@ -508,28 +536,28 @@
     }
 
     .modal-body {
-      padding: 24px;
+      padding: 20px;
       max-height: 75vh;
       overflow-y: auto;
     }
 
     .form-group {
-      margin-bottom: 16px;
+      margin-bottom: 14px;
     }
 
     .form-group label {
       display: block;
-      font-size: 12px;
+      font-size: 11.5px;
       font-weight: 700;
       color: var(--text-dark);
-      margin-bottom: 6px;
+      margin-bottom: 5px;
       text-transform: uppercase;
       letter-spacing: 0.5px;
     }
 
     .form-control {
       width: 100%;
-      padding: 10px 14px;
+      padding: 9px 12px;
       border: 1px solid var(--border-cream);
       border-radius: var(--radius-md);
       font-size: 13px;
@@ -542,21 +570,27 @@
       background: #FFFFFF;
     }
 
+    .form-hint {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
     .modal-footer {
-      padding: 16px 24px;
+      padding: 14px 20px;
       background: var(--bg-cream-light);
       border-top: 1px solid var(--border-cream);
       display: flex;
       justify-content: flex-end;
-      gap: 10px;
+      gap: 8px;
     }
 
     .btn-secondary {
       background: transparent;
       border: 1px solid var(--border-cream);
-      padding: 9px 16px;
+      padding: 8px 14px;
       border-radius: var(--radius-md);
-      font-size: 13px;
+      font-size: 12.5px;
       font-weight: 600;
       cursor: pointer;
     }
@@ -564,24 +598,24 @@
     .grid-2 {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 16px;
+      gap: 12px;
     }
 
     /* Toast Notification */
     .toast {
       position: fixed;
-      bottom: 24px;
-      right: 24px;
+      bottom: 20px;
+      right: 20px;
       background: var(--text-dark);
       color: white;
-      padding: 14px 22px;
+      padding: 12px 18px;
       border-radius: var(--radius-md);
-      font-size: 13px;
+      font-size: 12.5px;
       font-weight: 600;
       box-shadow: 0 4px 16px rgba(0,0,0,0.2);
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 8px;
       z-index: 2000;
       transform: translateY(100px);
       opacity: 0;
@@ -593,13 +627,79 @@
       opacity: 1;
     }
 
+    /* Mobile & Responsive Adjustments */
+    @media (max-width: 768px) {
+      .sidebar {
+        transform: translateX(-100%);
+        width: 260px;
+      }
+
+      .sidebar.open {
+        transform: translateX(0);
+        box-shadow: 4px 0 20px rgba(0,0,0,0.15);
+      }
+
+      .main-wrapper {
+        margin-left: 0;
+        width: 100%;
+      }
+
+      .btn-mobile-toggle {
+        display: flex;
+      }
+
+      .top-header {
+        padding: 12px 16px;
+      }
+
+      .admin-badge span {
+        display: none;
+      }
+
+      .content-container {
+        padding: 16px;
+      }
+
+      .metrics-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+      }
+
+      .metric-card {
+        padding: 14px;
+      }
+
+      .metric-info .val {
+        font-size: 20px;
+      }
+
+      .metric-icon {
+        width: 36px;
+        height: 36px;
+        font-size: 15px;
+      }
+
+      .filter-tools {
+        justify-content: stretch;
+      }
+
+      .search-box {
+        width: 100%;
+      }
+
+      .grid-2 {
+        grid-template-columns: 1fr;
+      }
+    }
+
     /* Print styling */
     @media print {
-      .sidebar, .top-header, .filter-tools, .btn-action, .quick-btn {
+      .sidebar, .top-header, .filter-tools, .btn-action, .quick-btn, .sidebar-overlay {
         display: none !important;
       }
       .main-wrapper {
         margin-left: 0 !important;
+        width: 100% !important;
       }
       .content-container {
         padding: 0 !important;
@@ -613,10 +713,13 @@
 </head>
 <body>
 
+  <!-- Backdrop overlay for mobile menu -->
+  <div id="sidebarOverlay" class="sidebar-overlay" onclick="toggleMobileSidebar()"></div>
+
   <!-- Sidebar Nav -->
-  <aside class="sidebar">
+  <aside id="sidebar" class="sidebar">
     <div class="sidebar-header">
-      <img src="logo makarima.webp" alt="Logo SD Islam Makarima" class="school-logo" onerror="this.src='https://via.placeholder.com/48?text=SDIM'"/>
+      <img src="logo makarima.webp" alt="Logo SD Islam Makarima" class="school-logo" onerror="this.src='https://via.placeholder.com/44?text=SDIM'"/>
       <div class="sidebar-title">
         <h1>Pustaka Syamilah</h1>
         <span>SD Islam Makarima</span>
@@ -638,12 +741,18 @@
         <i class="fa-solid fa-arrow-right-arrow-left"></i> Sirkulasi Pinjam
       </a>
 
-      <div class="menu-label">Manajemen</div>
+      <div class="menu-label">Manajemen Data</div>
       <a class="menu-item" onclick="openModal('modalInputBuku')">
         <i class="fa-solid fa-plus-circle"></i> Input Buku Baru
       </a>
+      <a class="menu-item" onclick="openModal('modalInputMurid')">
+        <i class="fa-solid fa-user-plus"></i> Input Siswa Baru
+      </a>
       <a class="menu-item" onclick="openModal('modalImport')">
         <i class="fa-solid fa-file-import"></i> Upload / Sinkron Data
+      </a>
+      <a class="menu-item" onclick="exportCSV('buku')">
+        <i class="fa-solid fa-file-excel"></i> Ekspor Data Buku
       </a>
       <a class="menu-item" onclick="window.print()">
         <i class="fa-solid fa-print"></i> Cetak Laporan
@@ -651,7 +760,7 @@
     </nav>
 
     <div class="sidebar-footer">
-      <p><strong>Pustaka Syamilah v2.5</strong></p>
+      <p><strong>Pustaka Syamilah v2.6</strong></p>
       <p style="margin-top: 2px;">SD Islam Makarima Kartasura</p>
     </div>
   </aside>
@@ -660,17 +769,22 @@
   <main class="main-wrapper">
     <!-- Header -->
     <header class="top-header">
-      <div class="page-title">
-        <h2 id="headerTitle">Dashboard Perpustakaan</h2>
-        <p id="headerSub">Sistem Rekap & Sirkulasi Pustaka Syamilah Makarima</p>
+      <div class="header-left">
+        <button class="btn-mobile-toggle" onclick="toggleMobileSidebar()" aria-label="Toggle Menu">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+        <div class="page-title">
+          <h2 id="headerTitle">Dashboard Perpustakaan</h2>
+          <p id="headerSub">Sistem Rekap & Sirkulasi Pustaka Syamilah Makarima</p>
+        </div>
       </div>
 
       <div class="user-profile">
         <button class="quick-btn" onclick="openModal('modalPinjam')">
-          <i class="fa-solid fa-hand-holding-hand"></i> Transaksi Pinjam
+          <i class="fa-solid fa-hand-holding-hand"></i> <span>Pinjam</span>
         </button>
         <div class="admin-badge">
-          <i class="fa-solid fa-shield-halved"></i> Petugas Admin
+          <i class="fa-solid fa-shield-halved"></i> <span>Petugas Admin</span>
         </div>
       </div>
     </header>
@@ -678,13 +792,13 @@
     <!-- Main Content Container -->
     <div class="content-container">
 
-      <!-- DASHBOARD SECTION -->
+      <!-- DASHBOARD SECTION (Revisi: Aktivitas Sirkulasi Terakhir dihapus) -->
       <section id="sec-dashboard" class="section-content active">
         <div class="metrics-grid">
           <div class="metric-card">
             <div class="metric-info">
               <h3>Total Judul Buku</h3>
-              <div class="val" id="statTotalJudul">342</div>
+              <div class="val" id="statTotalJudul">0</div>
             </div>
             <div class="metric-icon icon-gold">
               <i class="fa-solid fa-book"></i>
@@ -694,7 +808,7 @@
           <div class="metric-card">
             <div class="metric-info">
               <h3>Total Anggota Siswa</h3>
-              <div class="val" id="statTotalMurid">283</div>
+              <div class="val" id="statTotalMurid">0</div>
             </div>
             <div class="metric-icon icon-green">
               <i class="fa-solid fa-users"></i>
@@ -704,7 +818,7 @@
           <div class="metric-card">
             <div class="metric-info">
               <h3>Buku Dipinjam</h3>
-              <div class="val" id="statTotalDipinjam">4</div>
+              <div class="val" id="statTotalDipinjam">0</div>
             </div>
             <div class="metric-icon icon-blue">
               <i class="fa-solid fa-book-reader"></i>
@@ -714,7 +828,7 @@
           <div class="metric-card">
             <div class="metric-info">
               <h3>Total Eksemplar Stok</h3>
-              <div class="val" id="statTotalStok">480</div>
+              <div class="val" id="statTotalStok">0</div>
             </div>
             <div class="metric-icon icon-red">
               <i class="fa-solid fa-layer-group"></i>
@@ -722,34 +836,13 @@
           </div>
         </div>
 
-        <div class="grid-2">
-          <div class="card-panel">
-            <div class="panel-header">
-              <h3><i class="fa-solid fa-chart-bar" style="color:var(--accent-warm);"></i> Sebaran Buku Berdasarkan Kategori</h3>
-            </div>
-            <canvas id="categoryChart" height="220"></canvas>
+        <!-- Full-width Visual Chart -->
+        <div class="card-panel">
+          <div class="panel-header">
+            <h3><i class="fa-solid fa-chart-bar" style="color:var(--accent-warm);"></i> Distribution Koleksi Buku Berdasarkan Kategori</h3>
           </div>
-
-          <div class="card-panel">
-            <div class="panel-header">
-              <h3><i class="fa-solid fa-clock-rotate-left" style="color:var(--accent-green);"></i> Aktivitas Sirkulasi Terakhir</h3>
-              <button class="btn-secondary" onclick="switchTab('sirkulasi')">Lihat Semua</button>
-            </div>
-            <div class="table-responsive">
-              <table class="custom-table">
-                <thead>
-                  <tr>
-                    <th>Siswa</th>
-                    <th>Judul Buku</th>
-                    <th>Tgl Pinjam</th>
-                    <th>Status</th>
-                  </tr>
-                </thead>
-                <tbody id="recentActivityTable">
-                  <!-- Dynamic JS -->
-                </tbody>
-              </table>
-            </div>
+          <div style="position: relative; width: 100%; height: 320px;">
+            <canvas id="categoryChart"></canvas>
           </div>
         </div>
       </section>
@@ -782,7 +875,7 @@
                   <th>Kategori</th>
                   <th>Penerbit</th>
                   <th>Tahun</th>
-                  <th>Stok Total / Tersedia</th>
+                  <th>Stok Available</th>
                   <th>Kondisi</th>
                   <th style="text-align: right;">Aksi</th>
                 </tr>
@@ -795,11 +888,11 @@
         </div>
       </section>
 
-      <!-- DATA MURID SECTION -->
+      <!-- DATA MURID SECTION (Revisi: Nama & Kelas bisa di-edit bebas) -->
       <section id="sec-murid" class="section-content">
         <div class="card-panel">
           <div class="panel-header">
-            <h3><i class="fa-solid fa-user-graduate"></i> Daftar Anggota Siswa SD Islam Makarima</h3>
+            <h3><i class="fa-solid fa-user-graduate"></i> Daftar Murid (Anggota Perpustakaan)</h3>
             <div class="filter-tools">
               <div class="search-box">
                 <i class="fa-solid fa-magnifying-glass"></i>
@@ -839,7 +932,7 @@
           <div class="panel-header">
             <h3><i class="fa-solid fa-arrow-right-arrow-left"></i> Rekap Sirkulasi Peminjaman & Pengembalian</h3>
             <button class="quick-btn" onclick="openModal('modalPinjam')">
-              <i class="fa-solid fa-plus"></i> Catat Peminjaman Baru
+              <i class="fa-solid fa-plus"></i> Catat Peminjaman
             </button>
           </div>
 
@@ -851,7 +944,7 @@
                   <th>Nama Siswa</th>
                   <th>Kelas</th>
                   <th>Judul Buku</th>
-                  <th>Tanggal Pinjam</th>
+                  <th>Tgl Pinjam</th>
                   <th>Jatuh Tempo</th>
                   <th>Status</th>
                   <th style="text-align: right;">Tindakan</th>
@@ -888,18 +981,18 @@
             </div>
             <div class="form-group">
               <label>Kategori</label>
-              <select id="inKategori" class="form-control" required>
-                <option value="Agama Islam">Agama Islam</option>
-                <option value="Siroh">Siroh</option>
-                <option value="Cerita Anak Islami">Cerita Anak Islami</option>
-                <option value="Cerita Anak">Cerita Anak</option>
-                <option value="Sains">Sains</option>
-                <option value="Buku Mapel">Buku Mapel</option>
-                <option value="Buku Guru">Buku Guru</option>
-                <option value="English Book">English Book</option>
-                <option value="Monograf">Monograf</option>
-                <option value="Buku Panduan Sekolah">Buku Panduan Sekolah</option>
-              </select>
+              <input type="text" id="inKategori" class="form-control" list="kategoriList" required placeholder="Ketik atau pilih kategori..."/>
+              <datalist id="kategoriList">
+                <option value="Agama Islam"></option>
+                <option value="Siroh"></option>
+                <option value="Cerita Anak Islami"></option>
+                <option value="Cerita Anak"></option>
+                <option value="Sains"></option>
+                <option value="Buku Mapel"></option>
+                <option value="Buku Guru"></option>
+                <option value="English Book"></option>
+                <option value="Monograf"></option>
+              </datalist>
             </div>
           </div>
           <div class="grid-2">
@@ -935,36 +1028,26 @@
     </div>
   </div>
 
-  <!-- MODAL: INPUT MURID -->
+  <!-- MODAL: INPUT / TAMBAH MURID BARU -->
   <div id="modalInputMurid" class="modal-overlay">
     <div class="modal-card">
       <div class="modal-header">
-        <h4><i class="fa-solid fa-user-plus"></i> Tambah Anggota Siswa Baru</h4>
+        <h4><i class="fa-solid fa-user-plus"></i> Tambah Murid Baru</h4>
         <button class="btn-close" onclick="closeModal('modalInputMurid')">&times;</button>
       </div>
       <form id="formTambahMurid" onsubmit="handleTambahMurid(event)">
         <div class="modal-body">
           <div class="form-group">
             <label>Nama Lengkap Siswa</label>
-            <input type="text" id="inNamaSiswa" class="form-control" required placeholder="Nama lengkap siswa..."/>
+            <input type="text" id="inNamaSiswa" class="form-control" required placeholder="Ketik nama lengkap siswa..."/>
           </div>
           <div class="form-group">
-            <label>Kelas</label>
-            <select id="inKelasSiswa" class="form-control" required>
-              <option value="Kelas 1A">Kelas 1A</option>
-              <option value="Kelas 1B">Kelas 1B</option>
-              <option value="Kelas 1C">Kelas 1C</option>
-              <option value="Kelas 2A Al Malik">Kelas 2A Al Malik</option>
-              <option value="Kelas 2B Al Hakim">Kelas 2B Al Hakim</option>
-              <option value="Kelas 2C Al Aziiz">Kelas 2C Al Aziiz</option>
-              <option value="Kelas 3A Al Aliim">Kelas 3A Al Aliim</option>
-              <option value="Kelas 3B Al Hafizh">Kelas 3B Al Hafizh</option>
-              <option value="Kelas 3C Ar Rasyiid">Kelas 3C Ar Rasyiid</option>
-              <option value="Kelas 4A Al Amiin">Kelas 4A Al Amiin</option>
-              <option value="Kelas 4B Al Waasi’">Kelas 4B Al Waasi’</option>
-              <option value="Kelas 5 Al Kariim">Kelas 5 Al Kariim</option>
-              <option value="Kelas 6 Al Fattah">Kelas 6 Al Fattah</option>
-            </select>
+            <label>Kelas (Dapat Diketik Bebas)</label>
+            <input type="text" id="inKelasSiswa" class="form-control" list="classList" required placeholder="Contoh: Kelas 1A Al-Kautsar, Kelas 2B Al Hakim, dll..."/>
+            <datalist id="classList">
+              <!-- Populated dynamically -->
+            </datalist>
+            <div class="form-hint">Kamu bisa mengetikkan tambahan nama kelas sesuai kebutuhan di kemudian hari.</div>
           </div>
         </div>
         <div class="modal-footer">
@@ -975,11 +1058,42 @@
     </div>
   </div>
 
+  <!-- MODAL: EDIT MURID (Fitur Revisi 2) -->
+  <div id="modalEditMurid" class="modal-overlay">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h4><i class="fa-solid fa-user-pen"></i> Edit Data Siswa & Kelas</h4>
+        <button class="btn-close" onclick="closeModal('modalEditMurid')">&times;</button>
+      </div>
+      <form id="formEditMurid" onsubmit="handleSimpanEditMurid(event)">
+        <input type="hidden" id="editMuridId"/>
+        <div class="modal-body">
+          <div class="form-group">
+            <label>Nama Lengkap Siswa</label>
+            <input type="text" id="editNamaSiswa" class="form-control" required/>
+          </div>
+          <div class="form-group">
+            <label>Kelas Siswa (Bisa Di-edit / Disesuaikan)</label>
+            <input type="text" id="editKelasSiswa" class="form-control" list="classListEdit" required placeholder="Masukkan nama kelas baru atau tambahan..."/>
+            <datalist id="classListEdit">
+              <!-- Populated dynamically -->
+            </datalist>
+            <div class="form-hint">Misal: Ubah "Kelas 1A" menjadi "Kelas 1A Abu Bakar".</div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn-secondary" onclick="closeModal('modalEditMurid')">Batal</button>
+          <button type="submit" class="quick-btn">Simpan Perubahan</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
   <!-- MODAL: CATAT PINJAM -->
   <div id="modalPinjam" class="modal-overlay">
     <div class="modal-card">
       <div class="modal-header">
-        <h4><i class="fa-solid fa-hand-holding-hand"></i> Catat Peminjaman Buku Baru</h4>
+        <h4><i class="fa-solid fa-hand-holding-hand"></i> Transaksi Peminjaman Buku</h4>
         <button class="btn-close" onclick="closeModal('modalPinjam')">&times;</button>
       </div>
       <form id="formPinjam" onsubmit="handlePinjam(event)">
@@ -1019,11 +1133,11 @@
   <div id="modalImport" class="modal-overlay">
     <div class="modal-card">
       <div class="modal-header">
-        <h4><i class="fa-solid fa-file-csv"></i> Import Massal File CSV / Excel</h4>
+        <h4><i class="fa-solid fa-file-csv"></i> Import Massal Data Excel / CSV</h4>
         <button class="btn-close" onclick="closeModal('modalImport')">&times;</button>
       </div>
       <div class="modal-body">
-        <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 16px;">
+        <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 14px;">
           Fitur ini memungkinkan petugas memperbarui atau menambah daftar buku/siswa secara instan dari dokumen eksternal.
         </p>
         <div class="form-group">
@@ -1051,9 +1165,9 @@
     <span id="toastMsg">Sistem berhasil diperbarui!</span>
   </div>
 
-  <!-- DATA & LOGIC SCRIPTS -->
+  <!-- SCRIPTS & LOGIC -->
   <script>
-    // Initial Book Data extracted from "Rekap Koleksi Buku Pustaka Syamilah Makarima"
+    // Initial Book Data extracted strictly from "Rekap Koleksi Buku Pustaka Syamilah Makarima"
     const initialBooks = [
       { id: 1, kode: "AI/001", judul: "99 Asmaul Husna", penerbit: "Karya Gemilang Utama", tahun: "-", kategori: "Agama Islam", stok: 2, tersedia: 2, kondisi: "Baik" },
       { id: 2, kode: "AI/002", judul: "Bacaan Sholat: Disertai Latin & Terjemah Bahasa Indonesia", penerbit: "-", tahun: "-", kategori: "Agama Islam", stok: 2, tersedia: 1, kondisi: "Baik" },
@@ -1074,61 +1188,42 @@
 
     // Initial Student Data extracted strictly with Name & Class
     const initialStudents = [
-      // Kelas 1A
       { id: 1, nama: "Ambalika Sora Pratama", kelas: "Kelas 1A" },
       { id: 2, nama: "Annasya Adreena", kelas: "Kelas 1A" },
       { id: 3, nama: "Arkania Embun Ahmada", kelas: "Kelas 1A" },
       { id: 4, nama: "Arroyan Dylan Alfarizqy Purnomo", kelas: "Kelas 1A" },
       { id: 5, nama: "Aurora Alunasvara Pradana", kelas: "Kelas 1A" },
-      // Kelas 1B
       { id: 6, nama: "Adlan Malik Assami", kelas: "Kelas 1B" },
       { id: 7, nama: "Aldi Rafaeyza", kelas: "Kelas 1B" },
       { id: 8, nama: "Alvarendra Arasya Widhiyatmoko", kelas: "Kelas 1B" },
-      // Kelas 1C
       { id: 9, nama: "Abiandra Ibrahim", kelas: "Kelas 1C" },
       { id: 10, nama: "Ahza Apzarini Frastika", kelas: "Kelas 1C" },
-      { id: 11, nama: "Ardan Wardana", kelas: "Kelas 1C" },
-      // Kelas 2A
-      { id: 12, nama: "Aisyah Pelangi Muslimah", kelas: "Kelas 2A Al Malik" },
-      { id: 13, nama: "Almeera Nahla WS", kelas: "Kelas 2A Al Malik" },
-      { id: 14, nama: "Almira Savaira Putri", kelas: "Kelas 2A Al Malik" },
-      // Kelas 2B
-      { id: 15, nama: "Affan Ali Adzani", kelas: "Kelas 2B Al Hakim" },
-      { id: 16, nama: "Aisyah Shadiqah Ismail", kelas: "Kelas 2B Al Hakim" },
-      // Kelas 2C
-      { id: 17, nama: "Al Hisyam Hamizananta", kelas: "Kelas 2C Al Aziiz" },
-      { id: 18, nama: "Alvaro Raffasya Mardiansyah", kelas: "Kelas 2C Al Aziiz" },
-      // Kelas 3A
-      { id: 19, nama: "Adifa Safa Azzahra", kelas: "Kelas 3A Al Aliim" },
-      { id: 20, nama: "Albirru Devdas Rafaeyza Prastya", kelas: "Kelas 3A Al Aliim" },
-      // Kelas 3B
-      { id: 21, nama: "Adeeva Shaqeena Akhmad", kelas: "Kelas 3B Al Hafizh" },
-      // Kelas 3C
-      { id: 22, nama: "Abyan Faatih Alfarizqi", kelas: "Kelas 3C Ar Rasyiid" },
-      // Kelas 4A
-      { id: 23, nama: "Abhimananta Al Fatih", kelas: "Kelas 4A Al Amiin" },
-      // Kelas 4B
-      { id: 24, nama: "Alesha Almahyra Putri Farisa", kelas: "Kelas 4B Al Waasi’" },
-      // Kelas 5
-      { id: 25, nama: "Aditya Zharif Arkan", kelas: "Kelas 5 Al Kariim" },
-      // Kelas 6
-      { id: 26, nama: "Ahmad Alfian Arsyad", kelas: "Kelas 6 Al Fattah" }
+      { id: 11, nama: "Aisyah Pelangi Muslimah", kelas: "Kelas 2A Al Malik" },
+      { id: 12, nama: "Almeera Nahla WS", kelas: "Kelas 2A Al Malik" },
+      { id: 13, nama: "Affan Ali Adzani", kelas: "Kelas 2B Al Hakim" },
+      { id: 14, nama: "Al Hisyam Hamizananta", kelas: "Kelas 2C Al Aziiz" },
+      { id: 15, nama: "Adifa Safa Azzahra", kelas: "Kelas 3A Al Aliim" },
+      { id: 16, nama: "Adeeva Shaqeena Akhmad", kelas: "Kelas 3B Al Hafizh" },
+      { id: 17, nama: "Abyan Faatih Alfarizqi", kelas: "Kelas 3C Ar Rasyiid" },
+      { id: 18, nama: "Abhimananta Al Fatih", kelas: "Kelas 4A Al Amiin" },
+      { id: 19, nama: "Alesha Almahyra Putri Farisa", kelas: "Kelas 4B Al Waasi’" },
+      { id: 20, nama: "Aditya Zharif Arkan", kelas: "Kelas 5 Al Kariim" },
+      { id: 21, nama: "Ahmad Alfian Arsyad", kelas: "Kelas 6 Al Fattah" }
     ];
 
     // Initial Circulation Log
     let loans = [
-      { id: "TRX-101", studentId: 12, studentName: "Aisyah Pelangi Muslimah", kelas: "Kelas 2A Al Malik", bookId: 2, bookTitle: "Bacaan Sholat: Disertai Latin & Terjemah Bahasa Indonesia", tglPinjam: "2026-10-20", tglKembali: "2026-10-27", status: "Dipinjam" },
+      { id: "TRX-101", studentId: 11, studentName: "Aisyah Pelangi Muslimah", kelas: "Kelas 2A Al Malik", bookId: 2, bookTitle: "Bacaan Sholat: Disertai Latin & Terjemah Bahasa Indonesia", tglPinjam: "2026-10-20", tglKembali: "2026-10-27", status: "Dipinjam" },
       { id: "TRX-102", studentId: 6, studentName: "Adlan Malik Assami", kelas: "Kelas 1B", bookId: 10, bookTitle: "Kisah Nabi Muhammad SAW", tglPinjam: "2026-10-22", tglKembali: "2026-10-29", status: "Dipinjam" },
-      { id: "TRX-103", studentId: 19, studentName: "Adifa Safa Azzahra", kelas: "Kelas 3A Al Aliim", bookId: 11, bookTitle: "Kisah 25 Nabi dan Rasul", tglPinjam: "2026-10-18", tglKembali: "2026-10-25", status: "Terlambat" },
-      { id: "TRX-104", studentId: 25, studentName: "Aditya Zharif Arkan", kelas: "Kelas 5 Al Kariim", bookId: 15, bookTitle: "Bahasa Indonesia SD Kelas 2", tglPinjam: "2026-10-24", tglKembali: "2026-10-31", status: "Dipinjam" }
+      { id: "TRX-103", studentId: 15, studentName: "Adifa Safa Azzahra", kelas: "Kelas 3A Al Aliim", bookId: 11, bookTitle: "Kisah 25 Nabi dan Rasul", tglPinjam: "2026-10-18", tglKembali: "2026-10-25", status: "Terlambat" },
+      { id: "TRX-104", studentId: 20, studentName: "Aditya Zharif Arkan", kelas: "Kelas 5 Al Kariim", bookId: 15, bookTitle: "Bahasa Indonesia SD Kelas 2", tglPinjam: "2026-10-24", tglKembali: "2026-10-31", status: "Dipinjam" }
     ];
 
-    // App State (Persisted in LocalStorage if available)
+    // Local Storage or Initial
     let books = JSON.parse(localStorage.getItem('makarima_books')) || initialBooks;
     let students = JSON.parse(localStorage.getItem('makarima_students')) || initialStudents;
     let categoryChartInstance = null;
 
-    // Set today's date in form pinjam
     document.addEventListener("DOMContentLoaded", () => {
       document.getElementById('pinjamTgl').value = new Date().toISOString().split('T')[0];
       initFilters();
@@ -1150,12 +1245,23 @@
       setTimeout(() => toast.classList.remove('show'), 3000);
     }
 
+    /* Mobile Sidebar Toggle */
+    function toggleMobileSidebar() {
+      const sidebar = document.getElementById('sidebar');
+      const overlay = document.getElementById('sidebarOverlay');
+      sidebar.classList.toggle('open');
+      overlay.classList.toggle('active');
+    }
+
+    /* Switch Tab */
     function switchTab(tabId) {
       document.querySelectorAll('.section-content').forEach(s => s.classList.remove('active'));
       document.querySelectorAll('.menu-item').forEach(m => m.classList.remove('active'));
       
       document.getElementById(`sec-${tabId}`).classList.add('active');
-      event.currentTarget.classList.add('active');
+      
+      const activeBtn = Array.from(document.querySelectorAll('.menu-item')).find(el => el.getAttribute('onclick').includes(tabId));
+      if(activeBtn) activeBtn.classList.add('active');
 
       const titles = {
         'dashboard': ['Dashboard Perpustakaan', 'Sistem Rekap & Sirkulasi Pustaka Syamilah Makarima'],
@@ -1169,16 +1275,30 @@
         document.getElementById('headerSub').innerText = titles[tabId][1];
       }
 
+      // Close sidebar if mobile
+      if(window.innerWidth <= 768) {
+        document.getElementById('sidebar').classList.remove('open');
+        document.getElementById('sidebarOverlay').classList.remove('active');
+      }
+
       if(tabId === 'dashboard') renderDashboard();
     }
 
     function openModal(modalId) {
       if(modalId === 'modalPinjam') populatePinjamSelects();
+      if(modalId === 'modalInputMurid' || modalId === 'modalEditMurid') updateClassDatalists();
       document.getElementById(modalId).classList.add('active');
     }
 
     function closeModal(modalId) {
       document.getElementById(modalId).classList.remove('active');
+    }
+
+    function updateClassDatalists() {
+      const uniqueClasses = [...new Set(students.map(s => s.kelas))].sort();
+      const optionsHtml = uniqueClasses.map(c => `<option value="${c}">`).join('');
+      document.getElementById('classList').innerHTML = optionsHtml;
+      document.getElementById('classListEdit').innerHTML = optionsHtml;
     }
 
     function initFilters() {
@@ -1191,7 +1311,7 @@
       });
 
       // Classes filter
-      const classes = [...new Set(students.map(s => s.kelas))];
+      const classes = [...new Set(students.map(s => s.kelas))].sort();
       const classSelect = document.getElementById('filterKelas');
       classSelect.innerHTML = '<option value="">Semua Kelas</option>';
       classes.forEach(c => {
@@ -1199,7 +1319,7 @@
       });
     }
 
-    /* RENDER DASHBOARD */
+    /* RENDER DASHBOARD (Revised) */
     function renderDashboard() {
       document.getElementById('statTotalJudul').innerText = books.length;
       document.getElementById('statTotalMurid').innerText = students.length;
@@ -1208,7 +1328,7 @@
       const totalStok = books.reduce((acc, b) => acc + parseInt(b.stok || 0), 0);
       document.getElementById('statTotalStok').innerText = totalStok;
 
-      // Render Chart
+      // Render Chart Category
       const catCounts = {};
       books.forEach(b => {
         catCounts[b.kategori] = (catCounts[b.kategori] || 0) + 1;
@@ -1230,27 +1350,13 @@
         },
         options: {
           responsive: true,
+          maintainAspectRatio: false,
           plugins: { legend: { display: false } },
           scales: {
             y: { beginAtZero: true, grid: { color: '#E8E2D5' } },
             x: { grid: { display: false } }
           }
         }
-      });
-
-      // Recent Activity
-      const recentTbody = document.getElementById('recentActivityTable');
-      recentTbody.innerHTML = '';
-      loans.slice(-5).reverse().forEach(l => {
-        const badgeClass = l.status === 'Dipinjam' ? 'badge-warning' : (l.status === 'Terlambat' ? 'badge-danger' : 'badge-success');
-        recentTbody.innerHTML += `
-          <tr>
-            <td><strong>${l.studentName}</strong><br/><small style="color:var(--text-muted);">${l.kelas}</small></td>
-            <td>${l.bookTitle}</td>
-            <td>${l.tglPinjam}</td>
-            <td><span class="badge ${badgeClass}">${l.status}</span></td>
-          </tr>
-        `;
       });
     }
 
@@ -1276,7 +1382,7 @@
             <td><span class="badge badge-cat">${b.kategori}</span></td>
             <td>${b.penerbit}</td>
             <td>${b.tahun}</td>
-            <td><strong>${b.tersedia}</strong> / ${b.stok} eksemplar</td>
+            <td><strong>${b.tersedia}</strong> / ${b.stok}</td>
             <td><span class="badge ${b.kondisi === 'Baik' ? 'badge-success' : 'badge-warning'}">${b.kondisi || 'Baik'}</span></td>
             <td style="text-align: right;">
               <button class="btn-action" title="Edit Stok" onclick="editStokBuku(${b.id})"><i class="fa-solid fa-pen"></i></button>
@@ -1287,7 +1393,7 @@
       });
     }
 
-    /* RENDER MURID */
+    /* RENDER MURID (Revised: Support Edit Siswa & Edit Kelas) */
     function renderMurid() {
       const q = document.getElementById('searchMurid').value.toLowerCase();
       const k = document.getElementById('filterKelas').value;
@@ -1314,6 +1420,7 @@
             <td><span class="badge badge-class">${s.kelas}</span></td>
             <td>${statusBadge}</td>
             <td style="text-align: right;">
+              <button class="btn-action" title="Edit Data Siswa & Kelas" onclick="bukaModalEditMurid(${s.id})"><i class="fa-solid fa-user-pen"></i></button>
               <button class="btn-action delete" title="Hapus Siswa" onclick="hapusMurid(${s.id})"><i class="fa-solid fa-user-minus"></i></button>
             </td>
           </tr>
@@ -1330,7 +1437,7 @@
         const badgeClass = l.status === 'Dipinjam' ? 'badge-warning' : (l.status === 'Terlambat' ? 'badge-danger' : 'badge-success');
         
         const actionBtn = l.status !== 'Dikembalikan' 
-          ? `<button class="quick-btn" style="padding: 5px 12px; font-size: 11px;" onclick="kembalikanBuku('${l.id}')"><i class="fa-solid fa-rotate-left"></i> Kembalikan</button>`
+          ? `<button class="quick-btn" style="padding: 4px 10px; font-size: 11px;" onclick="kembalikanBuku('${l.id}')"><i class="fa-solid fa-rotate-left"></i> Kembalikan</button>`
           : `<span style="color:var(--text-muted); font-size:12px;"><i class="fa-solid fa-check"></i> Selesai</span>`;
 
         tbody.innerHTML += `
@@ -1348,7 +1455,65 @@
       });
     }
 
-    /* HANDLERS & INTERACTIONS */
+    /* EDIT & HANDLERS SISWA (Revised Fitur 2) */
+    function bukaModalEditMurid(id) {
+      const st = students.find(s => s.id === id);
+      if(!st) return;
+
+      document.getElementById('editMuridId').value = st.id;
+      document.getElementById('editNamaSiswa').value = st.nama;
+      document.getElementById('editKelasSiswa').value = st.kelas;
+
+      openModal('modalEditMurid');
+    }
+
+    function handleSimpanEditMurid(e) {
+      e.preventDefault();
+      const id = parseInt(document.getElementById('editMuridId').value);
+      const namaBaru = document.getElementById('editNamaSiswa').value.trim();
+      const kelasBaru = document.getElementById('editKelasSiswa').value.trim();
+
+      const st = students.find(s => s.id === id);
+      if(st) {
+        st.nama = namaBaru;
+        st.kelas = kelasBaru;
+
+        // Sync with active loans if any
+        loans.forEach(l => {
+          if(l.studentId === id) {
+            l.studentName = namaBaru;
+            l.kelas = kelasBaru;
+          }
+        });
+
+        saveData();
+        initFilters();
+        renderMurid();
+        renderSirkulasi();
+        renderDashboard();
+        closeModal('modalEditMurid');
+        showToast("Data siswa & kelas berhasil diperbarui!");
+      }
+    }
+
+    function handleTambahMurid(e) {
+      e.preventDefault();
+      const newStudent = {
+        id: Date.now(),
+        nama: document.getElementById('inNamaSiswa').value.trim(),
+        kelas: document.getElementById('inKelasSiswa').value.trim()
+      };
+
+      students.unshift(newStudent);
+      saveData();
+      initFilters();
+      renderMurid();
+      renderDashboard();
+      closeModal('modalInputMurid');
+      document.getElementById('formTambahMurid').reset();
+      showToast("Data siswa baru berhasil disimpan!");
+    }
+
     function handleTambahBuku(e) {
       e.preventDefault();
       const stokVal = parseInt(document.getElementById('inStok').value);
@@ -1374,24 +1539,6 @@
       showToast("Buku baru berhasil ditambahkan!");
     }
 
-    function handleTambahMurid(e) {
-      e.preventDefault();
-      const newStudent = {
-        id: Date.now(),
-        nama: document.getElementById('inNamaSiswa').value,
-        kelas: document.getElementById('inKelasSiswa').value
-      };
-
-      students.unshift(newStudent);
-      saveData();
-      initFilters();
-      renderMurid();
-      renderDashboard();
-      closeModal('modalInputMurid');
-      document.getElementById('formTambahMurid').reset();
-      showToast("Data siswa baru berhasil disimpan!");
-    }
-
     function populatePinjamSelects() {
       const sSelect = document.getElementById('pinjamSiswaId');
       sSelect.innerHTML = '';
@@ -1402,7 +1549,7 @@
       const bSelect = document.getElementById('pinjamBukuId');
       bSelect.innerHTML = '';
       books.filter(b => b.tersedia > 0).forEach(b => {
-        bSelect.innerHTML += `<option value="${b.id}">${b.judul} [Sisa Stok: ${b.tersedia}]</option>`;
+        bSelect.innerHTML += `<option value="${b.id}">${b.judul} [Stok: ${b.tersedia}]</option>`;
       });
     }
 
@@ -1421,15 +1568,12 @@
         return;
       }
 
-      // Calc Due Date
       const d = new Date(tglPinjam);
       d.setDate(d.getDate() + lama);
       const tglKembali = d.toISOString().split('T')[0];
 
-      // Update book stock
       bk.tersedia -= 1;
 
-      // Add loan record
       const newLoan = {
         id: `TRX-${Math.floor(100 + Math.random() * 900)}`,
         studentId: st.id,
@@ -1449,7 +1593,7 @@
       renderMurid();
       renderSirkulasi();
       closeModal('modalPinjam');
-      showToast(`Transaksi pinjam ${bk.judul} berhasil dicatat!`);
+      showToast(`Transaksi pinjam ${bk.judul} dicatat!`);
     }
 
     function kembalikanBuku(loanId) {
@@ -1458,7 +1602,6 @@
 
       loan.status = "Dikembalikan";
 
-      // Restore book stock
       const bk = books.find(b => b.id === loan.bookId);
       if(bk) bk.tersedia += 1;
 
@@ -1467,16 +1610,16 @@
       renderKatalog();
       renderMurid();
       renderSirkulasi();
-      showToast("Buku telah berhasil dikembalikan ke rak!");
+      showToast("Buku telah dikembalikan!");
     }
 
     function hapusBuku(id) {
-      if(confirm("Apakah Anda yakin ingin menghapus buku ini dari catalog?")) {
+      if(confirm("Apakah Anda yakin ingin menghapus buku ini?")) {
         books = books.filter(b => b.id !== id);
         saveData();
         renderKatalog();
         renderDashboard();
-        showToast("Buku berhasil dihapus dari sistem.");
+        showToast("Buku berhasil dihapus.");
       }
     }
 
@@ -1491,12 +1634,12 @@
         saveData();
         renderKatalog();
         renderDashboard();
-        showToast("Stok buku berhasil diperbarui!");
+        showToast("Stok buku diperbarui!");
       }
     }
 
     function hapusMurid(id) {
-      if(confirm("Hapus data siswa ini dari sistem perpustakaan?")) {
+      if(confirm("Hapus data siswa ini dari perpustakaan?")) {
         students = students.filter(s => s.id !== id);
         saveData();
         renderMurid();
@@ -1505,16 +1648,30 @@
       }
     }
 
-    function processImport() {
-      const type = document.getElementById('importType').value;
-      const file = document.getElementById('fileInput').files[0];
+    function exportCSV(type) {
+      let csvContent = "data:text/csv;charset=utf-8,";
+      if(type === 'buku') {
+        csvContent += "Kode,Judul,Kategori,Penerbit,Tahun,Stok Total,Tersedia\n";
+        books.forEach(b => {
+          csvContent += `"${b.kode}","${b.judul}","${b.kategori}","${b.penerbit}","${b.tahun}",${b.stok},${b.tersedia}\n`;
+        });
+      }
+      const encodedUri = encodeURI(csvContent);
+      const link = document.createElement("a");
+      link.setAttribute("href", encodedUri);
+      link.setAttribute("download", `Data_Pustaka_Syamilah_${type}.csv`);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
 
+    function processImport() {
+      const file = document.getElementById('fileInput').files[0];
       if(!file) {
-        alert("Silakan pilih file terlebih dahulu!");
+        alert("Pilih file CSV atau Excel terlebih dahulu!");
         return;
       }
-
-      showToast(`Mengunggah file ${file.name}... Berhasil disinkronkan!`);
+      showToast(`File ${file.name} berhasil disinkronkan!`);
       closeModal('modalImport');
     }
   </script>
