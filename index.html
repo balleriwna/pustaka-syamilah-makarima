@@ -107,6 +107,31 @@
       text-align: left;
     }
 
+    /* Password Input Wrapper for Eye Icon */
+    .password-input-wrapper {
+      position: relative;
+      width: 100%;
+    }
+
+    .password-input-wrapper input {
+      padding-right: 40px;
+    }
+
+    .toggle-password-btn {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-muted);
+      cursor: pointer;
+      font-size: 14px;
+      transition: color 0.2s;
+    }
+
+    .toggle-password-btn:hover {
+      color: var(--accent-warm);
+    }
+
     .lock-error {
       display: none;
       color: var(--accent-red);
@@ -313,6 +338,19 @@
       align-items: center;
       gap: 6px;
       white-space: nowrap;
+    }
+
+    .overdue-alert-badge {
+      background-color: var(--accent-red-light);
+      color: var(--accent-red);
+      font-size: 11.5px;
+      font-weight: 700;
+      padding: 6px 12px;
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
     }
 
     .quick-btn {
@@ -681,6 +719,66 @@
       gap: 12px;
     }
 
+    /* CARD ANGGOTA SISWA PRINT STYLES */
+    .member-card-preview {
+      background: linear-gradient(135deg, #FFFDF9 0%, #F4ECE0 100%);
+      border: 2px solid var(--accent-warm);
+      border-radius: 12px;
+      padding: 20px;
+      width: 100%;
+      max-width: 380px;
+      margin: 0 auto;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+      position: relative;
+    }
+
+    .member-card-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      border-bottom: 2px dashed var(--accent-warm);
+      padding-bottom: 10px;
+      margin-bottom: 14px;
+    }
+
+    .member-card-header img {
+      width: 42px;
+      height: 42px;
+      object-fit: contain;
+    }
+
+    .member-card-body {
+      display: flex;
+      gap: 14px;
+      align-items: center;
+    }
+
+    .member-avatar {
+      width: 60px;
+      height: 70px;
+      background: #E8E2D5;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-muted);
+      font-size: 24px;
+      border: 1px solid var(--border-cream);
+    }
+
+    .barcode-lines {
+      margin-top: 14px;
+      font-family: 'Courier New', Courier, monospace;
+      letter-spacing: 4px;
+      font-weight: bold;
+      background: #FFF;
+      padding: 6px;
+      border-radius: 4px;
+      text-align: center;
+      border: 1px solid var(--border-cream);
+      font-size: 12px;
+    }
+
     /* Toast Notification */
     .toast {
       position: fixed;
@@ -774,7 +872,7 @@
 
     /* Print styling */
     @media print {
-      .lock-screen-overlay, .sidebar, .top-header, .filter-tools, .btn-action, .quick-btn, .sidebar-overlay {
+      .lock-screen-overlay, .sidebar, .top-header, .filter-tools, .btn-action, .quick-btn, .sidebar-overlay, .modal-footer {
         display: none !important;
       }
       .main-wrapper {
@@ -785,6 +883,14 @@
         padding: 0 !important;
       }
       .card-panel {
+        box-shadow: none !important;
+        border: none !important;
+      }
+      .modal-overlay {
+        position: static !important;
+        background: none !important;
+      }
+      .modal-card {
         box-shadow: none !important;
         border: none !important;
       }
@@ -802,8 +908,11 @@
       
       <div class="lock-form">
         <label for="inputPin">Akses Masuk Petugas</label>
-        <input type="password" id="inputPin" class="form-control" placeholder="Ketik password..." onkeypress="handleLockKeyPress(event)"/>
-        <button class="quick-btn" style="width: 100%; justify-content: center; margin-top: 12px; padding: 10px;" onclick="checkPassword()">
+        <div class="password-input-wrapper">
+          <input type="password" id="inputPin" class="form-control" placeholder="Ketik password..." onkeypress="handleLockKeyPress(event)"/>
+          <i id="eyeIcon" class="fa-solid fa-eye toggle-password-btn" onclick="togglePasswordVisibility()" title="Lihat/Sembunyikan Password"></i>
+        </div>
+        <button class="quick-btn" style="width: 100%; justify-content: center; margin-top: 14px; padding: 10px;" onclick="checkPassword()">
           <i class="fa-solid fa-key"></i> Buka Akses Web
         </button>
         <div id="lockError" class="lock-error">
@@ -851,6 +960,9 @@
       <a class="menu-item" onclick="openModal('modalImport')">
         <i class="fa-solid fa-file-import"></i> Upload / Sinkron Data
       </a>
+      <a class="menu-item" onclick="exportBackupJSON()">
+        <i class="fa-solid fa-download"></i> Backup Data JSON
+      </a>
       <a class="menu-item" onclick="exportCSV('buku')">
         <i class="fa-solid fa-file-excel"></i> Ekspor Data Buku
       </a>
@@ -865,7 +977,7 @@
     </nav>
 
     <div class="sidebar-footer">
-      <p><strong>Pustaka Syamilah v2.7</strong></p>
+      <p><strong>Pustaka Syamilah v3.0</strong></p>
       <p style="margin-top: 2px;">SD Islam Makarima Kartasura</p>
     </div>
   </aside>
@@ -885,6 +997,7 @@
       </div>
 
       <div class="user-profile">
+        <div id="overdueBadgeContainer"></div>
         <button class="quick-btn" onclick="openModal('modalPinjam')">
           <i class="fa-solid fa-hand-holding-hand"></i> <span>Pinjam</span>
         </button>
@@ -1034,7 +1147,7 @@
       <section id="sec-sirkulasi" class="section-content">
         <div class="card-panel">
           <div class="panel-header">
-            <h3><i class="fa-solid fa-arrow-right-arrow-left"></i> Rekap Sirkulasi Peminjaman & Pengembalian</h3>
+            <h3><i class="fa-solid fa-arrow-right-arrow-left"></i> Rekap Sirkulasi Peminjaman & Denda</h3>
             <button class="quick-btn" onclick="openModal('modalPinjam')">
               <i class="fa-solid fa-plus"></i> Catat Peminjaman
             </button>
@@ -1050,6 +1163,7 @@
                   <th>Judul Buku</th>
                   <th>Tgl Pinjam</th>
                   <th>Jatuh Tempo</th>
+                  <th>Keterlambatan / Denda</th>
                   <th>Status</th>
                   <th style="text-align: right;">Tindakan</th>
                 </tr>
@@ -1064,6 +1178,44 @@
 
     </div>
   </main>
+
+  <!-- MODAL: KARTU ANGGOTA SISWA -->
+  <div id="modalCardSiswa" class="modal-overlay">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h4><i class="fa-solid fa-id-card"></i> Cetak Kartu Anggota Siswa</h4>
+        <button class="btn-close" onclick="closeModal('modalCardSiswa')">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div id="printableCard" class="member-card-preview">
+          <div class="member-card-header">
+            <img src="logo makarima.webp" alt="Logo" onerror="this.src='https://via.placeholder.com/42?text=SDIM'"/>
+            <div>
+              <h4 style="font-size: 13px; font-weight: 800; color: var(--text-dark);">SD ISLAM MAKARIMA</h4>
+              <p style="font-size: 10px; color: var(--accent-warm); font-weight: 700;">KARTU ANGGOTA PERPUSTAKAAN</p>
+            </div>
+          </div>
+          <div class="member-card-body">
+            <div class="member-avatar">
+              <i class="fa-solid fa-user"></i>
+            </div>
+            <div style="flex-grow: 1;">
+              <h5 id="cardStudentName" style="font-size: 14px; font-weight: 800; color: var(--text-dark); margin-bottom: 2px;">-</h5>
+              <p id="cardStudentClass" style="font-size: 12px; color: var(--text-muted); font-weight: 600;">-</p>
+              <p style="font-size: 10px; color: var(--accent-green); margin-top: 6px; font-weight: 700;">STATUS: ANGGOTA AKTIF</p>
+            </div>
+          </div>
+          <div id="cardBarcode" class="barcode-lines">
+            ||| | |||| || | ||| |||| |
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn-secondary" onclick="closeModal('modalCardSiswa')">Tutup</button>
+        <button type="button" class="quick-btn" onclick="window.print()"><i class="fa-solid fa-print"></i> Cetak Kartu</button>
+      </div>
+    </div>
+  </div>
 
   <!-- MODAL: INPUT BUKU BARU -->
   <div id="modalInputBuku" class="modal-overlay">
@@ -1273,6 +1425,22 @@
   <script>
     // ACCESS PASSWORD CONFIGURATION
     const APP_PASSWORD = "bismillah";
+    const DENDA_PER_HARI = 1000; // Rp 1.000 per hari keterlambatan
+
+    function togglePasswordVisibility() {
+      const pinInput = document.getElementById('inputPin');
+      const eyeIcon = document.getElementById('eyeIcon');
+      
+      if (pinInput.type === "password") {
+        pinInput.type = "text";
+        eyeIcon.classList.remove('fa-eye');
+        eyeIcon.classList.add('fa-eye-slash');
+      } else {
+        pinInput.type = "password";
+        eyeIcon.classList.remove('fa-eye-slash');
+        eyeIcon.classList.add('fa-eye');
+      }
+    }
 
     function checkPassword() {
       const input = document.getElementById('inputPin').value;
@@ -1348,10 +1516,9 @@
     ];
 
     let loans = [
-      { id: "TRX-101", studentId: 11, studentName: "Aisyah Pelangi Muslimah", kelas: "Kelas 2A Al Malik", bookId: 2, bookTitle: "Bacaan Sholat: Disertai Latin & Terjemah Bahasa Indonesia", tglPinjam: "2026-10-20", tglKembali: "2026-10-27", status: "Dipinjam" },
+      { id: "TRX-101", studentId: 11, studentName: "Aisyah Pelangi Muslimah", kelas: "Kelas 2A Al Malik", bookId: 2, bookTitle: "Bacaan Sholat: Disertai Latin & Terjemah Bahasa Indonesia", tglPinjam: "2026-10-10", tglKembali: "2026-10-17", status: "Dipinjam" },
       { id: "TRX-102", studentId: 6, studentName: "Adlan Malik Assami", kelas: "Kelas 1B", bookId: 10, bookTitle: "Kisah Nabi Muhammad SAW", tglPinjam: "2026-10-22", tglKembali: "2026-10-29", status: "Dipinjam" },
-      { id: "TRX-103", studentId: 15, studentName: "Adifa Safa Azzahra", kelas: "Kelas 3A Al Aliim", bookId: 11, bookTitle: "Kisah 25 Nabi dan Rasul", tglPinjam: "2026-10-18", tglKembali: "2026-10-25", status: "Terlambat" },
-      { id: "TRX-104", studentId: 20, studentName: "Aditya Zharif Arkan", kelas: "Kelas 5 Al Kariim", bookId: 15, bookTitle: "Bahasa Indonesia SD Kelas 2", tglPinjam: "2026-10-24", tglKembali: "2026-10-31", status: "Dipinjam" }
+      { id: "TRX-103", studentId: 15, studentName: "Adifa Safa Azzahra", kelas: "Kelas 3A Al Aliim", bookId: 11, bookTitle: "Kisah 25 Nabi dan Rasul", tglPinjam: "2026-10-01", tglKembali: "2026-10-08", status: "Dipinjam" }
     ];
 
     let books = JSON.parse(localStorage.getItem('makarima_books')) || initialBooks;
@@ -1359,7 +1526,6 @@
     let categoryChartInstance = null;
 
     document.addEventListener("DOMContentLoaded", () => {
-      // Check auth session
       if (sessionStorage.getItem('pustaka_auth') === 'true') {
         document.getElementById('lockScreen').style.display = 'none';
       } else {
@@ -1372,11 +1538,29 @@
       renderKatalog();
       renderMurid();
       renderSirkulasi();
+      checkOverdueAlerts();
     });
 
     function saveData() {
       localStorage.setItem('makarima_books', JSON.stringify(books));
       localStorage.setItem('makarima_students', JSON.stringify(students));
+    }
+
+    function exportBackupJSON() {
+      const backupData = {
+        books: books,
+        students: students,
+        loans: loans,
+        backupDate: new Date().toISOString()
+      };
+      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(backupData, null, 2));
+      const downloadAnchor = document.createElement('a');
+      downloadAnchor.setAttribute("href", dataStr);
+      downloadAnchor.setAttribute("download", `Backup_Pustaka_Syamilah_${new Date().toISOString().split('T')[0]}.json`);
+      document.body.appendChild(downloadAnchor);
+      downloadAnchor.click();
+      downloadAnchor.remove();
+      showToast("Data cadangan JSON berhasil diunduh!");
     }
 
     function showToast(msg) {
@@ -1406,7 +1590,7 @@
         'dashboard': ['Dashboard Perpustakaan', 'Sistem Rekap & Sirkulasi Pustaka Syamilah Makarima'],
         'katalog': ['Katalog Inventaris Buku', 'Pencarian, Manajemen Stok & Input Koleksi Buku'],
         'murid': ['Daftar Murid Sekolah', 'Rekap Keanggotaan Murid SD Islam Makarima'],
-        'sirkulasi': ['Sirkulasi Peminjaman', 'Pencatatan Keluar Masuk Buku & Keterlambatan']
+        'sirkulasi': ['Sirkulasi Peminjaman', 'Pencatatan Keluar Masuk Buku & Hitungan Denda']
       };
 
       if(titles[tabId]) {
@@ -1453,6 +1637,29 @@
       classes.forEach(c => {
         classSelect.innerHTML += `<option value="${c}">${c}</option>`;
       });
+    }
+
+    function checkOverdueAlerts() {
+      const today = new Date().toISOString().split('T')[0];
+      let overdueCount = 0;
+
+      loans.forEach(l => {
+        if (l.status !== 'Dikembalikan' && l.tglKembali < today) {
+          overdueCount++;
+        }
+      });
+
+      const container = document.getElementById('overdueBadgeContainer');
+      if (overdueCount > 0) {
+        container.innerHTML = `
+          <div class="overdue-alert-badge" onclick="switchTab('sirkulasi')">
+            <i class="fa-solid fa-triangle-exclamation"></i>
+            <span>${overdueCount} Buku Terlambat</span>
+          </div>
+        `;
+      } else {
+        container.innerHTML = '';
+      }
     }
 
     function renderDashboard() {
@@ -1552,6 +1759,7 @@
             <td><span class="badge badge-class">${s.kelas}</span></td>
             <td>${statusBadge}</td>
             <td style="text-align: right;">
+              <button class="btn-action" title="Cetak Kartu Anggota" onclick="cetakKartuSiswa(${s.id})"><i class="fa-solid fa-id-card"></i></button>
               <button class="btn-action" title="Edit Data Siswa & Kelas" onclick="bukaModalEditMurid(${s.id})"><i class="fa-solid fa-user-pen"></i></button>
               <button class="btn-action delete" title="Hapus Siswa" onclick="hapusMurid(${s.id})"><i class="fa-solid fa-user-minus"></i></button>
             </td>
@@ -1563,9 +1771,27 @@
     function renderSirkulasi() {
       const tbody = document.getElementById('tableSirkulasiBody');
       tbody.innerHTML = '';
+      const today = new Date();
 
       loans.forEach(l => {
-        const badgeClass = l.status === 'Dipinjam' ? 'badge-warning' : (l.status === 'Terlambat' ? 'badge-danger' : 'badge-success');
+        let fineInfo = "-";
+        let statusTag = l.status;
+
+        if (l.status !== 'Dikembalikan') {
+          const dueDate = new Date(l.tglKembali);
+          const diffTime = today - dueDate;
+          const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+          if (diffDays > 0) {
+            statusTag = 'Terlambat';
+            const fineAmount = diffDays * DENDA_PER_HARI;
+            fineInfo = `<span style="color:var(--accent-red); font-weight:700;">+${diffDays} Hari (Rp ${fineAmount.toLocaleString('id-ID')})</span>`;
+          } else {
+            fineInfo = `<span style="color:var(--accent-green);">Tepat Waktu</span>`;
+          }
+        }
+
+        const badgeClass = statusTag === 'Dipinjam' ? 'badge-warning' : (statusTag === 'Terlambat' ? 'badge-danger' : 'badge-success');
         
         const actionBtn = l.status !== 'Dikembalikan' 
           ? `<button class="quick-btn" style="padding: 4px 10px; font-size: 11px;" onclick="kembalikanBuku('${l.id}')"><i class="fa-solid fa-rotate-left"></i> Kembalikan</button>`
@@ -1579,11 +1805,25 @@
             <td>${l.bookTitle}</td>
             <td>${l.tglPinjam}</td>
             <td>${l.tglKembali}</td>
-            <td><span class="badge ${badgeClass}">${l.status}</span></td>
+            <td>${fineInfo}</td>
+            <td><span class="badge ${badgeClass}">${statusTag}</span></td>
             <td style="text-align: right;">${actionBtn}</td>
           </tr>
         `;
       });
+
+      checkOverdueAlerts();
+    }
+
+    function cetakKartuSiswa(id) {
+      const st = students.find(s => s.id === id);
+      if(!st) return;
+
+      document.getElementById('cardStudentName').innerText = st.nama;
+      document.getElementById('cardStudentClass').innerText = st.kelas;
+      document.getElementById('cardBarcode').innerText = `*SDIM-${st.id.toString().slice(-6)}*`;
+
+      openModal('modalCardSiswa');
     }
 
     function bukaModalEditMurid(id) {
