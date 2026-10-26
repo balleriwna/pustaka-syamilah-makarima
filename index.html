@@ -108,6 +108,9 @@
     .icon-red { background-color: var(--accent-red-light); color: var(--accent-red); }
     .icon-blue { background-color: #EBF3FA; color: #3B82F6; }
 
+    /* CHARTS LAYOUT */
+    .charts-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 16px; margin-bottom: 20px; }
+
     /* CARD PANELS & TABLES */
     .card-panel { background: var(--bg-cream-card); border: 1px solid var(--border-cream); border-radius: var(--radius-lg); padding: 20px; box-shadow: var(--shadow-soft); margin-bottom: 20px; }
     .panel-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; flex-wrap: wrap; gap: 12px; }
@@ -140,7 +143,7 @@
     /* MODAL SYSTEM */
     .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(45, 42, 38, 0.4); backdrop-filter: blur(4px); z-index: 1000; display: none; align-items: center; justify-content: center; padding: 16px; }
     .modal-overlay.active { display: flex; }
-    .modal-card { background: var(--bg-cream-card); border-radius: var(--radius-lg); width: 100%; max-width: 520px; box-shadow: 0 10px 30px rgba(0,0,0,0.15); border: 1px solid var(--border-cream); overflow: hidden; animation: modalSlide 0.25s ease-out; }
+    .modal-card { background: var(--bg-cream-card); border-radius: var(--radius-lg); width: 100%; max-width: 540px; box-shadow: 0 10px 30px rgba(0,0,0,0.15); border: 1px solid var(--border-cream); overflow: hidden; animation: modalSlide 0.25s ease-out; }
 
     @keyframes modalSlide { from { transform: translateY(15px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 
@@ -149,7 +152,7 @@
     .btn-close { background: none; border: none; font-size: 18px; color: var(--text-muted); cursor: pointer; }
     .modal-body { padding: 20px; max-height: 75vh; overflow-y: auto; }
 
-    /* MODAL TABS FOR INPUT SISWA */
+    /* MODAL TABS FOR INPUT SISWA & IMPORT */
     .modal-tabs { display: flex; border-bottom: 1px solid var(--border-cream); margin-bottom: 16px; background: var(--bg-cream-light); border-radius: var(--radius-md); padding: 4px; gap: 4px; }
     .tab-btn { flex: 1; padding: 8px 12px; border: none; background: transparent; font-size: 12.5px; font-weight: 700; color: var(--text-muted); border-radius: var(--radius-sm); cursor: pointer; transition: all 0.2s; text-align: center; }
     .tab-btn.active { background: white; color: var(--text-dark); box-shadow: 0 2px 6px rgba(0,0,0,0.06); }
@@ -159,6 +162,16 @@
     .form-control { width: 100%; padding: 9px 12px; border: 1px solid var(--border-cream); border-radius: var(--radius-md); font-size: 13px; background: var(--bg-cream-light); outline: none; }
     .form-control:focus { border-color: var(--accent-warm); background: #FFFFFF; }
     .form-hint { font-size: 11px; color: var(--text-muted); margin-top: 4px; line-height: 1.4; }
+
+    /* FILE UPLOAD DROPZONE */
+    .dropzone {
+      border: 2px dashed var(--accent-warm); border-radius: var(--radius-md);
+      padding: 24px; text-align: center; background: var(--bg-cream-light);
+      cursor: pointer; transition: all 0.2s; position: relative;
+    }
+    .dropzone:hover { background: #FAF4E5; border-color: var(--accent-warm-hover); }
+    .dropzone i { font-size: 32px; color: var(--accent-warm); margin-bottom: 8px; }
+    .dropzone input[type="file"] { position: absolute; top:0; left:0; width:100%; height:100%; opacity:0; cursor:pointer; }
 
     .modal-footer { padding: 14px 20px; background: var(--bg-cream-light); border-top: 1px solid var(--border-cream); display: flex; justify-content: space-between; align-items: center; gap: 8px; }
     .btn-secondary { background: transparent; border: 1px solid var(--border-cream); padding: 8px 14px; border-radius: var(--radius-md); font-size: 12.5px; font-weight: 600; cursor: pointer; }
@@ -177,6 +190,10 @@
     /* TOAST */
     .toast { position: fixed; bottom: 20px; right: 20px; background: var(--text-dark); color: white; padding: 12px 18px; border-radius: var(--radius-md); font-size: 12.5px; font-weight: 600; box-shadow: 0 4px 16px rgba(0,0,0,0.2); display: flex; align-items: center; gap: 8px; z-index: 2000; transform: translateY(100px); opacity: 0; transition: all 0.3s ease; }
     .toast.show { transform: translateY(0); opacity: 1; }
+
+    @media (max-width: 900px) {
+      .charts-grid { grid-template-columns: 1fr; }
+    }
 
     @media (max-width: 768px) {
       .sidebar { transform: translateX(-100%); width: 260px; }
@@ -263,11 +280,11 @@
       <a class="menu-item" onclick="openModal('modalImport')">
         <i class="fa-solid fa-file-import"></i> Reset / Upload Data
       </a>
-      <a class="menu-item" onclick="exportBackupJSON()">
-        <i class="fa-solid fa-download"></i> Backup JSON
+      <a class="menu-item" onclick="exportToExcel('buku')">
+        <i class="fa-solid fa-file-excel"></i> Ekspor Excel Buku
       </a>
-      <a class="menu-item" onclick="exportCSV('buku')">
-        <i class="fa-solid fa-file-excel"></i> Ekspor CSV Buku
+      <a class="menu-item" onclick="exportToExcel('murid')">
+        <i class="fa-solid fa-file-excel"></i> Ekspor Excel Siswa
       </a>
       <a class="menu-item" onclick="window.print()">
         <i class="fa-solid fa-print"></i> Cetak Laporan
@@ -280,7 +297,7 @@
     </nav>
 
     <div class="sidebar-footer">
-      <p><strong>Pustaka Syamilah v3.5</strong></p>
+      <p><strong>Pustaka Syamilah v4.0</strong></p>
       <p style="margin-top: 2px;">SD Islam Makarima Kartasura</p>
     </div>
   </aside>
@@ -300,7 +317,7 @@
 
       <div class="user-profile">
         <button class="quick-btn" onclick="openModal('modalPinjam')">
-          <i class="fa-solid fa-hand-holding-hand"></i> <span>Pinjam</span>
+          <i class="fa-solid fa-hand-holding-hand"></i> <span>Pinjam Buku</span>
         </button>
         <div class="admin-badge">
           <i class="fa-solid fa-shield-halved"></i> <span>Petugas Admin</span>
@@ -346,12 +363,23 @@
           </div>
         </div>
 
-        <div class="card-panel">
-          <div class="panel-header">
-            <h3><i class="fa-solid fa-chart-bar" style="color:var(--accent-warm);"></i> Distribusi Koleksi Buku Berdasarkan Kategori</h3>
+        <div class="charts-grid">
+          <div class="card-panel" style="margin-bottom:0;">
+            <div class="panel-header">
+              <h3><i class="fa-solid fa-chart-bar" style="color:var(--accent-warm);"></i> Distribusi Koleksi Kategori Buku</h3>
+            </div>
+            <div style="position: relative; width: 100%; height: 280px;">
+              <canvas id="categoryChart"></canvas>
+            </div>
           </div>
-          <div style="position: relative; width: 100%; height: 320px;">
-            <canvas id="categoryChart"></canvas>
+
+          <div class="card-panel" style="margin-bottom:0;">
+            <div class="panel-header">
+              <h3><i class="fa-solid fa-chart-pie" style="color:var(--accent-green);"></i> Status Stok Buku</h3>
+            </div>
+            <div style="position: relative; width: 100%; height: 280px; display:flex; align-items:center; justify-content:center;">
+              <canvas id="statusChart"></canvas>
+            </div>
           </div>
         </div>
       </section>
@@ -436,9 +464,14 @@
         <div class="card-panel">
           <div class="panel-header">
             <h3><i class="fa-solid fa-arrow-right-arrow-left"></i> Rekap Sirkulasi Peminjaman & Pengembalian</h3>
-            <button class="quick-btn" onclick="openModal('modalPinjam')">
-              <i class="fa-solid fa-plus"></i> Catat Peminjaman
-            </button>
+            <div class="filter-tools">
+              <button class="quick-btn" onclick="exportToExcel('sirkulasi')">
+                <i class="fa-solid fa-file-excel"></i> Ekspor Excel Sirkulasi
+              </button>
+              <button class="quick-btn" onclick="openModal('modalPinjam')">
+                <i class="fa-solid fa-plus"></i> Catat Peminjaman
+              </button>
+            </div>
           </div>
 
           <div class="table-responsive">
@@ -565,7 +598,7 @@
     </div>
   </div>
 
-  <!-- MODAL: INPUT SISWA BARU (UPGRADED HAS TAB 1: SATUAN & TAB 2: MASSAL/BULK) -->
+  <!-- MODAL: INPUT SISWA BARU (DUAL TAB) -->
   <div id="modalInputMurid" class="modal-overlay">
     <div class="modal-card">
       <div class="modal-header">
@@ -574,7 +607,6 @@
       </div>
 
       <div class="modal-body">
-        <!-- Navigation Tabs -->
         <div class="modal-tabs">
           <button id="btnTabSatuan" type="button" class="tab-btn active" onclick="toggleInputSiswaTab('satuan')">
             <i class="fa-solid fa-user"></i> Input Satuan
@@ -601,7 +633,7 @@
           </div>
         </form>
 
-        <!-- TAB 2: INPUT MASSAL / BULK -->
+        <!-- TAB 2: INPUT MASSAL -->
         <form id="formTambahMuridMassal" onsubmit="handleTambahMuridMassal(event)" style="display: none;">
           <div class="form-group">
             <label>Kelas untuk Semua Siswa Ini</label>
@@ -686,22 +718,59 @@
     </div>
   </div>
 
-  <!-- MODAL: RESET DATA -->
+  <!-- MODAL: RESET & UPLOAD DATA (UPGRADED WITH WORKING UPLOAD FEATURE) -->
   <div id="modalImport" class="modal-overlay">
     <div class="modal-card">
       <div class="modal-header">
-        <h4><i class="fa-solid fa-rotate-left"></i> Reset & Sinkronisasi Data</h4>
+        <h4><i class="fa-solid fa-cloud-arrow-up"></i> Reset & Upload Data File</h4>
         <button class="btn-close" onclick="closeModal('modalImport')">&times;</button>
       </div>
       <div class="modal-body">
-        <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 14px; line-height: 1.5;">
-          Gunakan tombol <strong>Reset ke Data Awal Sekolah</strong> untuk mengembalikan seluruh 283 data siswa dan 15 buku inventaris ke kondisi awal dokumen resmi SD Islam Makarima.
-        </p>
+        <div class="modal-tabs">
+          <button id="btnTabUpload" type="button" class="tab-btn active" onclick="toggleImportTab('upload')">
+            <i class="fa-solid fa-upload"></i> Upload File (CSV / JSON)
+          </button>
+          <button id="btnTabReset" type="button" class="tab-btn" onclick="toggleImportTab('reset')">
+            <i class="fa-solid fa-rotate-left"></i> Reset Data Awal
+          </button>
+        </div>
+
+        <!-- TAB UPLOAD -->
+        <div id="secTabUpload">
+          <p style="font-size: 12.5px; color: var(--text-muted); margin-bottom: 12px;">
+            Pilih atau seret file <strong>.CSV</strong> atau <strong>.JSON</strong> berisi data Buku atau Siswa untuk diimpor langsung ke sistem.
+          </p>
+          <div class="dropzone">
+            <i class="fa-solid fa-file-csv"></i>
+            <h5 style="font-size: 13.5px; color: var(--text-dark); font-weight:700;">Pilih / Tarik File CSV atau JSON</h5>
+            <p style="font-size: 11px; color: var(--text-muted); margin-top:4px;">Mendukung format Buku & Siswa</p>
+            <input type="file" id="fileImportInput" accept=".csv, .json" onchange="handleFileUpload(event)"/>
+          </div>
+
+          <div style="margin-top: 16px; font-size: 11.5px; background: var(--bg-cream-light); padding: 12px; border-radius: var(--radius-md); border: 1px solid var(--border-cream);">
+            <strong><i class="fa-solid fa-circle-info"></i> Format Contoh CSV:</strong>
+            <p style="margin-top: 4px; color: var(--text-muted);">
+              <strong>Buku:</strong> Kode, Judul, Kategori, Penerbit, Tahun, Stok<br>
+              <strong>Siswa:</strong> Nama Lengkap, Kelas
+            </p>
+            <div style="margin-top: 8px; display: flex; gap: 8px;">
+              <button type="button" class="btn-secondary" style="font-size: 11px; padding: 4px 8px;" onclick="downloadSampleCSV('buku')">Contoh CSV Buku</button>
+              <button type="button" class="btn-secondary" style="font-size: 11px; padding: 4px 8px;" onclick="downloadSampleCSV('siswa')">Contoh CSV Siswa</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB RESET -->
+        <div id="secTabReset" style="display: none;">
+          <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 14px; line-height: 1.5;">
+            Gunakan tombol <strong>Reset ke Data Awal Sekolah</strong> untuk mengembalikan seluruh 283 data siswa dan 15 buku inventaris resmi SD Islam Makarima.
+          </p>
+          <button type="button" class="btn-danger-outline" style="width: 100%; padding: 12px; font-size: 13px;" onclick="resetDataAwal()">
+            <i class="fa-solid fa-rotate-left"></i> Reset ke Data Awal Sekolah
+          </button>
+        </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn-danger-outline" onclick="resetDataAwal()">
-          <i class="fa-solid fa-rotate-left"></i> Reset ke Data Awal
-        </button>
         <button type="button" class="btn-secondary" onclick="closeModal('modalImport')">Tutup</button>
       </div>
     </div>
@@ -1067,11 +1136,13 @@
       { id: "TRX-101", studentId: 73, studentName: "Aisyah Pelangi Muslimah", kelas: "Kelas 2A Al Malik", bookId: 2, bookTitle: "Bacaan Sholat: Disertai Latin & Terjemah Bahasa Indonesia", tglPinjam: "2026-10-20", tglKembali: "2026-10-27", status: "Dipinjam" }
     ];
 
-    // Key v5 forcing refresh to un-cached data
-    let books = JSON.parse(localStorage.getItem('makarima_books_v5')) || initialBooks;
-    let students = JSON.parse(localStorage.getItem('makarima_students_v5')) || initialStudents;
-    let loans = JSON.parse(localStorage.getItem('makarima_loans_v5')) || initialLoans;
+    // LocalStorage key set to v6 for fresh reload
+    let books = JSON.parse(localStorage.getItem('makarima_books_v6')) || initialBooks;
+    let students = JSON.parse(localStorage.getItem('makarima_students_v6')) || initialStudents;
+    let loans = JSON.parse(localStorage.getItem('makarima_loans_v6')) || initialLoans;
+    
     let categoryChartInstance = null;
+    let statusChartInstance = null;
 
     document.addEventListener("DOMContentLoaded", () => {
       if (sessionStorage.getItem('pustaka_auth') === 'true') {
@@ -1086,16 +1157,16 @@
     });
 
     function saveData() {
-      localStorage.setItem('makarima_books_v5', JSON.stringify(books));
-      localStorage.setItem('makarima_students_v5', JSON.stringify(students));
-      localStorage.setItem('makarima_loans_v5', JSON.stringify(loans));
+      localStorage.setItem('makarima_books_v6', JSON.stringify(books));
+      localStorage.setItem('makarima_students_v6', JSON.stringify(students));
+      localStorage.setItem('makarima_loans_v6', JSON.stringify(loans));
     }
 
     function resetDataAwal() {
-      if (confirm("Reset ulang seluruh data ke versi awal sekolah? Semua siswa dan buku akan dikembalikan.")) {
-        localStorage.removeItem('makarima_books_v5');
-        localStorage.removeItem('makarima_students_v5');
-        localStorage.removeItem('makarima_loans_v5');
+      if (confirm("Reset ulang seluruh data ke versi awal sekolah? Semua data siswa dan buku akan dikembalikan.")) {
+        localStorage.removeItem('makarima_books_v6');
+        localStorage.removeItem('makarima_students_v6');
+        localStorage.removeItem('makarima_loans_v6');
 
         books = JSON.parse(JSON.stringify(initialBooks));
         students = JSON.parse(JSON.stringify(initialStudents));
@@ -1108,30 +1179,257 @@
         renderMurid();
         renderSirkulasi();
         closeModal('modalImport');
-        showToast("Data berhasil di-reset ke versi awal!");
+        showToast("Data berhasil di-reset ke versi awal sekolah!");
       }
     }
 
-    function exportBackupJSON() {
-      const backupData = { books, students, loans, backupDate: new Date().toISOString() };
-      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(backupData, null, 2));
-      const a = document.createElement('a');
-      a.setAttribute("href", dataStr);
-      a.setAttribute("download", `Backup_Pustaka_Syamilah_${new Date().toISOString().split('T')[0]}.json`);
-      document.body.appendChild(a); a.click(); a.remove();
-      showToast("Data cadangan JSON berhasil diunduh!");
+    /* EXCEL EXPORT FEATURE (STYLED HTML TABLE) */
+    function exportToExcel(type) {
+      let title = "";
+      let headers = [];
+      let rows = [];
+
+      if (type === 'buku') {
+        title = "DATA KATALOG INVENTARIS BUKU - PUSTAKA SYAMILAH";
+        headers = ["No", "Kode Label", "Judul Buku", "Kategori", "Penerbit", "Tahun Terbit", "Total Stok", "Stok Tersedia", "Kondisi"];
+        rows = books.map((b, i) => [i + 1, b.kode || '-', b.judul, b.kategori, b.penerbit, b.tahun, b.stok, b.tersedia, b.kondisi || 'Baik']);
+      } else if (type === 'murid') {
+        title = "DATA ANGGOTA SISWA - PUSTAKA SYAMILAH";
+        headers = ["No", "ID Anggota", "Nama Lengkap Siswa", "Kelas"];
+        rows = students.map((s, i) => [i + 1, `SDIM-${s.id}`, s.nama, s.kelas]);
+      } else if (type === 'sirkulasi') {
+        title = "REKAP SIRKULASI PEMINJAMAN BUKU - PUSTAKA SYAMILAH";
+        headers = ["No", "ID Transaksi", "Nama Siswa", "Kelas", "Judul Buku", "Tanggal Pinjam", "Jatuh Tempo", "Status"];
+        rows = loans.map((l, i) => [i + 1, l.id, l.studentName, l.kelas, l.bookTitle, l.tglPinjam, l.tglKembali, l.status]);
+      }
+
+      let htmlContent = `
+        <html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40">
+        <head>
+          <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+          <!--[if gte mso 9]>
+          <xml>
+            <x:ExcelWorkbook>
+              <x:ExcelWorksheets>
+                <x:ExcelWorksheet>
+                  <x:Name>${type.toUpperCase()}</x:Name>
+                  <x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions>
+                </x:ExcelWorksheet>
+              </x:ExcelWorksheets>
+            </x:ExcelWorkbook>
+          </xml>
+          <![endif]-->
+          <style>
+            body { font-family: 'Arial', sans-serif; }
+            table { border-collapse: collapse; width: 100%; }
+            th { background-color: #C5A059; color: #ffffff; font-weight: bold; border: 1px solid #A08040; padding: 10px; text-align: left; }
+            td { border: 1px solid #D1C7B7; padding: 8px; font-size: 13px; }
+            tr:nth-child(even) { background-color: #FDFBF7; }
+            .title-header { font-size: 16px; font-weight: bold; color: #2D2A26; margin-bottom: 6px; text-align: center; }
+            .school-name { font-size: 12px; color: #7A756C; text-align: center; margin-bottom: 15px; }
+          </style>
+        </head>
+        <body>
+          <div class="title-header">${title}</div>
+          <div class="school-name">SD Islam Makarima Kartasura | Tanggal Ekspor: ${new Date().toLocaleDateString('id-ID')}</div>
+          <table>
+            <thead>
+              <tr>${headers.map(h => `<th>${h}</th>`).join('')}</tr>
+            </thead>
+            <tbody>
+              ${rows.map(row => `<tr>${row.map(cell => `<td>${cell}</td>`).join('')}</tr>`).join('')}
+            </tbody>
+          </table>
+        </body>
+        </html>
+      `;
+
+      const blob = new Blob([htmlContent], { type: 'application/vnd.ms-excel;charset=utf-8' });
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = `Pustaka_Syamilah_${type}_${new Date().toISOString().split('T')[0]}.xls`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      showToast(`Data ${type} berhasil diekspor dalam format Excel rapi!`);
     }
 
-    function exportCSV(type) {
-      let csvContent = "data:text/csv;charset=utf-8,Kode,Judul,Kategori,Penerbit,Tahun,Stok Total,Tersedia\n";
-      books.forEach(b => {
-        csvContent += `"${b.kode}","${b.judul}","${b.kategori}","${b.penerbit}","${b.tahun}",${b.stok},${b.tersedia}\n`;
-      });
-      const encodedUri = encodeURI(csvContent);
-      const link = document.createElement("a");
-      link.setAttribute("href", encodedUri);
-      link.setAttribute("download", `Data_Pustaka_Syamilah_${type}.csv`);
-      document.body.appendChild(link); link.click(); document.body.removeChild(link);
+    /* WORKING FILE UPLOAD FEATURE (CSV & JSON) */
+    function handleFileUpload(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      const fileName = file.name.toLowerCase();
+
+      reader.onload = function(e) {
+        const content = e.target.result;
+        try {
+          if (fileName.endsWith('.json')) {
+            parseJSONUpload(content);
+          } else if (fileName.endsWith('.csv')) {
+            parseCSVUpload(content);
+          } else {
+            alert('Format file tidak didukung! Harap unggah file .csv atau .json');
+          }
+        } catch (err) {
+          alert('Gagal membaca file: ' + err.message);
+        }
+      };
+
+      reader.readAsText(file);
+    }
+
+    function parseJSONUpload(content) {
+      const data = JSON.parse(content);
+      let count = 0;
+
+      if (data.books && Array.isArray(data.books)) {
+        books = data.books;
+        count += data.books.length;
+      }
+      if (data.students && Array.isArray(data.students)) {
+        students = data.students;
+        count += data.students.length;
+      }
+      if (data.loans && Array.isArray(data.loans)) {
+        loans = data.loans;
+      }
+
+      if (Array.isArray(data)) {
+        if (data[0] && (data[0].judul || data[0].title)) {
+          books = data.map((b, i) => ({
+            id: b.id || Date.now() + i,
+            kode: b.kode || `KB/${books.length + i + 1}`,
+            judul: b.judul || b.title,
+            kategori: b.kategori || 'Agama Islam',
+            penerbit: b.penerbit || '-',
+            tahun: b.tahun || '-',
+            stok: parseInt(b.stok) || 1,
+            tersedia: parseInt(b.tersedia || b.stok) || 1,
+            kondisi: b.kondisi || 'Baik'
+          }));
+          count = books.length;
+        } else if (data[0] && (data[0].nama || data[0].name)) {
+          students = data.map((s, i) => ({
+            id: s.id || Date.now() + i,
+            nama: s.nama || s.name,
+            kelas: s.kelas || 'Kelas 1A'
+          }));
+          count = students.length;
+        }
+      }
+
+      saveData(); initFilters(); renderDashboard(); renderKatalog(); renderMurid(); renderSirkulasi();
+      closeModal('modalImport');
+      showToast(`Berhasil mengimpor & memperbarui ${count} data dari file JSON!`);
+    }
+
+    function parseCSVUpload(content) {
+      const lines = content.split(/\r\n|\n/).filter(line => line.trim().length > 0);
+      if (lines.length < 2) {
+        alert('File CSV kosong atau tidak memiliki baris data.');
+        return;
+      }
+
+      const headers = lines[0].split(',').map(h => h.replace(/^["']|["']$/g, '').trim().toLowerCase());
+      const isBookCSV = headers.some(h => h.includes('judul') || h.includes('title') || h.includes('penerbit') || h.includes('stok'));
+      const isStudentCSV = headers.some(h => h.includes('nama') || h.includes('siswa') || h.includes('kelas'));
+
+      let count = 0;
+      if (isBookCSV) {
+        const newBooks = [];
+        for (let i = 1; i < lines.length; i++) {
+          const cols = parseCSVLine(lines[i]);
+          if (cols.length >= 2) {
+            newBooks.push({
+              id: Date.now() + i,
+              kode: cols[0] || `KB/${i}`,
+              judul: cols[1] || 'Buku Baru',
+              kategori: cols[2] || 'Agama Islam',
+              penerbit: cols[3] || '-',
+              tahun: cols[4] || '-',
+              stok: parseInt(cols[5]) || 1,
+              tersedia: parseInt(cols[6] || cols[5]) || 1,
+              kondisi: cols[7] || 'Baik'
+            });
+            count++;
+          }
+        }
+        if (newBooks.length > 0) books = newBooks;
+      } else if (isStudentCSV) {
+        const newStudents = [];
+        for (let i = 1; i < lines.length; i++) {
+          const cols = parseCSVLine(lines[i]);
+          if (cols.length >= 1) {
+            const nama = cols[0] || cols[1];
+            const kelas = cols[1] && cols[0] !== cols[1] ? cols[1] : (cols[2] || 'Kelas 1A');
+            if (nama) {
+              newStudents.push({ id: Date.now() + i, nama: nama, kelas: kelas });
+              count++;
+            }
+          }
+        }
+        if (newStudents.length > 0) students = newStudents;
+      } else {
+        alert('Format header CSV tidak dikenali. Pastikan terdapat kolom "Judul/Penerbit" (Buku) atau "Nama/Kelas" (Siswa).');
+        return;
+      }
+
+      saveData(); initFilters(); renderDashboard(); renderKatalog(); renderMurid(); renderSirkulasi();
+      closeModal('modalImport');
+      showToast(`Berhasil mengimpor ${count} data dari file CSV!`);
+    }
+
+    function parseCSVLine(line) {
+      const result = [];
+      let current = '';
+      let inQuotes = false;
+      for (let i = 0; i < line.length; i++) {
+        const char = line[i];
+        if (char === '"') {
+          inQuotes = !inQuotes;
+        } else if (char === ',' && !inQuotes) {
+          result.push(current.trim().replace(/^["']|["']$/g, ''));
+          current = '';
+        } else {
+          current += char;
+        }
+      }
+      result.push(current.trim().replace(/^["']|["']$/g, ''));
+      return result;
+    }
+
+    function downloadSampleCSV(type) {
+      let csvData = "";
+      if (type === 'buku') {
+        csvData = "Kode,Judul,Kategori,Penerbit,Tahun,Stok\nAI/020,Sejarah Islam Anak,Siroh,Pustaka Utama,2023,5\nSA/005,Mengenal Alam,Sains,Tiga Ananda,2022,3";
+      } else {
+        csvData = "Nama Lengkap,Kelas\nAhmad Zakaria,Kelas 1A\nFatimah Az-Zahra,Kelas 2B Al Hakim";
+      }
+
+      const blob = new Blob([csvData], { type: 'text/csv;charset=utf-8;' });
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = `Contoh_Template_${type}.csv`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+
+    function toggleImportTab(tab) {
+      const secUpload = document.getElementById('secTabUpload');
+      const secReset = document.getElementById('secTabReset');
+      const btnUpload = document.getElementById('btnTabUpload');
+      const btnReset = document.getElementById('btnTabReset');
+
+      if (tab === 'upload') {
+        secUpload.style.display = 'block'; secReset.style.display = 'none';
+        btnUpload.classList.add('active'); btnReset.classList.remove('active');
+      } else {
+        secUpload.style.display = 'none'; secReset.style.display = 'block';
+        btnUpload.classList.remove('active'); btnReset.classList.add('active');
+      }
     }
 
     function showToast(msg) {
@@ -1195,15 +1493,11 @@
       const btnMassal = document.getElementById('btnTabMassal');
 
       if(tab === 'satuan') {
-        formSatuan.style.display = 'block';
-        formMassal.style.display = 'none';
-        btnSatuan.classList.add('active');
-        btnMassal.classList.remove('active');
+        formSatuan.style.display = 'block'; formMassal.style.display = 'none';
+        btnSatuan.classList.add('active'); btnMassal.classList.remove('active');
       } else {
-        formSatuan.style.display = 'none';
-        formMassal.style.display = 'block';
-        btnSatuan.classList.remove('active');
-        btnMassal.classList.add('active');
+        formSatuan.style.display = 'none'; formMassal.style.display = 'block';
+        btnSatuan.classList.remove('active'); btnMassal.classList.add('active');
       }
     }
 
@@ -1220,24 +1514,44 @@
     }
 
     function renderDashboard() {
+      const activeLoansCount = loans.filter(l => l.status !== 'Dikembalikan').length;
+      const totalStokCount = books.reduce((acc, b) => acc + parseInt(b.stok || 0), 0);
+      const totalTersediaCount = books.reduce((acc, b) => acc + parseInt(b.tersedia || 0), 0);
+
       document.getElementById('statTotalJudul').innerText = books.length;
       document.getElementById('statTotalMurid').innerText = students.length;
-      document.getElementById('statTotalDipinjam').innerText = loans.filter(l => l.status !== 'Dikembalikan').length;
-      document.getElementById('statTotalStok').innerText = books.reduce((acc, b) => acc + parseInt(b.stok || 0), 0);
+      document.getElementById('statTotalDipinjam').innerText = activeLoansCount;
+      document.getElementById('statTotalStok').innerText = totalStokCount;
 
       const catCounts = {};
       books.forEach(b => catCounts[b.kategori] = (catCounts[b.kategori] || 0) + 1);
 
-      const ctx = document.getElementById('categoryChart').getContext('2d');
+      // Category Chart
+      const ctxCat = document.getElementById('categoryChart').getContext('2d');
       if(categoryChartInstance) categoryChartInstance.destroy();
-
-      categoryChartInstance = new Chart(ctx, {
+      categoryChartInstance = new Chart(ctxCat, {
         type: 'bar',
         data: {
           labels: Object.keys(catCounts),
           datasets: [{ label: 'Jumlah Judul', data: Object.values(catCounts), backgroundColor: '#C5A059', borderRadius: 6 }]
         },
         options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
+      });
+
+      // Status Chart
+      const ctxStatus = document.getElementById('statusChart').getContext('2d');
+      if(statusChartInstance) statusChartInstance.destroy();
+      statusChartInstance = new Chart(ctxStatus, {
+        type: 'doughnut',
+        data: {
+          labels: ['Tersedia di Rak', 'Sedang Dipinjam'],
+          datasets: [{
+            data: [totalTersediaCount, activeLoansCount],
+            backgroundColor: ['#567C65', '#C5A059'],
+            borderWidth: 2
+          }]
+        },
+        options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom' } } }
       });
     }
 
