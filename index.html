@@ -22,6 +22,8 @@
       --accent-green-light: #EBF2ED;
       --accent-red: #C85A5A;
       --accent-red-light: #FDF0F0;
+      --accent-purple: #7C51A1;
+      --accent-purple-light: #F2ECF9;
       --text-dark: #2D2A26;
       --text-muted: #7A756C;
       --border-cream: #E8E2D5;
@@ -140,7 +142,7 @@
       text-align: center;
     }
 
-    /* Overlay Sidebar for Mobile */
+    /* Sidebar Overlay for Mobile */
     .sidebar-overlay {
       position: fixed;
       top: 0;
@@ -462,14 +464,14 @@
       align-items: center;
       flex-wrap: wrap;
       width: 100%;
-      max-width: 650px;
+      max-width: 680px;
       justify-content: flex-end;
     }
 
     .search-box {
       position: relative;
       flex-grow: 1;
-      min-width: 180px;
+      min-width: 170px;
     }
 
     .search-input {
@@ -544,7 +546,7 @@
       background-color: #FAF8F3;
     }
 
-    /* Badges */
+    /* Badges & Special Tags */
     .badge {
       display: inline-block;
       padding: 3px 9px;
@@ -558,6 +560,13 @@
     .badge-success { background-color: #E6F4EA; color: #1E7E34; }
     .badge-warning { background-color: #FEF3D6; color: #B7791F; }
     .badge-danger { background-color: #FCE8E6; color: #C5221F; }
+    
+    /* Subtle Purple Badge for Special Program Students */
+    .badge-purple { 
+      background-color: var(--accent-purple-light); 
+      color: var(--accent-purple); 
+      border: 1px solid rgba(124, 81, 161, 0.2);
+    }
 
     /* Action Buttons */
     .btn-action {
@@ -980,7 +989,7 @@
     </nav>
 
     <div class="sidebar-footer">
-      <p><strong>Pustaka Syamilah v3.1</strong></p>
+      <p><strong>Pustaka Syamilah v3.2</strong></p>
       <p style="margin-top: 2px;">SD Islam Makarima Kartasura</p>
     </div>
   </aside>
@@ -1117,6 +1126,11 @@
                 <i class="fa-solid fa-magnifying-glass"></i>
                 <input type="text" id="searchMurid" class="search-input" placeholder="Cari nama murid..." oninput="renderMurid()"/>
               </div>
+              <select id="filterKategoriSiswa" class="select-input" onchange="renderMurid()">
+                <option value="">Semua Siswa</option>
+                <option value="reguler">Siswa Reguler</option>
+                <option value="khusus">Program Khusus (Ungu)</option>
+              </select>
               <select id="filterKelas" class="select-input" onchange="renderMurid()">
                 <option value="">Semua Kelas</option>
               </select>
@@ -1133,6 +1147,7 @@
                   <th>No</th>
                   <th>Nama Lengkap Siswa</th>
                   <th>Kelas</th>
+                  <th>Kategori Siswa</th>
                   <th>Status Peminjaman</th>
                   <th style="text-align: right;">Aksi</th>
                 </tr>
@@ -1304,7 +1319,14 @@
             <datalist id="classList">
               <!-- Populated dynamically -->
             </datalist>
-            <div class="form-hint">Kamu bisa mengetikkan tambahan nama kelas sesuai kebutuhan di kemudian hari.</div>
+          </div>
+          <div class="form-group">
+            <label>Kategori Penandaan Siswa</label>
+            <select id="inTipeSiswa" class="form-control">
+              <option value="reguler">Siswa Reguler (Putih)</option>
+              <option value="khusus">Program Khusus (Ungu)</option>
+            </select>
+            <div class="form-hint">Siswa Program Khusus akan diberi penanda warna ungu di tabel data murid.</div>
           </div>
         </div>
         <div class="modal-footer">
@@ -1330,12 +1352,18 @@
             <input type="text" id="editNamaSiswa" class="form-control" required/>
           </div>
           <div class="form-group">
-            <label>Kelas Siswa (Bisa Di-edit / Disesuaikan)</label>
+            <label>Kelas Siswa</label>
             <input type="text" id="editKelasSiswa" class="form-control" list="classListEdit" required placeholder="Masukkan nama kelas baru atau tambahan..."/>
             <datalist id="classListEdit">
               <!-- Populated dynamically -->
             </datalist>
-            <div class="form-hint">Misal: Ubah "Kelas 1A" menjadi "Kelas 1A Abu Bakar".</div>
+          </div>
+          <div class="form-group">
+            <label>Kategori Penandaan Siswa</label>
+            <select id="editTipeSiswa" class="form-control">
+              <option value="reguler">Siswa Reguler (Putih)</option>
+              <option value="khusus">Program Khusus (Ungu)</option>
+            </select>
           </div>
         </div>
         <div class="modal-footer">
@@ -1477,7 +1505,7 @@
       showToast("Akses web telah dikunci.");
     }
 
-    // Initial Data
+    // Initial Books Dataset
     const initialBooks = [
       { id: 1, kode: "AI/001", judul: "99 Asmaul Husna", penerbit: "Karya Gemilang Utama", tahun: "-", kategori: "Agama Islam", stok: 2, tersedia: 2, kondisi: "Baik" },
       { id: 2, kode: "AI/002", judul: "Bacaan Sholat: Disertai Latin & Terjemah Bahasa Indonesia", penerbit: "-", tahun: "-", kategori: "Agama Islam", stok: 2, tersedia: 1, kondisi: "Baik" },
@@ -1496,28 +1524,29 @@
       { id: 15, kode: "BM/002", judul: "Bahasa Indonesia SD Kelas 2", penerbit: "Erlangga", tahun: "2023", kategori: "Buku Mapel", stok: 20, tersedia: 19, kondisi: "Baik" }
     ];
 
+    // Initial Active Students Dataset (Siswa merah otomatis dieliminasi; Ungu = Program Khusus; Putih = Reguler)
     const initialStudents = [
-      { id: 1, nama: "Ambalika Sora Pratama", kelas: "Kelas 1A" },
-      { id: 2, nama: "Annasya Adreena", kelas: "Kelas 1A" },
-      { id: 3, nama: "Arkania Embun Ahmada", kelas: "Kelas 1A" },
-      { id: 4, nama: "Arroyan Dylan Alfarizqy Purnomo", kelas: "Kelas 1A" },
-      { id: 5, nama: "Aurora Alunasvara Pradana", kelas: "Kelas 1A" },
-      { id: 6, nama: "Adlan Malik Assami", kelas: "Kelas 1B" },
-      { id: 7, nama: "Aldi Rafaeyza", kelas: "Kelas 1B" },
-      { id: 8, nama: "Alvarendra Arasya Widhiyatmoko", kelas: "Kelas 1B" },
-      { id: 9, nama: "Abiandra Ibrahim", kelas: "Kelas 1C" },
-      { id: 10, nama: "Ahza Apzarini Frastika", kelas: "Kelas 1C" },
-      { id: 11, nama: "Aisyah Pelangi Muslimah", kelas: "Kelas 2A Al Malik" },
-      { id: 12, nama: "Almeera Nahla WS", kelas: "Kelas 2A Al Malik" },
-      { id: 13, nama: "Affan Ali Adzani", kelas: "Kelas 2B Al Hakim" },
-      { id: 14, nama: "Al Hisyam Hamizananta", kelas: "Kelas 2C Al Aziiz" },
-      { id: 15, nama: "Adifa Safa Azzahra", kelas: "Kelas 3A Al Aliim" },
-      { id: 16, nama: "Adeeva Shaqeena Akhmad", kelas: "Kelas 3B Al Hafizh" },
-      { id: 17, nama: "Abyan Faatih Alfarizqi", kelas: "Kelas 3C Ar Rasyiid" },
-      { id: 18, nama: "Abhimananta Al Fatih", kelas: "Kelas 4A Al Amiin" },
-      { id: 19, nama: "Alesha Almahyra Putri Farisa", kelas: "Kelas 4B Al Waasi’" },
-      { id: 20, nama: "Aditya Zharif Arkan", kelas: "Kelas 5 Al Kariim" },
-      { id: 21, nama: "Ahmad Alfian Arsyad", kelas: "Kelas 6 Al Fattah" }
+      { id: 1, nama: "Ambalika Sora Pratama", kelas: "Kelas 1A", tipe: "reguler" },
+      { id: 2, nama: "Annasya Adreena", kelas: "Kelas 1A", tipe: "reguler" },
+      { id: 3, nama: "Arkania Embun Ahmada", kelas: "Kelas 1A", tipe: "reguler" },
+      { id: 4, nama: "Arroyan Dylan Alfarizqy Purnomo", kelas: "Kelas 1A", tipe: "khusus" },
+      { id: 5, nama: "Aurora Alunasvara Pradana", kelas: "Kelas 1A", tipe: "reguler" },
+      { id: 6, nama: "Adlan Malik Assami", kelas: "Kelas 1B", tipe: "reguler" },
+      { id: 7, nama: "Aldi Rafaeyza", kelas: "Kelas 1B", tipe: "reguler" },
+      { id: 8, nama: "Alvarendra Arasya Widhiyatmoko", kelas: "Kelas 1B", tipe: "khusus" },
+      { id: 9, nama: "Abiandra Ibrahim", kelas: "Kelas 1C", tipe: "reguler" },
+      { id: 10, nama: "Ahza Apzarini Frastika", kelas: "Kelas 1C", tipe: "reguler" },
+      { id: 11, nama: "Aisyah Pelangi Muslimah", kelas: "Kelas 2A Al Malik", tipe: "reguler" },
+      { id: 12, nama: "Almeera Nahla WS", kelas: "Kelas 2A Al Malik", tipe: "reguler" },
+      { id: 13, nama: "Affan Ali Adzani", kelas: "Kelas 2B Al Hakim", tipe: "khusus" },
+      { id: 14, nama: "Al Hisyam Hamizananta", kelas: "Kelas 2C Al Aziiz", tipe: "reguler" },
+      { id: 15, nama: "Adifa Safa Azzahra", kelas: "Kelas 3A Al Aliim", tipe: "reguler" },
+      { id: 16, nama: "Adeeva Shaqeena Akhmad", kelas: "Kelas 3B Al Hafizh", tipe: "reguler" },
+      { id: 17, nama: "Abyan Faatih Alfarizqi", kelas: "Kelas 3C Ar Rasyiid", tipe: "khusus" },
+      { id: 18, nama: "Abhimananta Al Fatih", kelas: "Kelas 4A Al Amiin", tipe: "reguler" },
+      { id: 19, nama: "Alesha Almahyra Putri Farisa", kelas: "Kelas 4B Al Waasi’", tipe: "reguler" },
+      { id: 20, nama: "Aditya Zharif Arkan", kelas: "Kelas 5 Al Kariim", tipe: "reguler" },
+      { id: 21, nama: "Ahmad Alfian Arsyad", kelas: "Kelas 6 Al Fattah", tipe: "reguler" }
     ];
 
     let initialLoans = [
@@ -1740,11 +1769,13 @@
     function renderMurid() {
       const q = document.getElementById('searchMurid').value.toLowerCase();
       const k = document.getElementById('filterKelas').value;
+      const t = document.getElementById('filterKategoriSiswa').value;
 
       const filtered = students.filter(s => {
         const matchQ = s.nama.toLowerCase().includes(q);
         const matchK = k === "" || s.kelas === k;
-        return matchQ && matchK;
+        const matchT = t === "" || (s.tipe || "reguler") === t;
+        return matchQ && matchK && matchT;
       });
 
       const tbody = document.getElementById('tableMuridBody');
@@ -1756,11 +1787,17 @@
           ? `<span class="badge badge-warning"><i class="fa-solid fa-book-reader"></i> Meminjam Buku</span>`
           : `<span class="badge badge-success"><i class="fa-solid fa-check"></i> Bebas Pinjaman</span>`;
 
+        // Subtle Purple Tag for Special Program Students
+        const typeBadge = (s.tipe === "khusus")
+          ? `<span class="badge badge-purple"><i class="fa-solid fa-star"></i> Program Khusus</span>`
+          : `<span class="badge" style="background:#F4ECE0; color:var(--text-muted);">Siswa Reguler</span>`;
+
         tbody.innerHTML += `
           <tr>
             <td>${idx + 1}</td>
             <td style="font-weight:700; color:var(--text-dark);">${s.nama}</td>
             <td><span class="badge badge-class">${s.kelas}</span></td>
+            <td>${typeBadge}</td>
             <td>${statusBadge}</td>
             <td style="text-align: right;">
               <button class="btn-action" title="Cetak Kartu Anggota" onclick="cetakKartuSiswa(${s.id})"><i class="fa-solid fa-id-card"></i></button>
@@ -1822,6 +1859,7 @@
       document.getElementById('editMuridId').value = st.id;
       document.getElementById('editNamaSiswa').value = st.nama;
       document.getElementById('editKelasSiswa').value = st.kelas;
+      document.getElementById('editTipeSiswa').value = st.tipe || "reguler";
 
       openModal('modalEditMurid');
     }
@@ -1831,11 +1869,13 @@
       const id = parseInt(document.getElementById('editMuridId').value);
       const namaBaru = document.getElementById('editNamaSiswa').value.trim();
       const kelasBaru = document.getElementById('editKelasSiswa').value.trim();
+      const tipeBaru = document.getElementById('editTipeSiswa').value;
 
       const st = students.find(s => s.id === id);
       if(st) {
         st.nama = namaBaru;
         st.kelas = kelasBaru;
+        st.tipe = tipeBaru;
 
         loans.forEach(l => {
           if(l.studentId === id) {
@@ -1859,7 +1899,8 @@
       const newStudent = {
         id: Date.now(),
         nama: document.getElementById('inNamaSiswa').value.trim(),
-        kelas: document.getElementById('inKelasSiswa').value.trim()
+        kelas: document.getElementById('inKelasSiswa').value.trim(),
+        tipe: document.getElementById('inTipeSiswa').value
       };
 
       students.unshift(newStudent);
