@@ -8,7 +8,9 @@
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate, max-age=0" />
   <meta http-equiv="Pragma" content="no-cache" />
   <meta http-equiv="Expires" content="0" />
-  <meta name="version" content="v6.0" />
+  <meta name="version" content="v6.1-20261028" />
+  <meta name="last-updated" content="2026-10-28T04:40:00+07:00" />
+  <!-- build: v6.1.1-force-refresh -->
   
   <title>Pustaka Syamilah - SD Islam Makarima</title>
   
@@ -863,6 +865,7 @@
       <img src="logo makarima.webp" alt="Logo SD Islam Makarima" class="lock-logo" onerror="this.src='https://via.placeholder.com/64?text=SDIM'"/>
       <h3>Pustaka Syamilah</h3>
       <p>SD Islam Makarima Kartasura</p>
+      <p style="font-size:11px;color:var(--accent-warm);font-weight:700;margin-bottom:14px;">Versi 6.1</p>
       
       <div class="lock-form">
         <label for="inputPin">Akses Masuk Petugas</label>
@@ -937,7 +940,7 @@
     </nav>
 
     <div class="sidebar-footer">
-      <p><strong>Pustaka Syamilah v6.0</strong></p>
+      <p><strong>Pustaka Syamilah v6.1</strong></p>
       <p style="margin-top: 2px;">SD Islam Makarima Kartasura</p>
     </div>
   </aside>
@@ -1003,10 +1006,11 @@
             </div>
           </div>
 
-          <div class="metric-card">
+          <div class="metric-card" style="cursor:pointer;" title="Klik untuk edit angka kunjungan bulan ini" onclick="editAngkaKunjunganBulan()">
             <div class="metric-info">
-              <h3>Kunjungan Bulan Ini</h3>
+              <h3>Kunjungan Bulan Ini <i class="fa-solid fa-pen" style="font-size:10px;opacity:0.6;"></i></h3>
               <div class="val" id="statTotalKunjunganBulanIni">0</div>
+              <div class="sub" style="font-size:10px;">Ketuk untuk ubah angka</div>
             </div>
             <div class="metric-icon icon-purple">
               <i class="fa-solid fa-clipboard-user"></i>
@@ -1254,9 +1258,9 @@
         </div>
 
         <div class="metrics-grid">
-          <div class="metric-card">
+          <div class="metric-card" style="cursor:pointer;" title="Klik untuk edit angka presensi bulan ini" onclick="editAngkaKunjunganBulan()">
             <div class="metric-info">
-              <h3>Presensi Bulan Ini</h3>
+              <h3>Presensi Bulan Ini <i class="fa-solid fa-pen" style="font-size:10px;opacity:0.6;"></i></h3>
               <div class="val" id="statKunjunganBulan">0</div>
               <div class="sub" id="statPeriodeAktif">-</div>
             </div>
@@ -2380,7 +2384,7 @@
     // ===================================================
     // LOGIKA AUTO-UPDATE MEMORI UNTUK PERANGKAT LAMA & BARU
     // ===================================================
-    const DATA_VERSION = "v6.0_jadwal_import";
+    const DATA_VERSION = "v6.1_edit_kunjungan_angka";
 
     function loadAndUpdateBooks() {
       const savedVersion = localStorage.getItem("app_data_version");
@@ -2466,6 +2470,36 @@
       localStorage.setItem('makarima_students', JSON.stringify(students));
       localStorage.setItem('makarima_loans', JSON.stringify(loans));
       localStorage.setItem('makarima_visits', JSON.stringify(visits));
+    }
+
+    // Angka manual "Kunjungan Bulan Ini" (bisa diisi dulu, detail menyusul)
+    function getAngkaKunjunganBulanOverride() {
+      const v = localStorage.getItem('makarima_kunjungan_bulan_angka');
+      if (v === null || v === '') return null;
+      const n = parseInt(v, 10);
+      return isNaN(n) ? null : n;
+    }
+
+    function editAngkaKunjunganBulan() {
+      const current = getAngkaKunjunganBulanOverride();
+      const autoCount = visits.filter(v => v.tanggal && v.tanggal.startsWith(new Date().toISOString().slice(0, 7))).length;
+      const shown = current !== null ? current : autoCount;
+      const input = prompt('Masukkan angka Kunjungan / Presensi Bulan Ini:\n(Kosongkan lalu OK untuk pakai hitungan otomatis dari log)', String(shown));
+      if (input === null) return; // batal
+      if (input.trim() === '') {
+        localStorage.removeItem('makarima_kunjungan_bulan_angka');
+        showToast('Angka kunjungan kembali ke hitungan otomatis.');
+      } else {
+        const n = parseInt(input.trim(), 10);
+        if (isNaN(n) || n < 0) {
+          alert('Masukkan angka yang valid (0 atau lebih).');
+          return;
+        }
+        localStorage.setItem('makarima_kunjungan_bulan_angka', String(n));
+        showToast('Angka kunjungan bulan ini diset: ' + n);
+      }
+      renderDashboard();
+      renderKunjungan();
     }
 
     function showToast(msg) {
@@ -2612,8 +2646,9 @@
       document.getElementById('statTotalDipinjam').innerText = loans.filter(l => l.status !== 'Dikembalikan').length;
       
       const currMonth = new Date().toISOString().slice(0, 7);
-      const visitsThisMonth = visits.filter(v => v.tanggal.startsWith(currMonth)).length;
-      document.getElementById('statTotalKunjunganBulanIni').innerText = visitsThisMonth;
+      const autoVisits = visits.filter(v => v.tanggal && v.tanggal.startsWith(currMonth)).length;
+      const overrideVisits = getAngkaKunjunganBulanOverride();
+      document.getElementById('statTotalKunjunganBulanIni').innerText = overrideVisits !== null ? overrideVisits : autoVisits;
 
       const catCounts = {};
       books.forEach(b => {
@@ -2950,7 +2985,9 @@
       const selectedMonth = document.getElementById('filterBulanKunjungan').value || new Date().toISOString().slice(0, 7);
       const monthVisits = visits.filter(v => v.tanggal.startsWith(selectedMonth));
       
-      document.getElementById('statKunjunganBulan').innerText = monthVisits.length;
+      const overrideVisits = getAngkaKunjunganBulanOverride();
+      // Angka manual dipakai jika user sudah set; detail log tetap dari data
+      document.getElementById('statKunjunganBulan').innerText = overrideVisits !== null ? overrideVisits : monthVisits.length;
       
       const dateObj = new Date(selectedMonth + "-01");
       const monthLabel = dateObj.toLocaleString('id', { month: 'long', year: 'numeric' });
