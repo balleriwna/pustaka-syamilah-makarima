@@ -772,7 +772,7 @@
     }
 
     /* ========================================================= */
-    /*   MEDIA QUERIES AUTO-RESPONSIVE (LAPTOP, TABLET & MOBILE)   */
+    /*    MEDIA QUERIES AUTO-RESPONSIVE (LAPTOP, TABLET & MOBILE)   */
     /* ========================================================= */
     
     @media (max-width: 1024px) {
@@ -1954,7 +1954,39 @@
       { id: 5, studentId: 15, studentName: "Adifa Safa Azzahra", kelas: "Kelas 3A Al Aliim", tanggal: "2026-10-10", keperluan: "Kerja Kelompok / Tugas" }
     ];
 
-    let books = JSON.parse(localStorage.getItem('makarima_books')) || initialBooks;
+    // ===================================================
+    // LOGIKA AUTO-UPDATE MEMORI UNTUK PERANGKAT LAMA & BARU
+    // ===================================================
+    const DATA_VERSION = "v3.0_342_books";
+
+    function loadAndUpdateBooks() {
+      const savedVersion = localStorage.getItem("app_data_version");
+      const savedBooks = localStorage.getItem("makarima_books");
+      let needReset = false;
+
+      if (savedVersion !== DATA_VERSION || !savedBooks) {
+        needReset = true;
+      } else {
+        try {
+          const parsed = JSON.parse(savedBooks);
+          if (!Array.isArray(parsed) || parsed.length < 342) {
+            needReset = true;
+          }
+        } catch (err) {
+          needReset = true;
+        }
+      }
+
+      if (needReset) {
+        localStorage.setItem("makarima_books", JSON.stringify(initialBooks));
+        localStorage.setItem("app_data_version", DATA_VERSION);
+        return initialBooks;
+      }
+
+      return JSON.parse(savedBooks);
+    }
+
+    let books = loadAndUpdateBooks();
     let students = JSON.parse(localStorage.getItem('makarima_students')) || initialStudents;
     let categoryChartInstance = null;
 
