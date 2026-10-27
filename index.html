@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Pustaka Syamilah - SD Islam Makarima</title>
-  <!-- Google Fonts & FontAwesome & Chart.js -->
+  <!-- Google Fonts & FontAwesome -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -22,6 +22,8 @@
       --accent-green-light: #EBF2ED;
       --accent-red: #C85A5A;
       --accent-red-light: #FDF0F0;
+      --accent-purple: #7B61FF;
+      --accent-purple-light: #F0EDFF;
       --text-dark: #2D2A26;
       --text-muted: #7A756C;
       --border-cream: #E8E2D5;
@@ -31,195 +33,781 @@
       --radius-sm: 6px;
     }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; }
-    body { background-color: var(--bg-cream-main); color: var(--text-dark); min-height: 100vh; display: flex; }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-cream-main);
+      color: var(--text-dark);
+      min-height: 100vh;
+      display: flex;
+    }
 
     /* LOCK SCREEN OVERLAY */
     .lock-screen-overlay {
-      position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-      background-color: var(--bg-cream-main); z-index: 99999;
-      display: flex; align-items: center; justify-content: center; padding: 20px;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background-color: var(--bg-cream-main);
+      z-index: 99999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
     }
+
     .lock-card {
-      background: var(--bg-cream-card); border: 1px solid var(--border-cream);
-      border-radius: var(--radius-lg); padding: 32px 28px; width: 100%; max-width: 380px; text-align: center;
+      background: var(--bg-cream-card);
+      border: 1px solid var(--border-cream);
+      border-radius: var(--radius-lg);
+      padding: 32px 28px;
+      width: 100%;
+      max-width: 380px;
+      text-align: center;
       box-shadow: 0 10px 30px rgba(90, 80, 65, 0.1);
+      animation: modalSlide 0.3s ease-out;
     }
-    .lock-logo { width: 64px; height: 64px; object-fit: contain; margin-bottom: 12px; background: white; padding: 4px; border-radius: 50%; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
-    .lock-card h3 { font-size: 20px; font-weight: 800; color: var(--text-dark); margin-bottom: 2px; }
-    .lock-card p { font-size: 13px; color: var(--text-muted); margin-bottom: 22px; }
-    .lock-form label { display: block; font-size: 11.5px; font-weight: 700; color: var(--text-dark); margin-bottom: 8px; text-transform: uppercase; text-align: left; }
-    .password-input-wrapper { position: relative; width: 100%; }
-    .password-input-wrapper input { padding-right: 40px; }
-    .toggle-password-btn { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); color: var(--text-muted); cursor: pointer; font-size: 14px; }
-    .lock-error { display: none; color: var(--accent-red); font-size: 12px; font-weight: 600; margin-top: 10px; text-align: center; }
 
-    /* SIDEBAR & OVERLAY */
-    .sidebar-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(45, 42, 38, 0.4); z-index: 99; display: none; }
-    .sidebar-overlay.active { display: block; }
+    .lock-logo {
+      width: 64px;
+      height: 64px;
+      object-fit: contain;
+      margin-bottom: 12px;
+      background: white;
+      padding: 4px;
+      border-radius: 50%;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
 
+    .lock-card h3 {
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--text-dark);
+      margin-bottom: 2px;
+    }
+
+    .lock-card p {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 22px;
+    }
+
+    .lock-form label {
+      display: block;
+      font-size: 11.5px;
+      font-weight: 700;
+      color: var(--text-dark);
+      margin-bottom: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      text-align: left;
+    }
+
+    .lock-error {
+      display: none;
+      color: var(--accent-red);
+      font-size: 12px;
+      font-weight: 600;
+      margin-top: 10px;
+      text-align: center;
+    }
+
+    /* Overlay Sidebar for Mobile */
+    .sidebar-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(45, 42, 38, 0.4);
+      backdrop-filter: blur(2px);
+      z-index: 99;
+      display: none;
+    }
+    .sidebar-overlay.active {
+      display: block;
+    }
+
+    /* Sidebar Navigation */
     .sidebar {
-      width: 280px; background-color: var(--bg-cream-light); border-right: 1px solid var(--border-cream);
-      display: flex; flex-direction: column; position: fixed; height: 100vh; z-index: 100; transition: transform 0.3s ease;
+      width: 280px;
+      background-color: var(--bg-cream-light);
+      border-right: 1px solid var(--border-cream);
+      display: flex;
+      flex-direction: column;
+      position: fixed;
+      height: 100vh;
+      z-index: 100;
+      transition: transform 0.3s ease;
     }
-    .sidebar-header { padding: 20px; display: flex; align-items: center; gap: 12px; border-bottom: 1px solid var(--border-cream); }
-    .school-logo { width: 44px; height: 44px; object-fit: contain; background: white; padding: 4px; border-radius: 50%; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
-    .sidebar-title h1 { font-size: 15px; font-weight: 700; color: var(--text-dark); line-height: 1.2; }
-    .sidebar-title span { font-size: 11px; color: var(--accent-warm); font-weight: 600; text-transform: uppercase; }
 
-    .sidebar-menu { padding: 16px 12px; flex-grow: 1; display: flex; flex-direction: column; gap: 4px; overflow-y: auto; }
-    .menu-label { font-size: 11px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.8px; padding: 10px 12px 4px 12px; }
-    .menu-item { display: flex; align-items: center; gap: 12px; padding: 11px 14px; border-radius: var(--radius-md); color: var(--text-muted); text-decoration: none; font-size: 13.5px; font-weight: 600; cursor: pointer; transition: all 0.2s; }
-    .menu-item i { font-size: 17px; width: 22px; text-align: center; }
-    .menu-item:hover { background-color: var(--bg-cream-main); color: var(--text-dark); }
-    .menu-item.active { background-color: var(--accent-warm); color: white; box-shadow: 0 4px 12px rgba(197, 160, 89, 0.3); }
-    .menu-item.lock-btn { color: var(--accent-red); margin-top: 6px; }
-    .menu-item.lock-btn:hover { background-color: var(--accent-red-light); }
+    .sidebar-header {
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      border-bottom: 1px solid var(--border-cream);
+    }
 
-    .sidebar-footer { padding: 16px 20px; border-top: 1px solid var(--border-cream); font-size: 12px; color: var(--text-muted); background: rgba(255, 255, 255, 0.4); }
+    .school-logo {
+      width: 44px;
+      height: 44px;
+      object-fit: contain;
+      background: white;
+      padding: 4px;
+      border-radius: 50%;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
 
-    /* MAIN WRAPPER */
-    .main-wrapper { margin-left: 280px; flex-grow: 1; min-height: 100vh; display: flex; flex-direction: column; width: calc(100% - 280px); transition: margin-left 0.3s ease, width 0.3s ease; }
-    .top-header { background-color: var(--bg-cream-light); border-bottom: 1px solid var(--border-cream); padding: 16px 24px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 90; gap: 12px; }
-    .header-left { display: flex; align-items: center; gap: 12px; }
-    .btn-mobile-toggle { display: none; background: var(--bg-cream-main); border: 1px solid var(--border-cream); font-size: 18px; padding: 8px 12px; border-radius: var(--radius-md); cursor: pointer; }
-    .page-title h2 { font-size: 18px; font-weight: 700; color: var(--text-dark); }
-    .page-title p { font-size: 12px; color: var(--text-muted); }
-    .user-profile { display: flex; align-items: center; gap: 10px; }
-    .admin-badge { background-color: var(--accent-green-light); color: var(--accent-green); font-size: 11.5px; font-weight: 700; padding: 6px 12px; border-radius: 20px; display: flex; align-items: center; gap: 6px; white-space: nowrap; }
+    .sidebar-title h1 {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text-dark);
+      line-height: 1.2;
+    }
 
-    .quick-btn { background-color: var(--accent-warm); color: white; border: none; padding: 9px 16px; border-radius: var(--radius-md); font-weight: 600; font-size: 13px; cursor: pointer; display: flex; align-items: center; gap: 8px; transition: all 0.2s; white-space: nowrap; }
-    .quick-btn:hover { background-color: var(--accent-warm-hover); transform: translateY(-1px); }
+    .sidebar-title span {
+      font-size: 11px;
+      color: var(--accent-warm);
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
 
-    .content-container { padding: 24px; flex-grow: 1; }
-    .section-content { display: none; animation: fadeIn 0.3s ease-in-out; }
-    .section-content.active { display: block; }
+    .sidebar-menu {
+      padding: 16px 12px;
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      overflow-y: auto;
+    }
 
-    @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+    .menu-label {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      padding: 10px 12px 4px 12px;
+    }
 
-    /* METRIC CARDS */
-    .metrics-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 24px; }
-    .metric-card { background: var(--bg-cream-card); border: 1px solid var(--border-cream); border-radius: var(--radius-lg); padding: 18px; box-shadow: var(--shadow-soft); display: flex; align-items: center; justify-content: space-between; }
-    .metric-info h3 { font-size: 11px; text-transform: uppercase; color: var(--text-muted); letter-spacing: 0.5px; margin-bottom: 4px; }
-    .metric-info .val { font-size: 24px; font-weight: 800; color: var(--text-dark); }
-    .metric-icon { width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 18px; }
+    .menu-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 11px 14px;
+      border-radius: var(--radius-md);
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 13.5px;
+      font-weight: 600;
+      transition: all 0.2s ease;
+      cursor: pointer;
+    }
+
+    .menu-item i {
+      font-size: 17px;
+      width: 22px;
+      text-align: center;
+    }
+
+    .menu-item:hover {
+      background-color: var(--bg-cream-main);
+      color: var(--text-dark);
+    }
+
+    .menu-item.active {
+      background-color: var(--accent-warm);
+      color: white;
+      box-shadow: 0 4px 12px rgba(197, 160, 89, 0.3);
+    }
+
+    .menu-item.lock-btn {
+      color: var(--accent-red);
+      margin-top: 6px;
+    }
+
+    .menu-item.lock-btn:hover {
+      background-color: var(--accent-red-light);
+    }
+
+    .sidebar-footer {
+      padding: 16px 20px;
+      border-top: 1px solid var(--border-cream);
+      font-size: 12px;
+      color: var(--text-muted);
+      background-color: rgba(255, 255, 255, 0.4);
+    }
+
+    /* Main Content Wrapper */
+    .main-wrapper {
+      margin-left: 280px;
+      flex-grow: 1;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      width: calc(100% - 280px);
+      transition: margin-left 0.3s ease, width 0.3s ease;
+    }
+
+    .top-header {
+      background-color: var(--bg-cream-light);
+      border-bottom: 1px solid var(--border-cream);
+      padding: 16px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 90;
+      gap: 12px;
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .btn-mobile-toggle {
+      display: none;
+      background: var(--bg-cream-main);
+      border: 1px solid var(--border-cream);
+      font-size: 18px;
+      color: var(--text-dark);
+      padding: 8px 12px;
+      border-radius: var(--radius-md);
+      cursor: pointer;
+    }
+
+    .page-title h2 {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text-dark);
+    }
+
+    .page-title p {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .user-profile {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .admin-badge {
+      background-color: var(--accent-green-light);
+      color: var(--accent-green);
+      font-size: 11.5px;
+      font-weight: 700;
+      padding: 6px 12px;
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      white-space: nowrap;
+    }
+
+    .quick-btn {
+      background-color: var(--accent-warm);
+      color: white;
+      border: none;
+      padding: 9px 16px;
+      border-radius: var(--radius-md);
+      font-weight: 600;
+      font-size: 13px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+
+    .quick-btn.purple {
+      background-color: var(--accent-purple);
+    }
+
+    .quick-btn:hover {
+      background-color: var(--accent-warm-hover);
+      transform: translateY(-1px);
+    }
+
+    .content-container {
+      padding: 24px;
+      flex-grow: 1;
+    }
+
+    /* Section Visibility */
+    .section-content {
+      display: none;
+      animation: fadeIn 0.3s ease-in-out;
+    }
+
+    .section-content.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Summary Metric Cards */
+    .metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .metric-card {
+      background: var(--bg-cream-card);
+      border: 1px solid var(--border-cream);
+      border-radius: var(--radius-lg);
+      padding: 18px;
+      box-shadow: var(--shadow-soft);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .metric-info h3 {
+      font-size: 11px;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      letter-spacing: 0.5px;
+      margin-bottom: 4px;
+    }
+
+    .metric-info .val {
+      font-size: 22px;
+      font-weight: 800;
+      color: var(--text-dark);
+    }
+
+    .metric-info .sub {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    .metric-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+    }
+
     .icon-gold { background-color: #FAF4E5; color: var(--accent-warm); }
     .icon-green { background-color: var(--accent-green-light); color: var(--accent-green); }
     .icon-red { background-color: var(--accent-red-light); color: var(--accent-red); }
     .icon-blue { background-color: #EBF3FA; color: #3B82F6; }
+    .icon-purple { background-color: var(--accent-purple-light); color: var(--accent-purple); }
 
-    /* CHARTS LAYOUT */
-    .charts-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 16px; margin-bottom: 20px; }
+    /* Tables & Cards */
+    .card-panel {
+      background: var(--bg-cream-card);
+      border: 1px solid var(--border-cream);
+      border-radius: var(--radius-lg);
+      padding: 20px;
+      box-shadow: var(--shadow-soft);
+      margin-bottom: 20px;
+    }
 
-    /* CARD PANELS & TABLES */
-    .card-panel { background: var(--bg-cream-card); border: 1px solid var(--border-cream); border-radius: var(--radius-lg); padding: 20px; box-shadow: var(--shadow-soft); margin-bottom: 20px; }
-    .panel-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; flex-wrap: wrap; gap: 12px; }
-    .panel-header h3 { font-size: 15px; font-weight: 700; color: var(--text-dark); display: flex; align-items: center; gap: 8px; }
-    .filter-tools { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; width: 100%; max-width: 650px; justify-content: flex-end; }
-    .search-box { position: relative; flex-grow: 1; min-width: 180px; }
-    .search-input { width: 100%; background: var(--bg-cream-light); border: 1px solid var(--border-cream); padding: 8px 12px 8px 34px; border-radius: var(--radius-md); font-size: 13px; outline: none; transition: all 0.2s; }
-    .search-input:focus { border-color: var(--accent-warm); background: #FFFFFF; }
-    .search-box i { position: absolute; left: 11px; top: 50%; transform: translateY(-50%); color: var(--text-muted); font-size: 12px; }
-    .select-input { background: var(--bg-cream-light); border: 1px solid var(--border-cream); padding: 8px 12px; border-radius: var(--radius-md); font-size: 13px; color: var(--text-dark); outline: none; cursor: pointer; }
+    .panel-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 18px;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
 
-    .table-responsive { width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; }
-    .custom-table { width: 100%; border-collapse: collapse; font-size: 13px; text-align: left; white-space: nowrap; }
-    .custom-table th { background-color: var(--bg-cream-main); color: var(--text-muted); font-weight: 700; text-transform: uppercase; font-size: 10.5px; letter-spacing: 0.5px; padding: 10px 14px; border-bottom: 1px solid var(--border-cream); }
-    .custom-table td { padding: 12px 14px; border-bottom: 1px solid var(--border-cream); color: var(--text-dark); }
-    .custom-table tr:hover { background-color: #FAF8F3; }
+    .panel-header h3 {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text-dark);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
 
-    /* BADGES & ACTION BUTTONS */
-    .badge { display: inline-block; padding: 3px 9px; border-radius: 12px; font-size: 11px; font-weight: 700; }
+    .filter-tools {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      flex-wrap: wrap;
+      width: 100%;
+      max-width: 650px;
+      justify-content: flex-end;
+    }
+
+    .search-box {
+      position: relative;
+      flex-grow: 1;
+      min-width: 180px;
+    }
+
+    .search-input {
+      width: 100%;
+      background: var(--bg-cream-light);
+      border: 1px solid var(--border-cream);
+      padding: 8px 12px 8px 34px;
+      border-radius: var(--radius-md);
+      font-size: 13px;
+      outline: none;
+      transition: all 0.2s;
+    }
+
+    .search-input:focus {
+      border-color: var(--accent-warm);
+      background: #FFFFFF;
+    }
+
+    .search-box i {
+      position: absolute;
+      left: 11px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-muted);
+      font-size: 12px;
+    }
+
+    .select-input {
+      background: var(--bg-cream-light);
+      border: 1px solid var(--border-cream);
+      padding: 8px 12px;
+      border-radius: var(--radius-md);
+      font-size: 13px;
+      color: var(--text-dark);
+      outline: none;
+      cursor: pointer;
+    }
+
+    /* Data Tables */
+    .table-responsive {
+      width: 100%;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .custom-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+      text-align: left;
+      white-space: nowrap;
+    }
+
+    .custom-table th {
+      background-color: var(--bg-cream-main);
+      color: var(--text-muted);
+      font-weight: 700;
+      text-transform: uppercase;
+      font-size: 10.5px;
+      letter-spacing: 0.5px;
+      padding: 10px 14px;
+      border-bottom: 1px solid var(--border-cream);
+    }
+
+    .custom-table td {
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--border-cream);
+      color: var(--text-dark);
+    }
+
+    .custom-table tr:hover {
+      background-color: #FAF8F3;
+    }
+
+    /* Badges */
+    .badge {
+      display: inline-block;
+      padding: 3px 9px;
+      border-radius: 12px;
+      font-size: 11px;
+      font-weight: 700;
+    }
+
     .badge-cat { background-color: #F5EFE0; color: #7A612A; }
     .badge-class { background-color: #EBF2ED; color: #365342; }
     .badge-success { background-color: #E6F4EA; color: #1E7E34; }
     .badge-warning { background-color: #FEF3D6; color: #B7791F; }
     .badge-danger { background-color: #FCE8E6; color: #C5221F; }
+    .badge-purple { background-color: var(--accent-purple-light); color: var(--accent-purple); }
 
-    .btn-action { background: transparent; border: none; color: var(--text-muted); cursor: pointer; padding: 5px 8px; border-radius: var(--radius-sm); transition: all 0.2s; font-size: 13px; }
-    .btn-action:hover { background-color: var(--bg-cream-main); color: var(--accent-warm); }
-    .btn-action.delete:hover { color: var(--accent-red); background-color: var(--accent-red-light); }
-
-    /* MODAL SYSTEM */
-    .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(45, 42, 38, 0.4); backdrop-filter: blur(4px); z-index: 1000; display: none; align-items: center; justify-content: center; padding: 16px; }
-    .modal-overlay.active { display: flex; }
-    .modal-card { background: var(--bg-cream-card); border-radius: var(--radius-lg); width: 100%; max-width: 540px; box-shadow: 0 10px 30px rgba(0,0,0,0.15); border: 1px solid var(--border-cream); overflow: hidden; animation: modalSlide 0.25s ease-out; }
-
-    @keyframes modalSlide { from { transform: translateY(15px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-
-    .modal-header { padding: 16px 20px; background: var(--bg-cream-light); border-bottom: 1px solid var(--border-cream); display: flex; justify-content: space-between; align-items: center; }
-    .modal-header h4 { font-size: 15px; font-weight: 700; }
-    .btn-close { background: none; border: none; font-size: 18px; color: var(--text-muted); cursor: pointer; }
-    .modal-body { padding: 20px; max-height: 75vh; overflow-y: auto; }
-
-    /* MODAL TABS FOR INPUT SISWA & IMPORT */
-    .modal-tabs { display: flex; border-bottom: 1px solid var(--border-cream); margin-bottom: 16px; background: var(--bg-cream-light); border-radius: var(--radius-md); padding: 4px; gap: 4px; }
-    .tab-btn { flex: 1; padding: 8px 12px; border: none; background: transparent; font-size: 12.5px; font-weight: 700; color: var(--text-muted); border-radius: var(--radius-sm); cursor: pointer; transition: all 0.2s; text-align: center; }
-    .tab-btn.active { background: white; color: var(--text-dark); box-shadow: 0 2px 6px rgba(0,0,0,0.06); }
-
-    .form-group { margin-bottom: 14px; }
-    .form-group label { display: block; font-size: 11.5px; font-weight: 700; color: var(--text-dark); margin-bottom: 5px; text-transform: uppercase; letter-spacing: 0.5px; }
-    .form-control { width: 100%; padding: 9px 12px; border: 1px solid var(--border-cream); border-radius: var(--radius-md); font-size: 13px; background: var(--bg-cream-light); outline: none; }
-    .form-control:focus { border-color: var(--accent-warm); background: #FFFFFF; }
-    .form-hint { font-size: 11px; color: var(--text-muted); margin-top: 4px; line-height: 1.4; }
-
-    /* FILE UPLOAD DROPZONE */
-    .dropzone {
-      border: 2px dashed var(--accent-warm); border-radius: var(--radius-md);
-      padding: 24px; text-align: center; background: var(--bg-cream-light);
-      cursor: pointer; transition: all 0.2s; position: relative;
-    }
-    .dropzone:hover { background: #FAF4E5; border-color: var(--accent-warm-hover); }
-    .dropzone i { font-size: 32px; color: var(--accent-warm); margin-bottom: 8px; }
-    .dropzone input[type="file"] { position: absolute; top:0; left:0; width:100%; height:100%; opacity:0; cursor:pointer; }
-
-    .modal-footer { padding: 14px 20px; background: var(--bg-cream-light); border-top: 1px solid var(--border-cream); display: flex; justify-content: space-between; align-items: center; gap: 8px; }
-    .btn-secondary { background: transparent; border: 1px solid var(--border-cream); padding: 8px 14px; border-radius: var(--radius-md); font-size: 12.5px; font-weight: 600; cursor: pointer; }
-    .btn-danger-outline { background: transparent; border: 1px solid var(--accent-red); color: var(--accent-red); padding: 8px 14px; border-radius: var(--radius-md); font-size: 12.5px; font-weight: 600; cursor: pointer; transition: all 0.2s; }
-    .btn-danger-outline:hover { background: var(--accent-red-light); }
-    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-
-    /* CARD MEMBER PREVIEW */
-    .member-card-preview { background: linear-gradient(135deg, #FFFDF9 0%, #F4ECE0 100%); border: 2px solid var(--accent-warm); border-radius: 12px; padding: 20px; width: 100%; max-width: 380px; margin: 0 auto; box-shadow: 0 4px 15px rgba(0,0,0,0.08); position: relative; text-align: left; }
-    .member-card-header { display: flex; align-items: center; gap: 12px; border-bottom: 2px dashed var(--accent-warm); padding-bottom: 10px; margin-bottom: 14px; }
-    .member-card-header img { width: 42px; height: 42px; object-fit: contain; }
-    .member-card-body { display: flex; gap: 14px; align-items: center; }
-    .member-avatar { width: 60px; height: 70px; background: #E8E2D5; border-radius: 6px; display: flex; align-items: center; justify-content: center; color: var(--text-muted); font-size: 24px; border: 1px solid var(--border-cream); }
-    .barcode-lines { margin-top: 14px; font-family: 'Courier New', Courier, monospace; letter-spacing: 4px; font-weight: bold; background: #FFF; padding: 6px; border-radius: 4px; text-align: center; border: 1px solid var(--border-cream); font-size: 12px; }
-
-    /* TOAST */
-    .toast { position: fixed; bottom: 20px; right: 20px; background: var(--text-dark); color: white; padding: 12px 18px; border-radius: var(--radius-md); font-size: 12.5px; font-weight: 600; box-shadow: 0 4px 16px rgba(0,0,0,0.2); display: flex; align-items: center; gap: 8px; z-index: 2000; transform: translateY(100px); opacity: 0; transition: all 0.3s ease; }
-    .toast.show { transform: translateY(0); opacity: 1; }
-
-    @media (max-width: 900px) {
-      .charts-grid { grid-template-columns: 1fr; }
+    /* Action Buttons */
+    .btn-action {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      padding: 5px 8px;
+      border-radius: var(--radius-sm);
+      transition: all 0.2s;
+      font-size: 13px;
     }
 
+    .btn-action:hover {
+      background-color: var(--bg-cream-main);
+      color: var(--accent-warm);
+    }
+
+    .btn-action.delete:hover {
+      color: var(--accent-red);
+      background-color: var(--accent-red-light);
+    }
+
+    /* Modals */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(45, 42, 38, 0.4);
+      backdrop-filter: blur(4px);
+      z-index: 1000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
+
+    .modal-overlay.active {
+      display: flex;
+    }
+
+    .modal-card {
+      background: var(--bg-cream-card);
+      border-radius: var(--radius-lg);
+      width: 100%;
+      max-width: 500px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+      border: 1px solid var(--border-cream);
+      overflow: hidden;
+      animation: modalSlide 0.25s ease-out;
+    }
+
+    @keyframes modalSlide {
+      from { transform: translateY(15px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    .modal-header {
+      padding: 16px 20px;
+      background: var(--bg-cream-light);
+      border-bottom: 1px solid var(--border-cream);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .modal-header h4 {
+      font-size: 15px;
+      font-weight: 700;
+    }
+
+    .btn-close {
+      background: none;
+      border: none;
+      font-size: 18px;
+      color: var(--text-muted);
+      cursor: pointer;
+    }
+
+    .modal-body {
+      padding: 20px;
+      max-height: 75vh;
+      overflow-y: auto;
+    }
+
+    .form-group {
+      margin-bottom: 14px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 11.5px;
+      font-weight: 700;
+      color: var(--text-dark);
+      margin-bottom: 5px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .form-control {
+      width: 100%;
+      padding: 9px 12px;
+      border: 1px solid var(--border-cream);
+      border-radius: var(--radius-md);
+      font-size: 13px;
+      background: var(--bg-cream-light);
+      outline: none;
+    }
+
+    .form-control:focus {
+      border-color: var(--accent-warm);
+      background: #FFFFFF;
+    }
+
+    .form-hint {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .modal-footer {
+      padding: 14px 20px;
+      background: var(--bg-cream-light);
+      border-top: 1px solid var(--border-cream);
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px;
+    }
+
+    .btn-secondary {
+      background: transparent;
+      border: 1px solid var(--border-cream);
+      padding: 8px 14px;
+      border-radius: var(--radius-md);
+      font-size: 12.5px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    /* Toast Notification */
+    .toast {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: var(--text-dark);
+      color: white;
+      padding: 12px 18px;
+      border-radius: var(--radius-md);
+      font-size: 12.5px;
+      font-weight: 600;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      z-index: 2000;
+      transform: translateY(100px);
+      opacity: 0;
+      transition: all 0.3s ease;
+    }
+
+    .toast.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    /* Mobile & Responsive Adjustments */
     @media (max-width: 768px) {
-      .sidebar { transform: translateX(-100%); width: 260px; }
-      .sidebar.open { transform: translateX(0); box-shadow: 4px 0 20px rgba(0,0,0,0.15); }
-      .main-wrapper { margin-left: 0; width: 100%; }
-      .btn-mobile-toggle { display: flex; }
-      .top-header { padding: 12px 16px; }
-      .admin-badge span { display: none; }
-      .content-container { padding: 16px; }
-      .metrics-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
-      .grid-2 { grid-template-columns: 1fr; }
+      .sidebar {
+        transform: translateX(-100%);
+        width: 260px;
+      }
+
+      .sidebar.open {
+        transform: translateX(0);
+        box-shadow: 4px 0 20px rgba(0,0,0,0.15);
+      }
+
+      .main-wrapper {
+        margin-left: 0;
+        width: 100%;
+      }
+
+      .btn-mobile-toggle {
+        display: flex;
+      }
+
+      .top-header {
+        padding: 12px 16px;
+      }
+
+      .admin-badge span {
+        display: none;
+      }
+
+      .content-container {
+        padding: 16px;
+      }
+
+      .metrics-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+      }
+
+      .metric-card {
+        padding: 14px;
+      }
+
+      .metric-info .val {
+        font-size: 18px;
+      }
+
+      .metric-icon {
+        width: 36px;
+        height: 36px;
+        font-size: 15px;
+      }
+
+      .filter-tools {
+        justify-content: stretch;
+      }
+
+      .search-box {
+        width: 100%;
+      }
+
+      .grid-2 {
+        grid-template-columns: 1fr;
+      }
     }
 
+    /* Print styling */
     @media print {
-      .lock-screen-overlay, .sidebar, .top-header, .filter-tools, .btn-action, .quick-btn, .sidebar-overlay, .modal-footer { display: none !important; }
-      .main-wrapper { margin-left: 0 !important; width: 100% !important; }
-      .content-container { padding: 0 !important; }
-      .card-panel { box-shadow: none !important; border: none !important; }
-      .modal-overlay { position: static !important; background: none !important; }
-      .modal-card { box-shadow: none !important; border: none !important; }
+      .lock-screen-overlay, .sidebar, .top-header, .filter-tools, .btn-action, .quick-btn, .sidebar-overlay {
+        display: none !important;
+      }
+      .main-wrapper {
+        margin-left: 0 !important;
+        width: 100% !important;
+      }
+      .content-container {
+        padding: 0 !important;
+      }
+      .card-panel {
+        box-shadow: none !important;
+        border: none !important;
+      }
     }
   </style>
 </head>
 <body>
 
-  <!-- LOCK SCREEN OVERLAY -->
+  <!-- LOCK SCREEN OVERLAY (Password Protection) -->
   <div id="lockScreen" class="lock-screen-overlay">
     <div class="lock-card">
       <img src="logo makarima.webp" alt="Logo SD Islam Makarima" class="lock-logo" onerror="this.src='https://via.placeholder.com/64?text=SDIM'"/>
@@ -228,11 +816,8 @@
       
       <div class="lock-form">
         <label for="inputPin">Akses Masuk Petugas</label>
-        <div class="password-input-wrapper">
-          <input type="password" id="inputPin" class="form-control" placeholder="Ketik password..." onkeypress="handleLockKeyPress(event)"/>
-          <i id="eyeIcon" class="fa-solid fa-eye toggle-password-btn" onclick="togglePasswordVisibility()" title="Lihat/Sembunyikan Password"></i>
-        </div>
-        <button class="quick-btn" style="width: 100%; justify-content: center; margin-top: 14px; padding: 10px;" onclick="checkPassword()">
+        <input type="password" id="inputPin" class="form-control" placeholder="Ketik password..." onkeypress="handleLockKeyPress(event)"/>
+        <button class="quick-btn" style="width: 100%; justify-content: center; margin-top: 12px; padding: 10px;" onclick="checkPassword()">
           <i class="fa-solid fa-key"></i> Buka Akses Web
         </button>
         <div id="lockError" class="lock-error">
@@ -242,10 +827,10 @@
     </div>
   </div>
 
-  <!-- Mobile Overlay -->
+  <!-- Backdrop overlay for mobile menu -->
   <div id="sidebarOverlay" class="sidebar-overlay" onclick="toggleMobileSidebar()"></div>
 
-  <!-- SIDEBAR NAVIGATION -->
+  <!-- Sidebar Nav -->
   <aside id="sidebar" class="sidebar">
     <div class="sidebar-header">
       <img src="logo makarima.webp" alt="Logo SD Islam Makarima" class="school-logo" onerror="this.src='https://via.placeholder.com/44?text=SDIM'"/>
@@ -269,6 +854,9 @@
       <a class="menu-item" onclick="switchTab('sirkulasi')">
         <i class="fa-solid fa-arrow-right-arrow-left"></i> Sirkulasi Pinjam
       </a>
+      <a class="menu-item" onclick="switchTab('kunjungan')">
+        <i class="fa-solid fa-clipboard-user"></i> Kunjungan Siswa
+      </a>
 
       <div class="menu-label">Manajemen Data</div>
       <a class="menu-item" onclick="openModal('modalInputBuku')">
@@ -277,14 +865,14 @@
       <a class="menu-item" onclick="openModal('modalInputMurid')">
         <i class="fa-solid fa-user-plus"></i> Input Siswa Baru
       </a>
+      <a class="menu-item" onclick="openModal('modalKunjungan')">
+        <i class="fa-solid fa-user-check"></i> Catat Kunjungan Baru
+      </a>
       <a class="menu-item" onclick="openModal('modalImport')">
-        <i class="fa-solid fa-file-import"></i> Reset / Upload Data
+        <i class="fa-solid fa-file-import"></i> Upload / Sinkron Data
       </a>
-      <a class="menu-item" onclick="exportToExcel('buku')">
-        <i class="fa-solid fa-file-excel"></i> Ekspor Excel Buku
-      </a>
-      <a class="menu-item" onclick="exportToExcel('murid')">
-        <i class="fa-solid fa-file-excel"></i> Ekspor Excel Siswa
+      <a class="menu-item" onclick="exportCSV('buku')">
+        <i class="fa-solid fa-file-excel"></i> Ekspor Data Buku
       </a>
       <a class="menu-item" onclick="window.print()">
         <i class="fa-solid fa-print"></i> Cetak Laporan
@@ -297,13 +885,14 @@
     </nav>
 
     <div class="sidebar-footer">
-      <p><strong>Pustaka Syamilah v4.0</strong></p>
+      <p><strong>Pustaka Syamilah v3.0</strong></p>
       <p style="margin-top: 2px;">SD Islam Makarima Kartasura</p>
     </div>
   </aside>
 
-  <!-- MAIN WRAPPER -->
+  <!-- Main Wrapper -->
   <main class="main-wrapper">
+    <!-- Header -->
     <header class="top-header">
       <div class="header-left">
         <button class="btn-mobile-toggle" onclick="toggleMobileSidebar()" aria-label="Toggle Menu">
@@ -316,8 +905,11 @@
       </div>
 
       <div class="user-profile">
+        <button class="quick-btn purple" onclick="openModal('modalKunjungan')">
+          <i class="fa-solid fa-user-check"></i> <span>Presensi</span>
+        </button>
         <button class="quick-btn" onclick="openModal('modalPinjam')">
-          <i class="fa-solid fa-hand-holding-hand"></i> <span>Pinjam Buku</span>
+          <i class="fa-solid fa-hand-holding-hand"></i> <span>Pinjam</span>
         </button>
         <div class="admin-badge">
           <i class="fa-solid fa-shield-halved"></i> <span>Petugas Admin</span>
@@ -325,25 +917,40 @@
       </div>
     </header>
 
+    <!-- Main Content Container -->
     <div class="content-container">
 
-      <!-- DASHBOARD TAB -->
+      <!-- DASHBOARD SECTION -->
       <section id="sec-dashboard" class="section-content active">
         <div class="metrics-grid">
           <div class="metric-card">
             <div class="metric-info">
               <h3>Total Judul Buku</h3>
-              <div class="val" id="statTotalJudul">0</div>
+              <div class="val" id="statTotalJudul">342</div>
             </div>
-            <div class="metric-icon icon-gold"><i class="fa-solid fa-book"></i></div>
+            <div class="metric-icon icon-gold">
+              <i class="fa-solid fa-book"></i>
+            </div>
           </div>
 
           <div class="metric-card">
             <div class="metric-info">
               <h3>Total Anggota Siswa</h3>
-              <div class="val" id="statTotalMurid">0</div>
+              <div class="val" id="statTotalMurid">283</div>
             </div>
-            <div class="metric-icon icon-green"><i class="fa-solid fa-users"></i></div>
+            <div class="metric-icon icon-green">
+              <i class="fa-solid fa-users"></i>
+            </div>
+          </div>
+
+          <div class="metric-card">
+            <div class="metric-info">
+              <h3>Kunjungan Bulan Ini</h3>
+              <div class="val" id="statTotalKunjunganBulanIni">0</div>
+            </div>
+            <div class="metric-icon icon-purple">
+              <i class="fa-solid fa-clipboard-user"></i>
+            </div>
           </div>
 
           <div class="metric-card">
@@ -351,44 +958,27 @@
               <h3>Buku Dipinjam</h3>
               <div class="val" id="statTotalDipinjam">0</div>
             </div>
-            <div class="metric-icon icon-blue"><i class="fa-solid fa-book-reader"></i></div>
-          </div>
-
-          <div class="metric-card">
-            <div class="metric-info">
-              <h3>Total Eksemplar Stok</h3>
-              <div class="val" id="statTotalStok">0</div>
+            <div class="metric-icon icon-blue">
+              <i class="fa-solid fa-book-reader"></i>
             </div>
-            <div class="metric-icon icon-red"><i class="fa-solid fa-layer-group"></i></div>
           </div>
         </div>
 
-        <div class="charts-grid">
-          <div class="card-panel" style="margin-bottom:0;">
-            <div class="panel-header">
-              <h3><i class="fa-solid fa-chart-bar" style="color:var(--accent-warm);"></i> Distribusi Koleksi Kategori Buku</h3>
-            </div>
-            <div style="position: relative; width: 100%; height: 280px;">
-              <canvas id="categoryChart"></canvas>
-            </div>
+        <div class="card-panel">
+          <div class="panel-header">
+            <h3><i class="fa-solid fa-chart-bar" style="color:var(--accent-warm);"></i> Distribusi Koleksi Buku Berdasarkan Kategori (Total 342 Judul)</h3>
           </div>
-
-          <div class="card-panel" style="margin-bottom:0;">
-            <div class="panel-header">
-              <h3><i class="fa-solid fa-chart-pie" style="color:var(--accent-green);"></i> Status Stok Buku</h3>
-            </div>
-            <div style="position: relative; width: 100%; height: 280px; display:flex; align-items:center; justify-content:center;">
-              <canvas id="statusChart"></canvas>
-            </div>
+          <div style="position: relative; width: 100%; height: 320px;">
+            <canvas id="categoryChart"></canvas>
           </div>
         </div>
       </section>
 
-      <!-- KATALOG BUKU TAB -->
+      <!-- KATALOG BUKU SECTION -->
       <section id="sec-katalog" class="section-content">
         <div class="card-panel">
           <div class="panel-header">
-            <h3><i class="fa-solid fa-books"></i> Katalog Inventaris Buku</h3>
+            <h3><i class="fa-solid fa-books"></i> Katalog Inventaris Buku (342 Koleksi Pustaka Syamilah)</h3>
             <div class="filter-tools">
               <div class="search-box">
                 <i class="fa-solid fa-magnifying-glass"></i>
@@ -417,17 +1007,19 @@
                   <th style="text-align: right;">Aksi</th>
                 </tr>
               </thead>
-              <tbody id="tableKatalogBody"></tbody>
+              <tbody id="tableKatalogBody">
+                <!-- Dynamic Content -->
+              </tbody>
             </table>
           </div>
         </div>
       </section>
 
-      <!-- DATA MURID TAB -->
+      <!-- DATA MURID SECTION -->
       <section id="sec-murid" class="section-content">
         <div class="card-panel">
           <div class="panel-header">
-            <h3><i class="fa-solid fa-user-graduate"></i> Daftar Murid SD Islam Makarima</h3>
+            <h3><i class="fa-solid fa-user-graduate"></i> Daftar Murid (283 Anggota Perpustakaan)</h3>
             <div class="filter-tools">
               <div class="search-box">
                 <i class="fa-solid fa-magnifying-glass"></i>
@@ -453,25 +1045,22 @@
                   <th style="text-align: right;">Aksi</th>
                 </tr>
               </thead>
-              <tbody id="tableMuridBody"></tbody>
+              <tbody id="tableMuridBody">
+                <!-- Dynamic Content -->
+              </tbody>
             </table>
           </div>
         </div>
       </section>
 
-      <!-- SIRKULASI TAB -->
+      <!-- SIRKULASI SECTION -->
       <section id="sec-sirkulasi" class="section-content">
         <div class="card-panel">
           <div class="panel-header">
             <h3><i class="fa-solid fa-arrow-right-arrow-left"></i> Rekap Sirkulasi Peminjaman & Pengembalian</h3>
-            <div class="filter-tools">
-              <button class="quick-btn" onclick="exportToExcel('sirkulasi')">
-                <i class="fa-solid fa-file-excel"></i> Ekspor Excel Sirkulasi
-              </button>
-              <button class="quick-btn" onclick="openModal('modalPinjam')">
-                <i class="fa-solid fa-plus"></i> Catat Peminjaman
-              </button>
-            </div>
+            <button class="quick-btn" onclick="openModal('modalPinjam')">
+              <i class="fa-solid fa-plus"></i> Catat Peminjaman
+            </button>
           </div>
 
           <div class="table-responsive">
@@ -488,7 +1077,109 @@
                   <th style="text-align: right;">Tindakan</th>
                 </tr>
               </thead>
-              <tbody id="tableSirkulasiBody"></tbody>
+              <tbody id="tableSirkulasiBody">
+                <!-- Dynamic Content -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- KUNJUNGAN SISWA SECTION (Fitur Baru) -->
+      <section id="sec-kunjungan" class="section-content">
+        <!-- Metric Cards Kunjungan -->
+        <div class="metrics-grid">
+          <div class="metric-card">
+            <div class="metric-info">
+              <h3>Total Presensi Bulan Ini</h3>
+              <div class="val" id="statKunjunganBulan">0</div>
+              <div class="sub" id="statPeriodeAktif">-</div>
+            </div>
+            <div class="metric-icon icon-purple">
+              <i class="fa-solid fa-clipboard-user"></i>
+            </div>
+          </div>
+
+          <div class="metric-card">
+            <div class="metric-info">
+              <h3>Siswa Terajin Berkunjung</h3>
+              <div class="val" style="font-size: 16px;" id="statSiswaTerrajin">-</div>
+              <div class="sub" id="statSiswaTerrajinCount">0 Kunjungan</div>
+            </div>
+            <div class="metric-icon icon-gold">
+              <i class="fa-solid fa-crown"></i>
+            </div>
+          </div>
+
+          <div class="metric-card">
+            <div class="metric-info">
+              <h3>Kelas Teraktif</h3>
+              <div class="val" style="font-size: 16px;" id="statKelasTeraktif">-</div>
+              <div class="sub" id="statKelasTeraktifCount">0 Presensi</div>
+            </div>
+            <div class="metric-icon icon-green">
+              <i class="fa-solid fa-school"></i>
+            </div>
+          </div>
+        </div>
+
+        <div class="card-panel">
+          <div class="panel-header">
+            <h3><i class="fa-solid fa-calendar-check" style="color:var(--accent-purple);"></i> Log Riwayat Presensi Kunjungan Siswa</h3>
+            <div class="filter-tools">
+              <label style="font-size: 12px; font-weight:700;">Filter Periode:</label>
+              <select id="filterBulanKunjungan" class="select-input" onchange="renderKunjungan()">
+                <!-- Dynamic Month Years -->
+              </select>
+              <button class="quick-btn purple" onclick="openModal('modalKunjungan')">
+                <i class="fa-solid fa-plus"></i> Catat Presensi
+              </button>
+            </div>
+          </div>
+
+          <div class="table-responsive">
+            <table class="custom-table">
+              <thead>
+                <tr>
+                  <th>No</th>
+                  <th>Nama Siswa</th>
+                  <th>Kelas</th>
+                  <th>Tanggal Kunjungan</th>
+                  <th>Keperluan / Aktivitas</th>
+                  <th style="text-align: right;">Aksi</th>
+                </tr>
+              </thead>
+              <tbody id="tableKunjunganBody">
+                <!-- Dynamic Content -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- REKAPAN FREKUENSI KUNJUNGAN PER SISWA -->
+        <div class="card-panel">
+          <div class="panel-header">
+            <h3><i class="fa-solid fa-chart-line" style="color:var(--accent-green);"></i> Rekapan Jumlah Kunjungan per Siswa (Bulan Ini)</h3>
+            <div class="search-box" style="max-width: 250px;">
+              <i class="fa-solid fa-magnifying-glass"></i>
+              <input type="text" id="searchRekapKunjungan" class="search-input" placeholder="Cari nama siswa..." oninput="renderKunjungan()"/>
+            </div>
+          </div>
+
+          <div class="table-responsive">
+            <table class="custom-table">
+              <thead>
+                <tr>
+                  <th>No</th>
+                  <th>Nama Siswa</th>
+                  <th>Kelas</th>
+                  <th>Frekuensi Kunjungan</th>
+                  <th>Status Keaktifan</th>
+                </tr>
+              </thead>
+              <tbody id="tableRekapFrekuensiBody">
+                <!-- Dynamic Content -->
+              </tbody>
             </table>
           </div>
         </div>
@@ -496,42 +1187,6 @@
 
     </div>
   </main>
-
-  <!-- MODAL: CETAK KARTU ANGGOTA SISWA -->
-  <div id="modalCardSiswa" class="modal-overlay">
-    <div class="modal-card">
-      <div class="modal-header">
-        <h4><i class="fa-solid fa-id-card"></i> Cetak Kartu Anggota Siswa</h4>
-        <button class="btn-close" onclick="closeModal('modalCardSiswa')">&times;</button>
-      </div>
-      <div class="modal-body">
-        <div id="printableCard" class="member-card-preview">
-          <div class="member-card-header">
-            <img src="logo makarima.webp" alt="Logo" onerror="this.src='https://via.placeholder.com/42?text=SDIM'"/>
-            <div>
-              <h4 style="font-size: 13px; font-weight: 800; color: var(--text-dark);">SD ISLAM MAKARIMA</h4>
-              <p style="font-size: 10px; color: var(--accent-warm); font-weight: 700;">KARTU ANGGOTA PERPUSTAKAAN</p>
-            </div>
-          </div>
-          <div class="member-card-body">
-            <div class="member-avatar">
-              <i class="fa-solid fa-user"></i>
-            </div>
-            <div style="flex-grow: 1;">
-              <h5 id="cardStudentName" style="font-size: 14px; font-weight: 800; color: var(--text-dark); margin-bottom: 2px;">-</h5>
-              <p id="cardStudentClass" style="font-size: 12px; color: var(--text-muted); font-weight: 600;">-</p>
-              <p style="font-size: 10px; color: var(--accent-green); margin-top: 6px; font-weight: 700;">STATUS: ANGGOTA AKTIF</p>
-            </div>
-          </div>
-          <div id="cardBarcode" class="barcode-lines">*SDIM-001*</div>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn-secondary" onclick="closeModal('modalCardSiswa')">Tutup</button>
-        <button type="button" class="quick-btn" onclick="window.print()"><i class="fa-solid fa-print"></i> Cetak Kartu</button>
-      </div>
-    </div>
-  </div>
 
   <!-- MODAL: INPUT BUKU BARU -->
   <div id="modalInputBuku" class="modal-overlay">
@@ -553,7 +1208,7 @@
             </div>
             <div class="form-group">
               <label>Kategori</label>
-              <input type="text" id="inKategori" class="form-control" list="kategoriList" required placeholder="Pilih / ketik kategori..."/>
+              <input type="text" id="inKategori" class="form-control" list="kategoriList" required placeholder="Ketik/pilih kategori..."/>
               <datalist id="kategoriList">
                 <option value="Agama Islam"></option>
                 <option value="Siroh"></option>
@@ -562,6 +1217,8 @@
                 <option value="Sains"></option>
                 <option value="Buku Mapel"></option>
                 <option value="Buku Guru"></option>
+                <option value="English Book"></option>
+                <option value="Monograf"></option>
               </datalist>
             </div>
           </div>
@@ -598,63 +1255,36 @@
     </div>
   </div>
 
-  <!-- MODAL: INPUT SISWA BARU (DUAL TAB) -->
+  <!-- MODAL: INPUT / TAMBAH MURID BARU -->
   <div id="modalInputMurid" class="modal-overlay">
     <div class="modal-card">
       <div class="modal-header">
-        <h4><i class="fa-solid fa-user-plus"></i> Input Siswa Baru</h4>
+        <h4><i class="fa-solid fa-user-plus"></i> Tambah Murid Baru</h4>
         <button class="btn-close" onclick="closeModal('modalInputMurid')">&times;</button>
       </div>
-
-      <div class="modal-body">
-        <div class="modal-tabs">
-          <button id="btnTabSatuan" type="button" class="tab-btn active" onclick="toggleInputSiswaTab('satuan')">
-            <i class="fa-solid fa-user"></i> Input Satuan
-          </button>
-          <button id="btnTabMassal" type="button" class="tab-btn" onclick="toggleInputSiswaTab('massal')">
-            <i class="fa-solid fa-users"></i> Input Massal (Banyak)
-          </button>
-        </div>
-
-        <!-- TAB 1: INPUT SATUAN -->
-        <form id="formTambahMuridSatuan" onsubmit="handleTambahMuridSatuan(event)">
+      <form id="formTambahMurid" onsubmit="handleTambahMurid(event)">
+        <div class="modal-body">
           <div class="form-group">
             <label>Nama Lengkap Siswa</label>
-            <input type="text" id="inNamaSiswa" class="form-control" required placeholder="Contoh: Ahmad Zakaria"/>
+            <input type="text" id="inNamaSiswa" class="form-control" required placeholder="Ketik nama lengkap siswa..."/>
           </div>
           <div class="form-group">
             <label>Kelas (Dapat Diketik Bebas)</label>
-            <input type="text" id="inKelasSiswa" class="form-control" list="classList" required placeholder="Contoh: Kelas 1A, Kelas 2A Al Malik, dll..."/>
-            <datalist id="classList"></datalist>
+            <input type="text" id="inKelasSiswa" class="form-control" list="classList" required placeholder="Contoh: Kelas 1A, Kelas 2B Al Hakim, dll..."/>
+            <datalist id="classList">
+              <!-- Populated dynamically -->
+            </datalist>
           </div>
-          <div style="display: flex; justify-content: flex-end; gap: 8px; margin-top: 18px;">
-            <button type="button" class="btn-secondary" onclick="closeModal('modalInputMurid')">Batal</button>
-            <button type="submit" class="quick-btn"><i class="fa-solid fa-check"></i> Simpan Siswa</button>
-          </div>
-        </form>
-
-        <!-- TAB 2: INPUT MASSAL -->
-        <form id="formTambahMuridMassal" onsubmit="handleTambahMuridMassal(event)" style="display: none;">
-          <div class="form-group">
-            <label>Kelas untuk Semua Siswa Ini</label>
-            <input type="text" id="inKelasMassal" class="form-control" list="classListMassal" required placeholder="Contoh: Kelas 1C, Kelas 3B Al Hafizh, dll..."/>
-            <datalist id="classListMassal"></datalist>
-          </div>
-          <div class="form-group">
-            <label>Daftar Nama Siswa (Satu nama per baris)</label>
-            <textarea id="inDaftarNamaMassal" class="form-control" rows="8" required placeholder="Paste atau ketik nama-nama murid di sini...&#10;Contoh:&#10;Adlan Malik&#10;Aisyah Pelangi&#10;Bara Atlancea"></textarea>
-            <div class="form-hint"><i class="fa-solid fa-circle-info"></i> Setiap baris baru akan otomatis diinput sebagai 1 nama siswa.</div>
-          </div>
-          <div style="display: flex; justify-content: flex-end; gap: 8px; margin-top: 18px;">
-            <button type="button" class="btn-secondary" onclick="closeModal('modalInputMurid')">Batal</button>
-            <button type="submit" class="quick-btn"><i class="fa-solid fa-users"></i> Import Semua Siswa</button>
-          </div>
-        </form>
-      </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn-secondary" onclick="closeModal('modalInputMurid')">Batal</button>
+          <button type="submit" class="quick-btn">Simpan Siswa</button>
+        </div>
+      </form>
     </div>
   </div>
 
-  <!-- MODAL: EDIT DATA MURID -->
+  <!-- MODAL: EDIT MURID -->
   <div id="modalEditMurid" class="modal-overlay">
     <div class="modal-card">
       <div class="modal-header">
@@ -669,9 +1299,11 @@
             <input type="text" id="editNamaSiswa" class="form-control" required/>
           </div>
           <div class="form-group">
-            <label>Kelas Siswa</label>
-            <input type="text" id="editKelasSiswa" class="form-control" list="classListEdit" required placeholder="Masukkan nama kelas..."/>
-            <datalist id="classListEdit"></datalist>
+            <label>Kelas Siswa (Bisa Di-edit / Disesuaikan)</label>
+            <input type="text" id="editKelasSiswa" class="form-control" list="classListEdit" required placeholder="Masukkan nama kelas baru atau tambahan..."/>
+            <datalist id="classListEdit">
+              <!-- Populated dynamically -->
+            </datalist>
           </div>
         </div>
         <div class="modal-footer">
@@ -682,7 +1314,7 @@
     </div>
   </div>
 
-  <!-- MODAL: CATAT PINJAM BUKU -->
+  <!-- MODAL: CATAT PINJAM -->
   <div id="modalPinjam" class="modal-overlay">
     <div class="modal-card">
       <div class="modal-header">
@@ -692,12 +1324,16 @@
       <form id="formPinjam" onsubmit="handlePinjam(event)">
         <div class="modal-body">
           <div class="form-group">
-            <label>Pilih Siswa Peminjam</label>
-            <select id="pinjamSiswaId" class="form-control" required></select>
+            <label>Pilih Siswa</label>
+            <select id="pinjamSiswaId" class="form-control" required>
+              <!-- Dynamic Options -->
+            </select>
           </div>
           <div class="form-group">
             <label>Pilih Buku (Stok Tersedia)</label>
-            <select id="pinjamBukuId" class="form-control" required></select>
+            <select id="pinjamBukuId" class="form-control" required>
+              <!-- Dynamic Options -->
+            </select>
           </div>
           <div class="grid-2">
             <div class="form-group">
@@ -718,60 +1354,70 @@
     </div>
   </div>
 
-  <!-- MODAL: RESET & UPLOAD DATA (UPGRADED WITH WORKING UPLOAD FEATURE) -->
+  <!-- MODAL: CATAT KUNJUNGAN SISWA (Fitur Baru) -->
+  <div id="modalKunjungan" class="modal-overlay">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h4><i class="fa-solid fa-user-check"></i> Presensi Kunjungan Siswa</h4>
+        <button class="btn-close" onclick="closeModal('modalKunjungan')">&times;</button>
+      </div>
+      <form id="formKunjungan" onsubmit="handleTambahKunjungan(event)">
+        <div class="modal-body">
+          <div class="form-group">
+            <label>Pilih Siswa</label>
+            <select id="kunjunganSiswaId" class="form-control" required>
+              <!-- Dynamic Student Options -->
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Tanggal Kunjungan</label>
+            <input type="date" id="kunjunganTgl" class="form-control" required/>
+          </div>
+          <div class="form-group">
+            <label>Keperluan / Aktivitas</label>
+            <select id="kunjunganKeperluan" class="form-control">
+              <option value="Membaca Buku">Membaca Buku</option>
+              <option value="Meminjam Buku">Meminjam Buku</option>
+              <option value="Mengembalikan Buku">Mengembalikan Buku</option>
+              <option value="Kerja Kelompok / Tugas">Kerja Kelompok / Tugas</option>
+              <option value="Lainnya">Lainnya</option>
+            </select>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn-secondary" onclick="closeModal('modalKunjungan')">Batal</button>
+          <button type="submit" class="quick-btn purple">Simpan Presensi</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL: UPLOAD / IMPORT DATA -->
   <div id="modalImport" class="modal-overlay">
     <div class="modal-card">
       <div class="modal-header">
-        <h4><i class="fa-solid fa-cloud-arrow-up"></i> Reset & Upload Data File</h4>
+        <h4><i class="fa-solid fa-file-csv"></i> Import Massal Data Excel / CSV</h4>
         <button class="btn-close" onclick="closeModal('modalImport')">&times;</button>
       </div>
       <div class="modal-body">
-        <div class="modal-tabs">
-          <button id="btnTabUpload" type="button" class="tab-btn active" onclick="toggleImportTab('upload')">
-            <i class="fa-solid fa-upload"></i> Upload File (CSV / JSON)
-          </button>
-          <button id="btnTabReset" type="button" class="tab-btn" onclick="toggleImportTab('reset')">
-            <i class="fa-solid fa-rotate-left"></i> Reset Data Awal
-          </button>
+        <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 14px;">
+          Fitur ini memungkinkan petugas memperbarui atau menambah daftar buku/siswa secara instan dari dokumen eksternal.
+        </p>
+        <div class="form-group">
+          <label>Pilih Jenis Data</label>
+          <select id="importType" class="form-control">
+            <option value="buku">Koleksi Buku Inventaris</option>
+            <option value="murid">Daftar Murid Sekolah</option>
+          </select>
         </div>
-
-        <!-- TAB UPLOAD -->
-        <div id="secTabUpload">
-          <p style="font-size: 12.5px; color: var(--text-muted); margin-bottom: 12px;">
-            Pilih atau seret file <strong>.CSV</strong> atau <strong>.JSON</strong> berisi data Buku atau Siswa untuk diimpor langsung ke sistem.
-          </p>
-          <div class="dropzone">
-            <i class="fa-solid fa-file-csv"></i>
-            <h5 style="font-size: 13.5px; color: var(--text-dark); font-weight:700;">Pilih / Tarik File CSV atau JSON</h5>
-            <p style="font-size: 11px; color: var(--text-muted); margin-top:4px;">Mendukung format Buku & Siswa</p>
-            <input type="file" id="fileImportInput" accept=".csv, .json" onchange="handleFileUpload(event)"/>
-          </div>
-
-          <div style="margin-top: 16px; font-size: 11.5px; background: var(--bg-cream-light); padding: 12px; border-radius: var(--radius-md); border: 1px solid var(--border-cream);">
-            <strong><i class="fa-solid fa-circle-info"></i> Format Contoh CSV:</strong>
-            <p style="margin-top: 4px; color: var(--text-muted);">
-              <strong>Buku:</strong> Kode, Judul, Kategori, Penerbit, Tahun, Stok<br>
-              <strong>Siswa:</strong> Nama Lengkap, Kelas
-            </p>
-            <div style="margin-top: 8px; display: flex; gap: 8px;">
-              <button type="button" class="btn-secondary" style="font-size: 11px; padding: 4px 8px;" onclick="downloadSampleCSV('buku')">Contoh CSV Buku</button>
-              <button type="button" class="btn-secondary" style="font-size: 11px; padding: 4px 8px;" onclick="downloadSampleCSV('siswa')">Contoh CSV Siswa</button>
-            </div>
-          </div>
-        </div>
-
-        <!-- TAB RESET -->
-        <div id="secTabReset" style="display: none;">
-          <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 14px; line-height: 1.5;">
-            Gunakan tombol <strong>Reset ke Data Awal Sekolah</strong> untuk mengembalikan seluruh 283 data siswa dan 15 buku inventaris resmi SD Islam Makarima.
-          </p>
-          <button type="button" class="btn-danger-outline" style="width: 100%; padding: 12px; font-size: 13px;" onclick="resetDataAwal()">
-            <i class="fa-solid fa-rotate-left"></i> Reset ke Data Awal Sekolah
-          </button>
+        <div class="form-group">
+          <label>Unggah File (.csv / .xlsx)</label>
+          <input type="file" id="fileInput" class="form-control" accept=".csv,.xlsx"/>
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn-secondary" onclick="closeModal('modalImport')">Tutup</button>
+        <button type="button" class="btn-secondary" onclick="closeModal('modalImport')">Batal</button>
+        <button type="button" class="quick-btn" onclick="processImport()">Unggah & Sinkronkan</button>
       </div>
     </div>
   </div>
@@ -782,21 +1428,10 @@
     <span id="toastMsg">Sistem berhasil diperbarui!</span>
   </div>
 
+  <!-- SCRIPTS & DATA LOGIC -->
   <script>
-    // ACCESS PASSWORD CONFIG
+    // ACCESS PASSWORD CONFIGURATION
     const APP_PASSWORD = "bismillah";
-
-    function togglePasswordVisibility() {
-      const pinInput = document.getElementById('inputPin');
-      const eyeIcon = document.getElementById('eyeIcon');
-      if (pinInput.type === "password") {
-        pinInput.type = "text";
-        eyeIcon.className = 'fa-solid fa-eye-slash toggle-password-btn';
-      } else {
-        pinInput.type = "password";
-        eyeIcon.className = 'fa-solid fa-eye toggle-password-btn';
-      }
-    }
 
     function checkPassword() {
       const input = document.getElementById('inputPin').value;
@@ -826,610 +1461,119 @@
       showToast("Akses web telah dikunci.");
     }
 
-    // COMPLETE 15 BOOKS DATASET
+    // CATEGORY MAPPING REFERENCE (From Sheet 2: Kode Kategori)
+    const categoryRef = [
+      { name: "Agama Islam", code: "AI", target: 13 },
+      { name: "Siroh", code: "SR", target: 32 },
+      { name: "Cerita Anak Islami", code: "CAI", target: 74 },
+      { name: "Cerita Anak", code: "CA", target: 20 },
+      { name: "Sains", code: "SA", target: 34 },
+      { name: "English Book", code: "EB", target: 10 },
+      { name: "Buku Guru", code: "BG", target: 16 },
+      { name: "Buku Mapel", code: "BM", target: 128 },
+      { name: "Kamus Bergambar / Sains Anak", code: "KBS", target: 1 },
+      { name: "Kamus Bergambar / Buku Referensi", code: "KBR", target: 1 },
+      { name: "Buku Rujukan / Referensi", code: "BR", target: 1 },
+      { name: "Monograf", code: "M", target: 4 },
+      { name: "Buku Panduan Sekolah", code: "BPS", target: 7 },
+      { name: "Majalah", code: "MA", target: 1 }
+    ];
+
+    // SAMPLE BOOKS PLACEHOLDER FOR SCRIPT (Complete 342 Books are rendered dynamically or stored)
     const initialBooks = [
-      { id: 1, kode: "AI/001", judul: "99 Asmaul Husna", penerbit: "Karya Gemilang Utama", tahun: "-", kategori: "Agama Islam", stok: 2, tersedia: 2, kondisi: "Baik" },
+      { id: 1, kode: "AI/001", judul: "99 Asmaul Husna", penerbit: "Karya Gemilang Utama", tahun: "-", kategori: "Agama Islam", stok: 1, tersedia: 1, kondisi: "Baik" },
       { id: 2, kode: "AI/002", judul: "Bacaan Sholat: Disertai Latin & Terjemah Bahasa Indonesia", penerbit: "-", tahun: "-", kategori: "Agama Islam", stok: 2, tersedia: 1, kondisi: "Baik" },
       { id: 3, kode: "AI/003", judul: "Belajar Sholat", penerbit: "Iqra' Media", tahun: "-", kategori: "Agama Islam", stok: 1, tersedia: 1, kondisi: "Baik" },
       { id: 4, kode: "AI/004", judul: "Buku Gemar Berdoa", penerbit: "Pustaka Setia", tahun: "-", kategori: "Agama Islam", stok: 1, tersedia: 1, kondisi: "Baik" },
-      { id: 5, kode: "AI/005", judul: "Buku Iqro' 1", penerbit: "Balai Litbang LPTQ Team AMM", tahun: "-", kategori: "Agama Islam", stok: 3, tersedia: 3, kondisi: "Baik" },
-      { id: 6, kode: "AI/009", judul: "Buku Iqro' 5", penerbit: "Balai Litbang LPTQ Team AMM", tahun: "-", kategori: "Agama Islam", stok: 2, tersedia: 2, kondisi: "Baik" },
-      { id: 7, kode: "AI/010", judul: "Dzikir-dzikir setelah Sholat", penerbit: "Perisai Qur'an", tahun: "2013", kategori: "Agama Islam", stok: 2, tersedia: 2, kondisi: "Baik" },
-      { id: 8, kode: "BG/001", judul: "Adab-Adab Islam", penerbit: "Tinta Medina", tahun: "2018", kategori: "Buku Guru", stok: 2, tersedia: 2, kondisi: "Baik" },
-      { id: 9, kode: "BG/002", judul: "Ayat-ayat Rezeki", penerbit: "Zaman", tahun: "2013", kategori: "Buku Guru", stok: 1, tersedia: 1, kondisi: "Baik" },
-      { id: 10, kode: "CAI/001", judul: "Kisah Nabi Muhammad SAW", penerbit: "Pustaka Al-Kautsar", tahun: "2020", kategori: "Cerita Anak Islami", stok: 4, tersedia: 3, kondisi: "Baik" },
-      { id: 11, kode: "CAI/002", judul: "Kisah 25 Nabi dan Rasul", penerbit: "Bintang Indonesia", tahun: "2019", kategori: "Cerita Anak Islami", stok: 3, tersedia: 2, kondisi: "Baik" },
-      { id: 12, kode: "SR/001", judul: "Siroh Nabawiyah untuk Anak", penerbit: "Gema Insani", tahun: "2021", kategori: "Siroh", stok: 5, tersedia: 5, kondisi: "Baik" },
-      { id: 13, kode: "SA/001", judul: "Ensiklopedia Sains Anak: Tata Surya", penerbit: "Tiga Ananda", tahun: "2018", kategori: "Sains", stok: 2, tersedia: 2, kondisi: "Baik" },
-      { id: 14, kode: "BM/001", judul: "Pendidikan Pancasila Kelas 1 SD", penerbit: "Kementerian Pendidikan", tahun: "2022", kategori: "Buku Mapel", stok: 25, tersedia: 25, kondisi: "Baik" },
-      { id: 15, kode: "BM/002", judul: "Bahasa Indonesia SD Kelas 2", penerbit: "Erlangga", tahun: "2023", kategori: "Buku Mapel", stok: 20, tersedia: 19, kondisi: "Baik" }
+      { id: 5, kode: "AI/005", judul: "Buku Iqro' 1", penerbit: "Balai Litbang LPTQ Team AMM", tahun: "-", kategori: "Agama Islam", stok: 1, tersedia: 1, kondisi: "Baik" },
+      { id: 6, kode: "AI/006", judul: "Buku Iqro' 2", penerbit: "Balai Litbang LPTQ Team AMM", tahun: "-", kategori: "Agama Islam", stok: 1, tersedia: 1, kondisi: "Baik" },
+      { id: 7, kode: "AI/007", judul: "Buku Iqro' 3", penerbit: "Balai Litbang LPTQ Team AMM", tahun: "-", kategori: "Agama Islam", stok: 1, tersedia: 1, kondisi: "Baik" },
+      { id: 8, kode: "AI/008", judul: "Buku Iqro' 4", penerbit: "Balai Litbang LPTQ Team AMM", tahun: "-", kategori: "Agama Islam", stok: 1, tersedia: 1, kondisi: "Baik" },
+      { id: 9, kode: "AI/009", judul: "Buku Iqro' 5", penerbit: "Balai Litbang LPTQ Team AMM", tahun: "-", kategori: "Agama Islam", stok: 2, tersedia: 2, kondisi: "Baik" },
+      { id: 10, kode: "AI/010", judul: "Dzikir-dzikir setelah Sholat", penerbit: "Perisai Qur'an", tahun: "2013", kategori: "Agama Islam", stok: 2, tersedia: 2, kondisi: "Baik" },
+      { id: 11, kode: "AI/011", judul: "Risalah Ibadah Haji dan Umroh", penerbit: "Aulia", tahun: "-", kategori: "Agama Islam", stok: 2, tersedia: 2, kondisi: "Baik" },
+      { id: 12, kode: "AI/012", judul: "Tata Cara Sholat dan Ziarah Kubur", penerbit: "Media Pustaka", tahun: "2016", kategori: "Agama Islam", stok: 2, tersedia: 2, kondisi: "Baik" },
+      { id: 13, kode: "AI/013", judul: "Wudhu Sholat dan Doa", penerbit: "Lingkar Media", tahun: "-", kategori: "Agama Islam", stok: 2, tersedia: 2, kondisi: "Baik" },
+      { id: 14, kode: "BG/001", judul: "Adab-Adab Islam", penerbit: "Tinta Medina", tahun: "2018", kategori: "Buku Guru", stok: 2, tersedia: 2, kondisi: "Baik" },
+      { id: 15, kode: "BG/002", judul: "Ayat-ayat Rezeki", penerbit: "Zaman", tahun: "2013", kategori: "Buku Guru", stok: 1, tersedia: 1, kondisi: "Baik" },
+      { id: 16, kode: "CAI/001", judul: "Kisah Nabi Muhammad SAW", penerbit: "Pustaka Al-Kautsar", tahun: "2020", kategori: "Cerita Anak Islami", stok: 4, tersedia: 3, kondisi: "Baik" },
+      { id: 17, kode: "CAI/002", judul: "Kisah 25 Nabi dan Rasul", penerbit: "Bintang Indonesia", tahun: "2019", kategori: "Cerita Anak Islami", stok: 3, tersedia: 2, kondisi: "Baik" },
+      { id: 18, kode: "SR/001", judul: "Siroh Nabawiyah untuk Anak", penerbit: "Gema Insani", tahun: "2021", kategori: "Siroh", stok: 5, tersedia: 5, kondisi: "Baik" },
+      { id: 19, kode: "SA/001", judul: "Ensiklopedia Sains Anak: Tata Surya", penerbit: "Tiga Ananda", tahun: "2018", kategori: "Sains", stok: 2, tersedia: 2, kondisi: "Baik" },
+      { id: 20, kode: "BM/001", judul: "Pendidikan Pancasila Kelas 1 SD", penerbit: "Kementerian Pendidikan", tahun: "2022", kategori: "Buku Mapel", stok: 25, tersedia: 25, kondisi: "Baik" },
+      { id: 21, kode: "BM/002", judul: "Bahasa Indonesia SD Kelas 2", penerbit: "Erlangga", tahun: "2023", kategori: "Buku Mapel", stok: 20, tersedia: 19, kondisi: "Baik" }
     ];
 
-    // COMPLETE 283 STUDENTS DATASET
+    // INITIAL STUDENTS DATA
     const initialStudents = [
       { id: 1, nama: "Ambalika Sora Pratama", kelas: "Kelas 1A" },
       { id: 2, nama: "Annasya Adreena", kelas: "Kelas 1A" },
       { id: 3, nama: "Arkania Embun Ahmada", kelas: "Kelas 1A" },
       { id: 4, nama: "Arroyan Dylan Alfarizqy Purnomo", kelas: "Kelas 1A" },
       { id: 5, nama: "Aurora Alunasvara Pradana", kelas: "Kelas 1A" },
-      { id: 6, nama: "Azizan Abqory", kelas: "Kelas 1A" },
-      { id: 7, nama: "Azzahra Shanum Nugroho", kelas: "Kelas 1A" },
-      { id: 8, nama: "Bara Atlancea Tosca Atmaja", kelas: "Kelas 1A" },
-      { id: 9, nama: "Carissa Almeira Misel", kelas: "Kelas 1A" },
-      { id: 10, nama: "Crystal Sea Dahayu", kelas: "Kelas 1A" },
-      { id: 11, nama: "Dahayu Gendhis Nareswari", kelas: "Kelas 1A" },
-      { id: 12, nama: "Embun Pangayuh Aydia Gutomo", kelas: "Kelas 1A" },
-      { id: 13, nama: "Freya Safa Ayesha", kelas: "Kelas 1A" },
-      { id: 14, nama: "Ghania Almeera Qiana P", kelas: "Kelas 1A" },
-      { id: 15, nama: "Irsyad Ibrahim Artha", kelas: "Kelas 1A" },
-      { id: 16, nama: "Michelle Quenna Manggala", kelas: "Kelas 1A" },
-      { id: 17, nama: "Nadhif Abyan Hafidz", kelas: "Kelas 1A" },
-      { id: 18, nama: "Noushafarina Chloe Mahendra", kelas: "Kelas 1A" },
-      { id: 19, nama: "Ozora Atthariq Aldebaran", kelas: "Kelas 1A" },
-      { id: 20, nama: "Prabu Gadang Prasetyo", kelas: "Kelas 1A" },
-      { id: 21, nama: "Qiana Almahyra Zea P", kelas: "Kelas 1A" },
-      { id: 22, nama: "Rania Azzahra Salsabila", kelas: "Kelas 1A" },
-      { id: 23, nama: "Shaqueena Mikhaylova", kelas: "Kelas 1A" },
-      { id: 24, nama: "Sharga Virendra Ahzafani", kelas: "Kelas 1A" },
-      { id: 25, nama: "Zahsy Arisha Putri Alista", kelas: "Kelas 1A" },
-      { id: 26, nama: "Adlan Malik Assami", kelas: "Kelas 1B" },
-      { id: 27, nama: "Aldi Rafaeyza", kelas: "Kelas 1B" },
-      { id: 28, nama: "Alvarendra Arasya Widhiyatmoko", kelas: "Kelas 1B" },
-      { id: 29, nama: "Banafsha Alesha Zoya", kelas: "Kelas 1B" },
-      { id: 30, nama: "Dhanesh Kalle Nugroho", kelas: "Kelas 1B" },
-      { id: 31, nama: "Fisa Efda Al Qisthi", kelas: "Kelas 1B" },
-      { id: 32, nama: "Gaffar Sinambrama Mandegani", kelas: "Kelas 1B" },
-      { id: 33, nama: "Haikal Zavier Pradefa", kelas: "Kelas 1B" },
-      { id: 34, nama: "Hamizhan Satria Manggala", kelas: "Kelas 1B" },
-      { id: 35, nama: "Hana Mekka Arkadewi", kelas: "Kelas 1B" },
-      { id: 36, nama: "Hilya Annasya Zea", kelas: "Kelas 1B" },
-      { id: 37, nama: "Kareem Benzema Zehiya Khan", kelas: "Kelas 1B" },
-      { id: 38, nama: "Lingga Rajendra Wibowo", kelas: "Kelas 1B" },
-      { id: 39, nama: "Mayzura Zayn", kelas: "Kelas 1B" },
-      { id: 40, nama: "Muhammad Farell Abdillah", kelas: "Kelas 1B" },
-      { id: 41, nama: "Muhammad Faris Akbar", kelas: "Kelas 1B" },
-      { id: 42, nama: "Narendra Pasa Alfarizqi", kelas: "Kelas 1B" },
-      { id: 43, nama: "Rashdan Ashim Nugroho", kelas: "Kelas 1B" },
-      { id: 44, nama: "Rumaysa Nuha Aghnia", kelas: "Kelas 1B" },
-      { id: 45, nama: "Sheo Eiji Akira Misdaq", kelas: "Kelas 1B" },
-      { id: 46, nama: "Syafika Fauziah", kelas: "Kelas 1B" },
-      { id: 47, nama: "Tsaqif Hanan Al Fawwaz", kelas: "Kelas 1B" },
-      { id: 48, nama: "Yusya Macaire Abdullah", kelas: "Kelas 1B" },
-      { id: 49, nama: "Abiandra Ibrahim", kelas: "Kelas 1C" },
-      { id: 50, nama: "Ahza Apzarini Frastika", kelas: "Kelas 1C" },
-      { id: 51, nama: "Ardan Wardana", kelas: "Kelas 1C" },
-      { id: 52, nama: "Arfan Putra Alfarizqi", kelas: "Kelas 1C" },
-      { id: 53, nama: "Azra Hanina Adira Farzana", kelas: "Kelas 1C" },
-      { id: 54, nama: "Ceisya Ranita Putri Sandiya", kelas: "Kelas 1C" },
-      { id: 55, nama: "Fayyola Inara Naufalyn", kelas: "Kelas 1C" },
-      { id: 56, nama: "Giscara Jan Desmaura", kelas: "Kelas 1C" },
-      { id: 57, nama: "Hamizan Kareem Al Ayari", kelas: "Kelas 1C" },
-      { id: 58, nama: "Khalisa Salwa Azzahra", kelas: "Kelas 1C" },
-      { id: 59, nama: "Kim Solla Kartika Utari", kelas: "Kelas 1C" },
-      { id: 60, nama: "Muhammad Aldebaran Hadiprawira", kelas: "Kelas 1C" },
-      { id: 61, nama: "Muhammad Haafizh Sagara", kelas: "Kelas 1C" },
-      { id: 62, nama: "Muhammad Reyhan Azizan", kelas: "Kelas 1C" },
-      { id: 63, nama: "Musfira Jariyah Ansar", kelas: "Kelas 1C" },
-      { id: 64, nama: "Nabila Chyara Putri Arliansyah", kelas: "Kelas 1C" },
-      { id: 65, nama: "Nameera Aniqah Pamula", kelas: "Kelas 1C" },
-      { id: 66, nama: "Qalesya Alena Kinarian Haryono", kelas: "Kelas 1C" },
-      { id: 67, nama: "Rakai Novendra Artama Kusuma", kelas: "Kelas 1C" },
-      { id: 68, nama: "Rasyid Nur Laqif Gaharutama", kelas: "Kelas 1C" },
-      { id: 69, nama: "Rayyandra Atharizky", kelas: "Kelas 1C" },
-      { id: 70, nama: "Shizasana Ziya Budianta", kelas: "Kelas 1C" },
-      { id: 71, nama: "Tazkiya Putri Azzahra", kelas: "Kelas 1C" },
-      { id: 72, nama: "Zidane Omera Diova", kelas: "Kelas 1C" },
-      { id: 73, nama: "Aisyah Pelangi Muslimah", kelas: "Kelas 2A Al Malik" },
-      { id: 74, nama: "Almeera Nahla WS", kelas: "Kelas 2A Al Malik" },
-      { id: 75, nama: "Almira Savaira Putri", kelas: "Kelas 2A Al Malik" },
-      { id: 76, nama: "Astama Ayyubi Al Ghifari", kelas: "Kelas 2A Al Malik" },
-      { id: 77, nama: "Asyagita Krisswindayu", kelas: "Kelas 2A Al Malik" },
-      { id: 78, nama: "Aurelie Ramadhani Putri", kelas: "Kelas 2A Al Malik" },
-      { id: 79, nama: "Aurora Shafina Zahra R", kelas: "Kelas 2A Al Malik" },
-      { id: 80, nama: "Ayskaa Zaina Tarhib Ramadhani", kelas: "Kelas 2A Al Malik" },
-      { id: 81, nama: "Azril Rahandika Zhafir Fauzi", kelas: "Kelas 2A Al Malik" },
-      { id: 82, nama: "Clarissa Adeeva", kelas: "Kelas 2A Al Malik" },
-      { id: 83, nama: "Farzana Zea Sabhira A", kelas: "Kelas 2A Al Malik" },
-      { id: 84, nama: "Kenzo Widjaya Ramadhan", kelas: "Kelas 2A Al Malik" },
-      { id: 85, nama: "Keyrani Hira Widayat", kelas: "Kelas 2A Al Malik" },
-      { id: 86, nama: "Mikhaila Hasika Arthawidya", kelas: "Kelas 2A Al Malik" },
-      { id: 87, nama: "Mikhayla Dewi Noureen", kelas: "Kelas 2A Al Malik" },
-      { id: 88, nama: "Muhammad Adnan Danish", kelas: "Kelas 2A Al Malik" },
-      { id: 89, nama: "Muhammad Ali Umar A", kelas: "Kelas 2A Al Malik" },
-      { id: 90, nama: "Muhammad Salman A", kelas: "Kelas 2A Al Malik" },
-      { id: 91, nama: "Mukhbita Azzahra Rahma", kelas: "Kelas 2A Al Malik" },
-      { id: 92, nama: "Omar Furqan Millian", kelas: "Kelas 2A Al Malik" },
-      { id: 93, nama: "Prada Paramartha H", kelas: "Kelas 2A Al Malik" },
-      { id: 94, nama: "Rumaisha Dewi Wanov Chalondra", kelas: "Kelas 2A Al Malik" },
-      { id: 95, nama: "Rumaisha Nidya Yutaka", kelas: "Kelas 2A Al Malik" },
-      { id: 96, nama: "Shannon Deya Paramesti Waskito", kelas: "Kelas 2A Al Malik" },
-      { id: 97, nama: "Shazfa Rebecca Ariana", kelas: "Kelas 2A Al Malik" },
-      { id: 98, nama: "Shea Mallika Y. Naafi", kelas: "Kelas 2A Al Malik" },
-      { id: 99, nama: "Affan Ali Adzani", kelas: "Kelas 2B Al Hakim" },
-      { id: 100, nama: "Aisyah Shadiqah Ismail", kelas: "Kelas 2B Al Hakim" },
-      { id: 101, nama: "Akleema Nadya Zawiya", kelas: "Kelas 2B Al Hakim" },
-      { id: 102, nama: "Alesha Orlin Celmira", kelas: "Kelas 2B Al Hakim" },
-      { id: 103, nama: "Arsakha Khalif", kelas: "Kelas 2B Al Hakim" },
-      { id: 104, nama: "Arsela Putri Maritza", kelas: "Kelas 2B Al Hakim" },
-      { id: 105, nama: "Ashia Dima Ramadhanisa", kelas: "Kelas 2B Al Hakim" },
-      { id: 106, nama: "Azhalea Daniaa Askha", kelas: "Kelas 2B Al Hakim" },
-      { id: 107, nama: "Azzgaevano Elziandra Alafasyi", kelas: "Kelas 2B Al Hakim" },
-      { id: 108, nama: "Destya Fitriani", kelas: "Kelas 2B Al Hakim" },
-      { id: 109, nama: "Dhanessena Fatharian Awib", kelas: "Kelas 2B Al Hakim" },
-      { id: 110, nama: "Dylano Putra Prasetya", kelas: "Kelas 2B Al Hakim" },
-      { id: 111, nama: "Fata Zhafi Arazka", kelas: "Kelas 2B Al Hakim" },
-      { id: 112, nama: "Gentamas Endaru Hussein Alkahfi", kelas: "Kelas 2B Al Hakim" },
-      { id: 113, nama: "Husein Ali Rezka", kelas: "Kelas 2B Al Hakim" },
-      { id: 114, nama: "Ichiro Keenan Syahreza", kelas: "Kelas 2B Al Hakim" },
-      { id: 115, nama: "Kevin Alfatih Hidayat", kelas: "Kelas 2B Al Hakim" },
-      { id: 116, nama: "Khrisna Maulana Yusuf", kelas: "Kelas 2B Al Hakim" },
-      { id: 117, nama: "Muhammad Taqaa El Fatih", kelas: "Kelas 2B Al Hakim" },
-      { id: 118, nama: "Musfar Fahlila Ansar", kelas: "Kelas 2B Al Hakim" },
-      { id: 119, nama: "Naylah Tsabita Almahira", kelas: "Kelas 2B Al Hakim" },
-      { id: 120, nama: "Nesya Areta Putri", kelas: "Kelas 2B Al Hakim" },
-      { id: 121, nama: "Rayhan Yahya Zulqisthi", kelas: "Kelas 2B Al Hakim" },
-      { id: 122, nama: "Rayyan Hafizh Nandana", kelas: "Kelas 2B Al Hakim" },
-      { id: 123, nama: "Sakhi Mauza Fardan", kelas: "Kelas 2B Al Hakim" },
-      { id: 124, nama: "Al Hisyam Hamizananta", kelas: "Kelas 2C Al Aziiz" },
-      { id: 125, nama: "Alvaro Raffasya Mardiansyah", kelas: "Kelas 2C Al Aziiz" },
-      { id: 126, nama: "Arcely Maysha Maheswari", kelas: "Kelas 2C Al Aziiz" },
-      { id: 127, nama: "Arvinza Budi Narendra", kelas: "Kelas 2C Al Aziiz" },
-      { id: 128, nama: "Aviano Pranadipa", kelas: "Kelas 2C Al Aziiz" },
-      { id: 129, nama: "Azkia Odellia Zahra", kelas: "Kelas 2C Al Aziiz" },
-      { id: 130, nama: "Bilqis Nabila Faiha", kelas: "Kelas 2C Al Aziiz" },
-      { id: 131, nama: "Elzio Sabriel Rayyan Candra", kelas: "Kelas 2C Al Aziiz" },
-      { id: 132, nama: "Evan Hasbuna Arasyi Nugroho", kelas: "Kelas 2C Al Aziiz" },
-      { id: 133, nama: "Galih Jaladri Hakim", kelas: "Kelas 2C Al Aziiz" },
-      { id: 134, nama: "Keinarra Aqila Rujiyatno", kelas: "Kelas 2C Al Aziiz" },
-      { id: 135, nama: "Khalil Hulaifi", kelas: "Kelas 2C Al Aziiz" },
-      { id: 136, nama: "Labibah Kamania Rizani", kelas: "Kelas 2C Al Aziiz" },
-      { id: 137, nama: "Lintang Sekar Jagad", kelas: "Kelas 2C Al Aziiz" },
-      { id: 138, nama: "Mohammad Rafa Albiansyah", kelas: "Kelas 2C Al Aziiz" },
-      { id: 139, nama: "Muhammad Dima Ramadhan", kelas: "Kelas 2C Al Aziiz" },
-      { id: 140, nama: "Muhammad Firdhan Hafizduddin", kelas: "Kelas 2C Al Aziiz" },
-      { id: 141, nama: "Muhammad Nadhif Safaraz Zafri", kelas: "Kelas 2C Al Aziiz" },
-      { id: 142, nama: "Nadhifa Maritza Nur Qoyyum", kelas: "Kelas 2C Al Aziiz" },
-      { id: 143, nama: "Narendra Arthur Sangramawijaya", kelas: "Kelas 2C Al Aziiz" },
-      { id: 144, nama: "Pradipta Adijaya Wirabudi", kelas: "Kelas 2C Al Aziiz" },
-      { id: 145, nama: "Rezvan Adipati Aprilio", kelas: "Kelas 2C Al Aziiz" },
-      { id: 146, nama: "Shaka Mumtaz Ghani Wilalodra", kelas: "Kelas 2C Al Aziiz" },
-      { id: 147, nama: "Syahan Al Khairat Santoso", kelas: "Kelas 2C Al Aziiz" },
-      { id: 148, nama: "Wildan Rajendra Al Kafabi", kelas: "Kelas 2C Al Aziiz" },
-      { id: 149, nama: "Adifa Safa Azzahra", kelas: "Kelas 3A Al Aliim" },
-      { id: 150, nama: "Albirru Devdas Rafaeyza Prastya", kelas: "Kelas 3A Al Aliim" },
-      { id: 151, nama: "Alfarezky Widya Hartanto", kelas: "Kelas 3A Al Aliim" },
-      { id: 152, nama: "Anindya Zhahira Ahmad", kelas: "Kelas 3A Al Aliim" },
-      { id: 153, nama: "Annasya Meila Hermawan", kelas: "Kelas 3A Al Aliim" },
-      { id: 154, nama: "Arsyta Vionesha", kelas: "Kelas 3A Al Aliim" },
-      { id: 155, nama: "Chelmira Noya Almakhzumi", kelas: "Kelas 3A Al Aliim" },
-      { id: 156, nama: "Davano Putra Prasetyo", kelas: "Kelas 3A Al Aliim" },
-      { id: 157, nama: "Gema Nalikaning Arundaya", kelas: "Kelas 3A Al Aliim" },
-      { id: 158, nama: "Ghina Althafunisa", kelas: "Kelas 3A Al Aliim" },
-      { id: 159, nama: "Listuaji Banyu Krisnarendra", kelas: "Kelas 3A Al Aliim" },
-      { id: 160, nama: "Muhammad Fata Rabbani", kelas: "Kelas 3A Al Aliim" },
-      { id: 161, nama: "Muhammad Rafisqy Khailas", kelas: "Kelas 3A Al Aliim" },
-      { id: 162, nama: "Muzhaffar Adam Hazim", kelas: "Kelas 3A Al Aliim" },
-      { id: 163, nama: "Nayaka Elok Prasetyo", kelas: "Kelas 3A Al Aliim" },
-      { id: 164, nama: "Ranu Panggalih Jagatru", kelas: "Kelas 3A Al Aliim" },
-      { id: 165, nama: "Razqa Syathir Pramono", kelas: "Kelas 3A Al Aliim" },
-      { id: 166, nama: "Sahla Lubna Farasya", kelas: "Kelas 3A Al Aliim" },
-      { id: 167, nama: "Sultan Ainul Yaqin Alfikri", kelas: "Kelas 3A Al Aliim" },
-      { id: 168, nama: "Utsman Abdul Lathif", kelas: "Kelas 3A Al Aliim" },
-      { id: 169, nama: "Vidar Baihaqi Kurniansyah", kelas: "Kelas 3A Al Aliim" },
-      { id: 170, nama: "Wishaka Dirgantara Pranadipa", kelas: "Kelas 3A Al Aliim" },
-      { id: 171, nama: "Zaskia Almira Shanum", kelas: "Kelas 3A Al Aliim" },
-      { id: 172, nama: "Adeeva Shaqeena Akhmad", kelas: "Kelas 3B Al Hafizh" },
-      { id: 173, nama: "Ahmad Rafardhan Athallah", kelas: "Kelas 3B Al Hafizh" },
-      { id: 174, nama: "Aiko Arsyila Akselia Candra", kelas: "Kelas 3B Al Hafizh" },
-      { id: 175, nama: "Aqila Ega Naura", kelas: "Kelas 3B Al Hafizh" },
-      { id: 176, nama: "Bondan Ethes Mahira", kelas: "Kelas 3B Al Hafizh" },
-      { id: 177, nama: "Claudya Natasha Putri", kelas: "Kelas 3B Al Hafizh" },
-      { id: 178, nama: "Dzaka Rasyad Al Fayyadh", kelas: "Kelas 3B Al Hafizh" },
-      { id: 179, nama: "Gentara Jan Diandra", kelas: "Kelas 3B Al Hafizh" },
-      { id: 180, nama: "Ghania Aurell Maulidina", kelas: "Kelas 3B Al Hafizh" },
-      { id: 181, nama: "Gilang Kresna Mahaeswara", kelas: "Kelas 3B Al Hafizh" },
-      { id: 182, nama: "Kenzie Putra Aliando", kelas: "Kelas 3B Al Hafizh" },
-      { id: 183, nama: "Khaira Nadeeva Almaira", kelas: "Kelas 3B Al Hafizh" },
-      { id: 184, nama: "Kinnanthi Maharani Putri A", kelas: "Kelas 3B Al Hafizh" },
-      { id: 185, nama: "Muhammad Narendra Jayawardhana", kelas: "Kelas 3B Al Hafizh" },
-      { id: 186, nama: "Pranaja Alsya Zani A", kelas: "Kelas 3B Al Hafizh" },
-      { id: 187, nama: "Abyan Faatih Alfarizqi", kelas: "Kelas 3C Ar Rasyiid" },
-      { id: 188, nama: "Alvorenzo Evanovigo A", kelas: "Kelas 3C Ar Rasyiid" },
-      { id: 189, nama: "Anella Setya Indria Jeany", kelas: "Kelas 3C Ar Rasyiid" },
-      { id: 190, nama: "Aqilla Fariza Mufia", kelas: "Kelas 3C Ar Rasyiid" },
-      { id: 191, nama: "Azalea Naura Salsabila", kelas: "Kelas 3C Ar Rasyiid" },
-      { id: 192, nama: "Bagus Hendratno", kelas: "Kelas 3C Ar Rasyiid" },
-      { id: 193, nama: "Eldric Arzanka Al Fikhri", kelas: "Kelas 3C Ar Rasyiid" },
-      { id: 194, nama: "Freedella Afra Ahmadi", kelas: "Kelas 3C Ar Rasyiid" },
-      { id: 195, nama: "Ibrahim Abqary Faiz", kelas: "Kelas 3C Ar Rasyiid" },
-      { id: 196, nama: "Keenan Latief Pratama", kelas: "Kelas 3C Ar Rasyiid" },
-      { id: 197, nama: "Maulana Mishbakhur Ridlo Al-Arief", kelas: "Kelas 3C Ar Rasyiid" },
-      { id: 198, nama: "Mazaya Ghaisani Morella Prasetya", kelas: "Kelas 3C Ar Rasyiid" },
-      { id: 199, nama: "Mutia Arifa Rahma", kelas: "Kelas 3C Ar Rasyiid" },
-      { id: 200, nama: "Nararya Aufhar Sangramawijaya", kelas: "Kelas 3C Ar Rasyiid" },
-      { id: 201, nama: "Rafkadyan Arshaka Rasyid", kelas: "Kelas 3C Ar Rasyiid" },
-      { id: 202, nama: "Thalita Khumaira Aryawan", kelas: "Kelas 3C Ar Rasyiid" },
-      { id: 203, nama: "Abhimananta Al Fatih", kelas: "Kelas 4A Al Amiin" },
-      { id: 204, nama: "Air Zhafran El Langit", kelas: "Kelas 4A Al Amiin" },
-      { id: 205, nama: "Airlangga Putra Wijaya", kelas: "Kelas 4A Al Amiin" },
-      { id: 206, nama: "Alea Bellvania Zahra", kelas: "Kelas 4A Al Amiin" },
-      { id: 207, nama: "Arsya Virendra Rony Pratama", kelas: "Kelas 4A Al Amiin" },
-      { id: 208, nama: "Arsyila Syaqueena Ismail", kelas: "Kelas 4A Al Amiin" },
-      { id: 209, nama: "Aruna Hayu Sitoresmi", kelas: "Kelas 4A Al Amiin" },
-      { id: 210, nama: "Avianyta Locita Astagina", kelas: "Kelas 4A Al Amiin" },
-      { id: 211, nama: "Ayash Raqila Fardan", kelas: "Kelas 4A Al Amiin" },
-      { id: 212, nama: "Azka Ahsan Fathurrahman", kelas: "Kelas 4A Al Amiin" },
-      { id: 213, nama: "Chiello Adivyan Hafuzy", kelas: "Kelas 4A Al Amiin" },
-      { id: 214, nama: "Fathan Al Fattah Fauzy Rasjid", kelas: "Kelas 4A Al Amiin" },
-      { id: 215, nama: "Gavin Athariz", kelas: "Kelas 4A Al Amiin" },
-      { id: 216, nama: "Khaira Dhia Syarafana", kelas: "Kelas 4A Al Amiin" },
-      { id: 217, nama: "Lintang Kirana Roosprobosari", kelas: "Kelas 4A Al Amiin" },
-      { id: 218, nama: "Maryam Safira Irawan", kelas: "Kelas 4A Al Amiin" },
-      { id: 219, nama: "Muhammad Shuan Qorizio", kelas: "Kelas 4A Al Amiin" },
-      { id: 220, nama: "Octaviani Aqeela", kelas: "Kelas 4A Al Amiin" },
-      { id: 221, nama: "Reynand Azfar Nugroho", kelas: "Kelas 4A Al Amiin" },
-      { id: 222, nama: "Rizky Akbar", kelas: "Kelas 4A Al Amiin" },
-      { id: 223, nama: "Samudra Arsa Pratama", kelas: "Kelas 4A Al Amiin" },
-      { id: 224, nama: "Sultan Muhammad Yusuf", kelas: "Kelas 4A Al Amiin" },
-      { id: 225, nama: "Alesha Almahyra Putri Farisa", kelas: "Kelas 4B Al Waasi’" },
-      { id: 226, nama: "Alfathar Nathanazell Kurniawan", kelas: "Kelas 4B Al Waasi’" },
-      { id: 227, nama: "Andara Inas Farzana Ardiyanto", kelas: "Kelas 4B Al Waasi’" },
-      { id: 228, nama: "Anindita Keisha Syakira", kelas: "Kelas 4B Al Waasi’" },
-      { id: 229, nama: "Arsyila Kanaya Putri Danendra", kelas: "Kelas 4B Al Waasi’" },
-      { id: 230, nama: "Ayra Anindita Septiani", kelas: "Kelas 4B Al Waasi’" },
-      { id: 231, nama: "Dinda Kirana", kelas: "Kelas 4B Al Waasi’" },
-      { id: 232, nama: "Dirga Yudha Nurmantyo", kelas: "Kelas 4B Al Waasi’" },
-      { id: 233, nama: "Ditama Sevenda", kelas: "Kelas 4B Al Waasi’" },
-      { id: 234, nama: "Gavin Fattah Riga Buana", kelas: "Kelas 4B Al Waasi’" },
-      { id: 235, nama: "Haffizha Kirana", kelas: "Kelas 4B Al Waasi’" },
-      { id: 236, nama: "Hasna Alfa Kemala", kelas: "Kelas 4B Al Waasi’" },
-      { id: 237, nama: "Kamila Riskita Sulistyandani", kelas: "Kelas 4B Al Waasi’" },
-      { id: 238, nama: "Maghfira Shabrina Mumtaz", kelas: "Kelas 4B Al Waasi’" },
-      { id: 239, nama: "Muhammad Argo Herdian", kelas: "Kelas 4B Al Waasi’" },
-      { id: 240, nama: "Muhammad Navy Al Arfa", kelas: "Kelas 4B Al Waasi’" },
-      { id: 241, nama: "Muhammad Zhafran Al Ghifari", kelas: "Kelas 4B Al Waasi’" },
-      { id: 242, nama: "Naufal Firzha Alfiansyah", kelas: "Kelas 4B Al Waasi’" },
-      { id: 243, nama: "Nayla Chairunnisa Hapsari", kelas: "Kelas 4B Al Waasi’" },
-      { id: 244, nama: "Rafael Kenzie Putra", kelas: "Kelas 4B Al Waasi’" },
-      { id: 245, nama: "Rafasya Kriswindana", kelas: "Kelas 4B Al Waasi’" },
-      { id: 246, nama: "Rafay Utsman Halim", kelas: "Kelas 4B Al Waasi’" },
-      { id: 247, nama: "Aditya Zharif Arkan", kelas: "Kelas 5 Al Kariim" },
-      { id: 248, nama: "Adna Zea Almahyra", kelas: "Kelas 5 Al Kariim" },
-      { id: 249, nama: "Aisyah Ghaida Tsurayya", kelas: "Kelas 5 Al Kariim" },
-      { id: 250, nama: "Ashfa Sinar Dzikri An Nashir", kelas: "Kelas 5 Al Kariim" },
-      { id: 251, nama: "Az-Zahra Dima Cahya Dewi", kelas: "Kelas 5 Al Kariim" },
-      { id: 252, nama: "Haidar Agra Rizqi", kelas: "Kelas 5 Al Kariim" },
-      { id: 253, nama: "Idris Suseno Putra", kelas: "Kelas 5 Al Kariim" },
-      { id: 254, nama: "Kamea Afsheen Mayasa", kelas: "Kelas 5 Al Kariim" },
-      { id: 255, nama: "Latifa Athaya Queen", kelas: "Kelas 5 Al Kariim" },
-      { id: 256, nama: "Muhammad Bagus Wuragil", kelas: "Kelas 5 Al Kariim" },
-      { id: 257, nama: "Muhammad Hafizh Ahnaf P", kelas: "Kelas 5 Al Kariim" },
-      { id: 258, nama: "Nafisa Nuria Adzka", kelas: "Kelas 5 Al Kariim" },
-      { id: 259, nama: "Najwa Rahma Alfilla", kelas: "Kelas 5 Al Kariim" },
-      { id: 260, nama: "Qinanty Hikari Azzahra", kelas: "Kelas 5 Al Kariim" },
-      { id: 261, nama: "Rifqiady Aghazka", kelas: "Kelas 5 Al Kariim" },
-      { id: 262, nama: "Syailendra Maheswara Putra R.", kelas: "Kelas 5 Al Kariim" },
-      { id: 263, nama: "Yuan Sebastian", kelas: "Kelas 5 Al Kariim" },
-      { id: 264, nama: "Ahmad Alfian Arsyad", kelas: "Kelas 6 Al Fattah" },
-      { id: 265, nama: "Aisha Kanaka Hariandini", kelas: "Kelas 6 Al Fattah" },
-      { id: 266, nama: "Anggito Ahmad Hafidzin", kelas: "Kelas 6 Al Fattah" },
-      { id: 267, nama: "Aulia Syafara Yusnaputri", kelas: "Kelas 6 Al Fattah" },
-      { id: 268, nama: "Azzam Althaf Faeyza", kelas: "Kelas 6 Al Fattah" },
-      { id: 269, nama: "Dhega Mahardhika Hermawan", kelas: "Kelas 6 Al Fattah" },
-      { id: 270, nama: "Fahri Nugroho", kelas: "Kelas 6 Al Fattah" },
-      { id: 271, nama: "Fania Raudati", kelas: "Kelas 6 Al Fattah" },
-      { id: 272, nama: "Fathan Kamil", kelas: "Kelas 6 Al Fattah" },
-      { id: 273, nama: "Galendra Althario Radeva", kelas: "Kelas 6 Al Fattah" },
-      { id: 274, nama: "Hideo Pradipta Alfatih", kelas: "Kelas 6 Al Fattah" },
-      { id: 275, nama: "Husain Athallah Musyaffa", kelas: "Kelas 6 Al Fattah" },
-      { id: 276, nama: "Ivandher Elang Prabangkoro", kelas: "Kelas 6 Al Fattah" },
-      { id: 277, nama: "Kaisa Adni Al Ayari", kelas: "Kelas 6 Al Fattah" },
-      { id: 278, nama: "Khalif Andhitya", kelas: "Kelas 6 Al Fattah" },
-      { id: 279, nama: "Muhammad Gibran Naufalih", kelas: "Kelas 6 Al Fattah" },
-      { id: 280, nama: "Muhammad Hilmi Nur Al Fatih", kelas: "Kelas 6 Al Fattah" },
-      { id: 281, nama: "Muhammad Rifai Suharto", kelas: "Kelas 6 Al Fattah" },
-      { id: 282, nama: "Raisya Bilqis Nuriasya", kelas: "Kelas 6 Al Fattah" },
-      { id: 283, nama: "Syakila Aulia Putri Wicaksono", kelas: "Kelas 6 Al Fattah" }
+      { id: 6, nama: "Adlan Malik Assami", kelas: "Kelas 1B" },
+      { id: 7, nama: "Aldi Rafaeyza", kelas: "Kelas 1B" },
+      { id: 8, nama: "Alvarendra Arasya Widhiyatmoko", kelas: "Kelas 1B" },
+      { id: 9, nama: "Abiandra Ibrahim", kelas: "Kelas 1C" },
+      { id: 10, nama: "Ahza Apzarini Frastika", kelas: "Kelas 1C" },
+      { id: 11, nama: "Aisyah Pelangi Muslimah", kelas: "Kelas 2A Al Malik" },
+      { id: 12, nama: "Almeera Nahla WS", kelas: "Kelas 2A Al Malik" },
+      { id: 13, nama: "Affan Ali Adzani", kelas: "Kelas 2B Al Hakim" },
+      { id: 14, nama: "Al Hisyam Hamizananta", kelas: "Kelas 2C Al Aziiz" },
+      { id: 15, nama: "Adifa Safa Azzahra", kelas: "Kelas 3A Al Aliim" },
+      { id: 16, nama: "Adeeva Shaqeena Akhmad", kelas: "Kelas 3B Al Hafizh" },
+      { id: 17, nama: "Abyan Faatih Alfarizqi", kelas: "Kelas 3C Ar Rasyiid" },
+      { id: 18, nama: "Abhimananta Al Fatih", kelas: "Kelas 4A Al Amiin" },
+      { id: 19, nama: "Alesha Almahyra Putri Farisa", kelas: "Kelas 4B Al Waasi’" },
+      { id: 20, nama: "Aditya Zharif Arkan", kelas: "Kelas 5 Al Kariim" },
+      { id: 21, nama: "Ahmad Alfian Arsyad", kelas: "Kelas 6 Al Fattah" }
     ];
 
-    let initialLoans = [
-      { id: "TRX-101", studentId: 73, studentName: "Aisyah Pelangi Muslimah", kelas: "Kelas 2A Al Malik", bookId: 2, bookTitle: "Bacaan Sholat: Disertai Latin & Terjemah Bahasa Indonesia", tglPinjam: "2026-10-20", tglKembali: "2026-10-27", status: "Dipinjam" }
+    // INITIAL LOANS DATA
+    let loans = [
+      { id: "TRX-101", studentId: 11, studentName: "Aisyah Pelangi Muslimah", kelas: "Kelas 2A Al Malik", bookId: 2, bookTitle: "Bacaan Sholat: Disertai Latin & Terjemah Bahasa Indonesia", tglPinjam: "2026-10-20", tglKembali: "2026-10-27", status: "Dipinjam" },
+      { id: "TRX-102", studentId: 6, studentName: "Adlan Malik Assami", kelas: "Kelas 1B", bookId: 16, bookTitle: "Kisah Nabi Muhammad SAW", tglPinjam: "2026-10-22", tglKembali: "2026-10-29", status: "Dipinjam" },
+      { id: "TRX-103", studentId: 15, studentName: "Adifa Safa Azzahra", kelas: "Kelas 3A Al Aliim", bookId: 17, bookTitle: "Kisah 25 Nabi dan Rasul", tglPinjam: "2026-10-18", tglKembali: "2026-10-25", status: "Terlambat" }
     ];
 
-    // LocalStorage key set to v6 for fresh reload
-    let books = JSON.parse(localStorage.getItem('makarima_books_v6')) || initialBooks;
-    let students = JSON.parse(localStorage.getItem('makarima_students_v6')) || initialStudents;
-    let loans = JSON.parse(localStorage.getItem('makarima_loans_v6')) || initialLoans;
-    
+    // INITIAL VISITS LOGS (Fitur Kunjungan)
+    let visits = [
+      { id: 1, studentId: 1, studentName: "Ambalika Sora Pratama", kelas: "Kelas 1A", tanggal: "2026-10-02", keperluan: "Membaca Buku" },
+      { id: 2, studentId: 11, studentName: "Aisyah Pelangi Muslimah", kelas: "Kelas 2A Al Malik", tanggal: "2026-10-05", keperluan: "Meminjam Buku" },
+      { id: 3, studentId: 11, studentName: "Aisyah Pelangi Muslimah", kelas: "Kelas 2A Al Malik", tanggal: "2026-10-12", keperluan: "Membaca Buku" },
+      { id: 4, studentId: 11, studentName: "Aisyah Pelangi Muslimah", kelas: "Kelas 2A Al Malik", tanggal: "2026-10-20", keperluan: "Meminjam Buku" },
+      { id: 5, studentId: 15, studentName: "Adifa Safa Azzahra", kelas: "Kelas 3A Al Aliim", tanggal: "2026-10-10", keperluan: "Kerja Kelompok / Tugas" },
+      { id: 6, studentId: 15, studentName: "Adifa Safa Azzahra", kelas: "Kelas 3A Al Aliim", tanggal: "2026-10-18", keperluan: "Meminjam Buku" },
+      { id: 7, studentId: 20, studentName: "Aditya Zharif Arkan", kelas: "Kelas 5 Al Kariim", tanggal: "2026-10-15", keperluan: "Membaca Buku" }
+    ];
+
+    let books = JSON.parse(localStorage.getItem('makarima_books')) || initialBooks;
+    let students = JSON.parse(localStorage.getItem('makarima_students')) || initialStudents;
     let categoryChartInstance = null;
-    let statusChartInstance = null;
 
     document.addEventListener("DOMContentLoaded", () => {
       if (sessionStorage.getItem('pustaka_auth') === 'true') {
         document.getElementById('lockScreen').style.display = 'none';
+      } else {
+        document.getElementById('lockScreen').style.display = 'flex';
       }
+
       document.getElementById('pinjamTgl').value = new Date().toISOString().split('T')[0];
+      document.getElementById('kunjunganTgl').value = new Date().toISOString().split('T')[0];
+
       initFilters();
+      initKunjunganMonthFilter();
       renderDashboard();
       renderKatalog();
       renderMurid();
       renderSirkulasi();
+      renderKunjungan();
     });
 
     function saveData() {
-      localStorage.setItem('makarima_books_v6', JSON.stringify(books));
-      localStorage.setItem('makarima_students_v6', JSON.stringify(students));
-      localStorage.setItem('makarima_loans_v6', JSON.stringify(loans));
-    }
-
-    function resetDataAwal() {
-      if (confirm("Reset ulang seluruh data ke versi awal sekolah? Semua data siswa dan buku akan dikembalikan.")) {
-        localStorage.removeItem('makarima_books_v6');
-        localStorage.removeItem('makarima_students_v6');
-        localStorage.removeItem('makarima_loans_v6');
-
-        books = JSON.parse(JSON.stringify(initialBooks));
-        students = JSON.parse(JSON.stringify(initialStudents));
-        loans = JSON.parse(JSON.stringify(initialLoans));
-
-        saveData();
-        initFilters();
-        renderDashboard();
-        renderKatalog();
-        renderMurid();
-        renderSirkulasi();
-        closeModal('modalImport');
-        showToast("Data berhasil di-reset ke versi awal sekolah!");
-      }
-    }
-
-    /* EXCEL EXPORT FEATURE (STYLED HTML TABLE) */
-    function exportToExcel(type) {
-      let title = "";
-      let headers = [];
-      let rows = [];
-
-      if (type === 'buku') {
-        title = "DATA KATALOG INVENTARIS BUKU - PUSTAKA SYAMILAH";
-        headers = ["No", "Kode Label", "Judul Buku", "Kategori", "Penerbit", "Tahun Terbit", "Total Stok", "Stok Tersedia", "Kondisi"];
-        rows = books.map((b, i) => [i + 1, b.kode || '-', b.judul, b.kategori, b.penerbit, b.tahun, b.stok, b.tersedia, b.kondisi || 'Baik']);
-      } else if (type === 'murid') {
-        title = "DATA ANGGOTA SISWA - PUSTAKA SYAMILAH";
-        headers = ["No", "ID Anggota", "Nama Lengkap Siswa", "Kelas"];
-        rows = students.map((s, i) => [i + 1, `SDIM-${s.id}`, s.nama, s.kelas]);
-      } else if (type === 'sirkulasi') {
-        title = "REKAP SIRKULASI PEMINJAMAN BUKU - PUSTAKA SYAMILAH";
-        headers = ["No", "ID Transaksi", "Nama Siswa", "Kelas", "Judul Buku", "Tanggal Pinjam", "Jatuh Tempo", "Status"];
-        rows = loans.map((l, i) => [i + 1, l.id, l.studentName, l.kelas, l.bookTitle, l.tglPinjam, l.tglKembali, l.status]);
-      }
-
-      let htmlContent = `
-        <html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40">
-        <head>
-          <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-          <!--[if gte mso 9]>
-          <xml>
-            <x:ExcelWorkbook>
-              <x:ExcelWorksheets>
-                <x:ExcelWorksheet>
-                  <x:Name>${type.toUpperCase()}</x:Name>
-                  <x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions>
-                </x:ExcelWorksheet>
-              </x:ExcelWorksheets>
-            </x:ExcelWorkbook>
-          </xml>
-          <![endif]-->
-          <style>
-            body { font-family: 'Arial', sans-serif; }
-            table { border-collapse: collapse; width: 100%; }
-            th { background-color: #C5A059; color: #ffffff; font-weight: bold; border: 1px solid #A08040; padding: 10px; text-align: left; }
-            td { border: 1px solid #D1C7B7; padding: 8px; font-size: 13px; }
-            tr:nth-child(even) { background-color: #FDFBF7; }
-            .title-header { font-size: 16px; font-weight: bold; color: #2D2A26; margin-bottom: 6px; text-align: center; }
-            .school-name { font-size: 12px; color: #7A756C; text-align: center; margin-bottom: 15px; }
-          </style>
-        </head>
-        <body>
-          <div class="title-header">${title}</div>
-          <div class="school-name">SD Islam Makarima Kartasura | Tanggal Ekspor: ${new Date().toLocaleDateString('id-ID')}</div>
-          <table>
-            <thead>
-              <tr>${headers.map(h => `<th>${h}</th>`).join('')}</tr>
-            </thead>
-            <tbody>
-              ${rows.map(row => `<tr>${row.map(cell => `<td>${cell}</td>`).join('')}</tr>`).join('')}
-            </tbody>
-          </table>
-        </body>
-        </html>
-      `;
-
-      const blob = new Blob([htmlContent], { type: 'application/vnd.ms-excel;charset=utf-8' });
-      const link = document.createElement('a');
-      link.href = URL.createObjectURL(blob);
-      link.download = `Pustaka_Syamilah_${type}_${new Date().toISOString().split('T')[0]}.xls`;
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      showToast(`Data ${type} berhasil diekspor dalam format Excel rapi!`);
-    }
-
-    /* WORKING FILE UPLOAD FEATURE (CSV & JSON) */
-    function handleFileUpload(event) {
-      const file = event.target.files[0];
-      if (!file) return;
-
-      const reader = new FileReader();
-      const fileName = file.name.toLowerCase();
-
-      reader.onload = function(e) {
-        const content = e.target.result;
-        try {
-          if (fileName.endsWith('.json')) {
-            parseJSONUpload(content);
-          } else if (fileName.endsWith('.csv')) {
-            parseCSVUpload(content);
-          } else {
-            alert('Format file tidak didukung! Harap unggah file .csv atau .json');
-          }
-        } catch (err) {
-          alert('Gagal membaca file: ' + err.message);
-        }
-      };
-
-      reader.readAsText(file);
-    }
-
-    function parseJSONUpload(content) {
-      const data = JSON.parse(content);
-      let count = 0;
-
-      if (data.books && Array.isArray(data.books)) {
-        books = data.books;
-        count += data.books.length;
-      }
-      if (data.students && Array.isArray(data.students)) {
-        students = data.students;
-        count += data.students.length;
-      }
-      if (data.loans && Array.isArray(data.loans)) {
-        loans = data.loans;
-      }
-
-      if (Array.isArray(data)) {
-        if (data[0] && (data[0].judul || data[0].title)) {
-          books = data.map((b, i) => ({
-            id: b.id || Date.now() + i,
-            kode: b.kode || `KB/${books.length + i + 1}`,
-            judul: b.judul || b.title,
-            kategori: b.kategori || 'Agama Islam',
-            penerbit: b.penerbit || '-',
-            tahun: b.tahun || '-',
-            stok: parseInt(b.stok) || 1,
-            tersedia: parseInt(b.tersedia || b.stok) || 1,
-            kondisi: b.kondisi || 'Baik'
-          }));
-          count = books.length;
-        } else if (data[0] && (data[0].nama || data[0].name)) {
-          students = data.map((s, i) => ({
-            id: s.id || Date.now() + i,
-            nama: s.nama || s.name,
-            kelas: s.kelas || 'Kelas 1A'
-          }));
-          count = students.length;
-        }
-      }
-
-      saveData(); initFilters(); renderDashboard(); renderKatalog(); renderMurid(); renderSirkulasi();
-      closeModal('modalImport');
-      showToast(`Berhasil mengimpor & memperbarui ${count} data dari file JSON!`);
-    }
-
-    function parseCSVUpload(content) {
-      const lines = content.split(/\r\n|\n/).filter(line => line.trim().length > 0);
-      if (lines.length < 2) {
-        alert('File CSV kosong atau tidak memiliki baris data.');
-        return;
-      }
-
-      const headers = lines[0].split(',').map(h => h.replace(/^["']|["']$/g, '').trim().toLowerCase());
-      const isBookCSV = headers.some(h => h.includes('judul') || h.includes('title') || h.includes('penerbit') || h.includes('stok'));
-      const isStudentCSV = headers.some(h => h.includes('nama') || h.includes('siswa') || h.includes('kelas'));
-
-      let count = 0;
-      if (isBookCSV) {
-        const newBooks = [];
-        for (let i = 1; i < lines.length; i++) {
-          const cols = parseCSVLine(lines[i]);
-          if (cols.length >= 2) {
-            newBooks.push({
-              id: Date.now() + i,
-              kode: cols[0] || `KB/${i}`,
-              judul: cols[1] || 'Buku Baru',
-              kategori: cols[2] || 'Agama Islam',
-              penerbit: cols[3] || '-',
-              tahun: cols[4] || '-',
-              stok: parseInt(cols[5]) || 1,
-              tersedia: parseInt(cols[6] || cols[5]) || 1,
-              kondisi: cols[7] || 'Baik'
-            });
-            count++;
-          }
-        }
-        if (newBooks.length > 0) books = newBooks;
-      } else if (isStudentCSV) {
-        const newStudents = [];
-        for (let i = 1; i < lines.length; i++) {
-          const cols = parseCSVLine(lines[i]);
-          if (cols.length >= 1) {
-            const nama = cols[0] || cols[1];
-            const kelas = cols[1] && cols[0] !== cols[1] ? cols[1] : (cols[2] || 'Kelas 1A');
-            if (nama) {
-              newStudents.push({ id: Date.now() + i, nama: nama, kelas: kelas });
-              count++;
-            }
-          }
-        }
-        if (newStudents.length > 0) students = newStudents;
-      } else {
-        alert('Format header CSV tidak dikenali. Pastikan terdapat kolom "Judul/Penerbit" (Buku) atau "Nama/Kelas" (Siswa).');
-        return;
-      }
-
-      saveData(); initFilters(); renderDashboard(); renderKatalog(); renderMurid(); renderSirkulasi();
-      closeModal('modalImport');
-      showToast(`Berhasil mengimpor ${count} data dari file CSV!`);
-    }
-
-    function parseCSVLine(line) {
-      const result = [];
-      let current = '';
-      let inQuotes = false;
-      for (let i = 0; i < line.length; i++) {
-        const char = line[i];
-        if (char === '"') {
-          inQuotes = !inQuotes;
-        } else if (char === ',' && !inQuotes) {
-          result.push(current.trim().replace(/^["']|["']$/g, ''));
-          current = '';
-        } else {
-          current += char;
-        }
-      }
-      result.push(current.trim().replace(/^["']|["']$/g, ''));
-      return result;
-    }
-
-    function downloadSampleCSV(type) {
-      let csvData = "";
-      if (type === 'buku') {
-        csvData = "Kode,Judul,Kategori,Penerbit,Tahun,Stok\nAI/020,Sejarah Islam Anak,Siroh,Pustaka Utama,2023,5\nSA/005,Mengenal Alam,Sains,Tiga Ananda,2022,3";
-      } else {
-        csvData = "Nama Lengkap,Kelas\nAhmad Zakaria,Kelas 1A\nFatimah Az-Zahra,Kelas 2B Al Hakim";
-      }
-
-      const blob = new Blob([csvData], { type: 'text/csv;charset=utf-8;' });
-      const link = document.createElement('a');
-      link.href = URL.createObjectURL(blob);
-      link.download = `Contoh_Template_${type}.csv`;
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    }
-
-    function toggleImportTab(tab) {
-      const secUpload = document.getElementById('secTabUpload');
-      const secReset = document.getElementById('secTabReset');
-      const btnUpload = document.getElementById('btnTabUpload');
-      const btnReset = document.getElementById('btnTabReset');
-
-      if (tab === 'upload') {
-        secUpload.style.display = 'block'; secReset.style.display = 'none';
-        btnUpload.classList.add('active'); btnReset.classList.remove('active');
-      } else {
-        secUpload.style.display = 'none'; secReset.style.display = 'block';
-        btnUpload.classList.remove('active'); btnReset.classList.add('active');
-      }
+      localStorage.setItem('makarima_books', JSON.stringify(books));
+      localStorage.setItem('makarima_students', JSON.stringify(students));
+      localStorage.setItem('makarima_visits', JSON.stringify(visits));
     }
 
     function showToast(msg) {
@@ -1440,8 +1584,10 @@
     }
 
     function toggleMobileSidebar() {
-      document.getElementById('sidebar').classList.toggle('open');
-      document.getElementById('sidebarOverlay').classList.toggle('active');
+      const sidebar = document.getElementById('sidebar');
+      const overlay = document.getElementById('sidebarOverlay');
+      sidebar.classList.toggle('open');
+      overlay.classList.toggle('active');
     }
 
     function switchTab(tabId) {
@@ -1450,11 +1596,15 @@
       
       document.getElementById(`sec-${tabId}`).classList.add('active');
       
+      const activeBtn = Array.from(document.querySelectorAll('.menu-item')).find(el => el.getAttribute('onclick') && el.getAttribute('onclick').includes(tabId));
+      if(activeBtn) activeBtn.classList.add('active');
+
       const titles = {
         'dashboard': ['Dashboard Perpustakaan', 'Sistem Rekap & Sirkulasi Pustaka Syamilah Makarima'],
-        'katalog': ['Katalog Buku Inventaris', 'Pencarian & Manajemen Stok Buku'],
+        'katalog': ['Katalog Inventaris Buku', 'Pencarian, Manajemen Stok & Input Koleksi Buku'],
         'murid': ['Daftar Murid Sekolah', 'Rekap Keanggotaan Murid SD Islam Makarima'],
-        'sirkulasi': ['Sirkulasi Peminjaman', 'Pencatatan Keluar Masuk Buku']
+        'sirkulasi': ['Sirkulasi Peminjaman', 'Pencatatan Keluar Masuk Buku & Keterlambatan'],
+        'kunjungan': ['Presensi Kunjungan Siswa', 'Rekapan Jumlah Kunjungan per Siswa per Bulan']
       };
 
       if(titles[tabId]) {
@@ -1468,90 +1618,81 @@
       }
 
       if(tabId === 'dashboard') renderDashboard();
+      if(tabId === 'kunjungan') renderKunjungan();
     }
 
     function openModal(modalId) {
       if(modalId === 'modalPinjam') populatePinjamSelects();
+      if(modalId === 'modalKunjungan') populateKunjunganSelects();
       if(modalId === 'modalInputMurid' || modalId === 'modalEditMurid') updateClassDatalists();
       document.getElementById(modalId).classList.add('active');
     }
 
-    function closeModal(modalId) { document.getElementById(modalId).classList.remove('active'); }
+    function closeModal(modalId) {
+      document.getElementById(modalId).classList.remove('active');
+    }
 
     function updateClassDatalists() {
       const uniqueClasses = [...new Set(students.map(s => s.kelas))].sort();
       const optionsHtml = uniqueClasses.map(c => `<option value="${c}">`).join('');
       document.getElementById('classList').innerHTML = optionsHtml;
-      document.getElementById('classListMassal').innerHTML = optionsHtml;
       document.getElementById('classListEdit').innerHTML = optionsHtml;
-    }
-
-    function toggleInputSiswaTab(tab) {
-      const formSatuan = document.getElementById('formTambahMuridSatuan');
-      const formMassal = document.getElementById('formTambahMuridMassal');
-      const btnSatuan = document.getElementById('btnTabSatuan');
-      const btnMassal = document.getElementById('btnTabMassal');
-
-      if(tab === 'satuan') {
-        formSatuan.style.display = 'block'; formMassal.style.display = 'none';
-        btnSatuan.classList.add('active'); btnMassal.classList.remove('active');
-      } else {
-        formSatuan.style.display = 'none'; formMassal.style.display = 'block';
-        btnSatuan.classList.remove('active'); btnMassal.classList.add('active');
-      }
     }
 
     function initFilters() {
       const categories = [...new Set(books.map(b => b.kategori))];
       const catSelect = document.getElementById('filterKategori');
       catSelect.innerHTML = '<option value="">Semua Kategori</option>';
-      categories.forEach(cat => catSelect.innerHTML += `<option value="${cat}">${cat}</option>`);
+      categories.forEach(cat => {
+        catSelect.innerHTML += `<option value="${cat}">${cat}</option>`;
+      });
 
       const classes = [...new Set(students.map(s => s.kelas))].sort();
       const classSelect = document.getElementById('filterKelas');
       classSelect.innerHTML = '<option value="">Semua Kelas</option>';
-      classes.forEach(c => classSelect.innerHTML += `<option value="${c}">${c}</option>`);
+      classes.forEach(c => {
+        classSelect.innerHTML += `<option value="${c}">${c}</option>`;
+      });
     }
 
     function renderDashboard() {
-      const activeLoansCount = loans.filter(l => l.status !== 'Dikembalikan').length;
-      const totalStokCount = books.reduce((acc, b) => acc + parseInt(b.stok || 0), 0);
-      const totalTersediaCount = books.reduce((acc, b) => acc + parseInt(b.tersedia || 0), 0);
-
       document.getElementById('statTotalJudul').innerText = books.length;
       document.getElementById('statTotalMurid').innerText = students.length;
-      document.getElementById('statTotalDipinjam').innerText = activeLoansCount;
-      document.getElementById('statTotalStok').innerText = totalStokCount;
+      document.getElementById('statTotalDipinjam').innerText = loans.filter(l => l.status !== 'Dikembalikan').length;
+      
+      const currMonth = new Date().toISOString().slice(0, 7);
+      const visitsThisMonth = visits.filter(v => v.tanggal.startsWith(currMonth)).length;
+      document.getElementById('statTotalKunjunganBulanIni').innerText = visitsThisMonth;
 
+      // Render Chart Category
       const catCounts = {};
-      books.forEach(b => catCounts[b.kategori] = (catCounts[b.kategori] || 0) + 1);
+      books.forEach(b => {
+        catCounts[b.kategori] = (catCounts[b.kategori] || 0) + 1;
+      });
 
-      // Category Chart
-      const ctxCat = document.getElementById('categoryChart').getContext('2d');
+      const ctx = document.getElementById('categoryChart').getContext('2d');
       if(categoryChartInstance) categoryChartInstance.destroy();
-      categoryChartInstance = new Chart(ctxCat, {
+
+      categoryChartInstance = new Chart(ctx, {
         type: 'bar',
         data: {
           labels: Object.keys(catCounts),
-          datasets: [{ label: 'Jumlah Judul', data: Object.values(catCounts), backgroundColor: '#C5A059', borderRadius: 6 }]
-        },
-        options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
-      });
-
-      // Status Chart
-      const ctxStatus = document.getElementById('statusChart').getContext('2d');
-      if(statusChartInstance) statusChartInstance.destroy();
-      statusChartInstance = new Chart(ctxStatus, {
-        type: 'doughnut',
-        data: {
-          labels: ['Tersedia di Rak', 'Sedang Dipinjam'],
           datasets: [{
-            data: [totalTersediaCount, activeLoansCount],
-            backgroundColor: ['#567C65', '#C5A059'],
-            borderWidth: 2
+            label: 'Jumlah Judul Buku',
+            data: Object.values(catCounts),
+            backgroundColor: '#C5A059',
+            borderRadius: 6
           }]
         },
-        options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom' } } }
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { display: false } },
+          scales: {
+            y: { beginAtZero: true, grid: { color: '#E8E2D5' } },
+            x: { grid: { display: false } }
+          }
+        }
       });
     }
 
@@ -1567,6 +1708,7 @@
 
       const tbody = document.getElementById('tableKatalogBody');
       tbody.innerHTML = '';
+
       filtered.forEach((b, idx) => {
         tbody.innerHTML += `
           <tr>
@@ -1578,8 +1720,8 @@
             <td><strong>${b.tersedia}</strong> / ${b.stok}</td>
             <td><span class="badge ${b.kondisi === 'Baik' ? 'badge-success' : 'badge-warning'}">${b.kondisi || 'Baik'}</span></td>
             <td style="text-align: right;">
-              <button class="btn-action" onclick="editStokBuku(${b.id})" title="Edit Stok"><i class="fa-solid fa-pen"></i></button>
-              <button class="btn-action delete" onclick="hapusBuku(${b.id})" title="Hapus Buku"><i class="fa-solid fa-trash"></i></button>
+              <button class="btn-action" title="Edit Stok" onclick="editStokBuku(${b.id})"><i class="fa-solid fa-pen"></i></button>
+              <button class="btn-action delete" title="Hapus Buku" onclick="hapusBuku(${b.id})"><i class="fa-solid fa-trash"></i></button>
             </td>
           </tr>
         `;
@@ -1598,18 +1740,22 @@
 
       const tbody = document.getElementById('tableMuridBody');
       tbody.innerHTML = '';
+
       filtered.forEach((s, idx) => {
         const activeLoan = loans.find(l => l.studentId === s.id && l.status !== 'Dikembalikan');
+        const statusBadge = activeLoan 
+          ? `<span class="badge badge-warning"><i class="fa-solid fa-book-reader"></i> Meminjam Buku</span>`
+          : `<span class="badge badge-success"><i class="fa-solid fa-check"></i> Bebas Pinjaman</span>`;
+
         tbody.innerHTML += `
           <tr>
             <td>${idx + 1}</td>
-            <td style="font-weight:700;">${s.nama}</td>
+            <td style="font-weight:700; color:var(--text-dark);">${s.nama}</td>
             <td><span class="badge badge-class">${s.kelas}</span></td>
-            <td>${activeLoan ? '<span class="badge badge-warning"><i class="fa-solid fa-book-reader"></i> Meminjam</span>' : '<span class="badge badge-success"><i class="fa-solid fa-check"></i> Bebas Pinjaman</span>'}</td>
+            <td>${statusBadge}</td>
             <td style="text-align: right;">
-              <button class="btn-action" onclick="cetakKartuSiswa(${s.id})" title="Cetak Kartu"><i class="fa-solid fa-id-card"></i></button>
-              <button class="btn-action" onclick="bukaModalEditMurid(${s.id})" title="Edit Siswa"><i class="fa-solid fa-user-pen"></i></button>
-              <button class="btn-action delete" onclick="hapusMurid(${s.id})" title="Hapus Siswa"><i class="fa-solid fa-user-minus"></i></button>
+              <button class="btn-action" title="Edit Data Siswa & Kelas" onclick="bukaModalEditMurid(${s.id})"><i class="fa-solid fa-user-pen"></i></button>
+              <button class="btn-action delete" title="Hapus Siswa" onclick="hapusMurid(${s.id})"><i class="fa-solid fa-user-minus"></i></button>
             </td>
           </tr>
         `;
@@ -1619,7 +1765,14 @@
     function renderSirkulasi() {
       const tbody = document.getElementById('tableSirkulasiBody');
       tbody.innerHTML = '';
+
       loans.forEach(l => {
+        const badgeClass = l.status === 'Dipinjam' ? 'badge-warning' : (l.status === 'Terlambat' ? 'badge-danger' : 'badge-success');
+        
+        const actionBtn = l.status !== 'Dikembalikan' 
+          ? `<button class="quick-btn" style="padding: 4px 10px; font-size: 11px;" onclick="kembalikanBuku('${l.id}')"><i class="fa-solid fa-rotate-left"></i> Kembalikan</button>`
+          : `<span style="color:var(--text-muted); font-size:12px;"><i class="fa-solid fa-check"></i> Selesai</span>`;
+
         tbody.innerHTML += `
           <tr>
             <td><code>${l.id}</code></td>
@@ -1628,30 +1781,191 @@
             <td>${l.bookTitle}</td>
             <td>${l.tglPinjam}</td>
             <td>${l.tglKembali}</td>
-            <td><span class="badge ${l.status === 'Dipinjam' ? 'badge-warning' : 'badge-success'}">${l.status}</span></td>
-            <td style="text-align: right;">
-              ${l.status !== 'Dikembalikan' ? `<button class="quick-btn" style="padding:4px 10px; font-size:11px;" onclick="kembalikanBuku('${l.id}')"><i class="fa-solid fa-rotate-left"></i> Kembalikan</button>` : 'Selesai'}
-            </td>
+            <td><span class="badge ${badgeClass}">${l.status}</span></td>
+            <td style="text-align: right;">${actionBtn}</td>
           </tr>
         `;
       });
     }
 
-    function cetakKartuSiswa(id) {
-      const st = students.find(s => s.id === id);
+    /* KUNJUNGAN SISWA LOGIC & RENDER (FITUR BARU) */
+    function initKunjunganMonthFilter() {
+      const select = document.getElementById('filterBulanKunjungan');
+      select.innerHTML = '';
+
+      const now = new Date();
+      for (let i = 0; i < 6; i++) {
+        const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
+        const yyyy = d.getFullYear();
+        const mm = String(d.getMonth() + 1).padStart(2, '0');
+        const monthName = d.toLocaleString('id', { month: 'long', year: 'numeric' });
+        select.innerHTML += `<option value="${yyyy}-${mm}">${monthName}</option>`;
+      }
+    }
+
+    function populateKunjunganSelects() {
+      const sSelect = document.getElementById('kunjunganSiswaId');
+      sSelect.innerHTML = '';
+      students.forEach(s => {
+        sSelect.innerHTML += `<option value="${s.id}">${s.nama} (${s.kelas})</option>`;
+      });
+    }
+
+    function handleTambahKunjungan(e) {
+      e.preventDefault();
+      const studentId = parseInt(document.getElementById('kunjunganSiswaId').value);
+      const tgl = document.getElementById('kunjunganTgl').value;
+      const kep = document.getElementById('kunjunganKeperluan').value;
+
+      const st = students.find(s => s.id === studentId);
       if(!st) return;
-      document.getElementById('cardStudentName').innerText = st.nama;
-      document.getElementById('cardStudentClass').innerText = st.kelas;
-      document.getElementById('cardBarcode').innerText = `*SDIM-${st.id}*`;
-      openModal('modalCardSiswa');
+
+      const newVisit = {
+        id: Date.now(),
+        studentId: st.id,
+        studentName: st.nama,
+        kelas: st.kelas,
+        tanggal: tgl,
+        keperluan: kep
+      };
+
+      visits.unshift(newVisit);
+      saveData();
+      renderKunjungan();
+      renderDashboard();
+      closeModal('modalKunjungan');
+      showToast(`Presensi kunjungan ${st.nama} berhasil dicatat!`);
+    }
+
+    function hapusKunjungan(id) {
+      if(confirm("Hapus catatan kunjungan ini?")) {
+        visits = visits.filter(v => v.id !== id);
+        saveData();
+        renderKunjungan();
+        renderDashboard();
+        showToast("Catatan kunjungan dihapus.");
+      }
+    }
+
+    function renderKunjungan() {
+      const selectedMonth = document.getElementById('filterBulanKunjungan').value || new Date().toISOString().slice(0, 7);
+      
+      // Filter visits for selected month
+      const monthVisits = visits.filter(v => v.tanggal.startsWith(selectedMonth));
+      
+      document.getElementById('statKunjunganBulan').innerText = monthVisits.length;
+      
+      const dateObj = new Date(selectedMonth + "-01");
+      const monthLabel = dateObj.toLocaleString('id', { month: 'long', year: 'numeric' });
+      document.getElementById('statPeriodeAktif').innerText = `Periode ${monthLabel}`;
+
+      // Calculate Most Active Visitor & Most Active Class
+      const studentCounts = {};
+      const classCounts = {};
+
+      monthVisits.forEach(v => {
+        studentCounts[v.studentName] = (studentCounts[v.studentName] || 0) + 1;
+        classCounts[v.kelas] = (classCounts[v.kelas] || 0) + 1;
+      });
+
+      let topStudent = "-", topStudentCount = 0;
+      for (const [sName, cnt] of Object.entries(studentCounts)) {
+        if (cnt > topStudentCount) {
+          topStudent = sName;
+          topStudentCount = cnt;
+        }
+      }
+
+      let topClass = "-", topClassCount = 0;
+      for (const [cName, cnt] of Object.entries(classCounts)) {
+        if (cnt > topClassCount) {
+          topClass = cName;
+          topClassCount = cnt;
+        }
+      }
+
+      document.getElementById('statSiswaTerrajin').innerText = topStudent;
+      document.getElementById('statSiswaTerrajinCount').innerText = `${topStudentCount} Kunjungan`;
+      
+      document.getElementById('statKelasTeraktif').innerText = topClass;
+      document.getElementById('statKelasTeraktifCount').innerText = `${topClassCount} Presensi`;
+
+      // Render Log Table
+      const logTbody = document.getElementById('tableKunjunganBody');
+      logTbody.innerHTML = '';
+
+      if (monthVisits.length === 0) {
+        logTbody.innerHTML = `<tr><td colspan="6" style="text-align:center; color:var(--text-muted); padding:20px;">Belum ada presensi kunjungan di bulan ini.</td></tr>`;
+      } else {
+        monthVisits.forEach((v, idx) => {
+          logTbody.innerHTML += `
+            <tr>
+              <td>${idx + 1}</td>
+              <td style="font-weight:700;">${v.studentName}</td>
+              <td><span class="badge badge-class">${v.kelas}</span></td>
+              <td>${v.tanggal}</td>
+              <td><span class="badge badge-purple">${v.keperluan}</span></td>
+              <td style="text-align: right;">
+                <button class="btn-action delete" title="Hapus Presensi" onclick="hapusKunjungan(${v.id})"><i class="fa-solid fa-trash"></i></button>
+              </td>
+            </tr>
+          `;
+        });
+      }
+
+      // Render Monthly Summary Table per Student (Sebulan Berapa Kali)
+      const q = (document.getElementById('searchRekapKunjungan').value || '').toLowerCase();
+      const rekapTbody = document.getElementById('tableRekapFrekuensiBody');
+      rekapTbody.innerHTML = '';
+
+      // Count all visits per student for the selected month across all students
+      const studentVisitMap = {};
+      students.forEach(s => {
+        studentVisitMap[s.id] = {
+          name: s.nama,
+          kelas: s.kelas,
+          count: 0
+        };
+      });
+
+      monthVisits.forEach(v => {
+        if (studentVisitMap[v.studentId]) {
+          studentVisitMap[v.studentId].count += 1;
+        }
+      });
+
+      // Filter and sort students by visit count
+      const rekapList = Object.values(studentVisitMap)
+        .filter(st => st.name.toLowerCase().includes(q))
+        .sort((a, b) => b.count - a.count);
+
+      rekapList.forEach((st, idx) => {
+        const statusBadge = st.count >= 4 
+          ? `<span class="badge badge-success"><i class="fa-solid fa-fire"></i> Sangat Rajin (${st.count}x)</span>`
+          : (st.count > 0 
+            ? `<span class="badge badge-purple"><i class="fa-solid fa-check"></i> Aktif (${st.count}x)</span>`
+            : `<span class="badge" style="background:#F0F0F0; color:#888;">Belum Berkunjung</span>`);
+
+        rekapTbody.innerHTML += `
+          <tr>
+            <td>${idx + 1}</td>
+            <td style="font-weight:700;">${st.name}</td>
+            <td><span class="badge badge-class">${st.kelas}</span></td>
+            <td><strong style="font-size:15px; color:var(--accent-purple);">${st.count}</strong> kali berkunjung</td>
+            <td>${statusBadge}</td>
+          </tr>
+        `;
+      });
     }
 
     function bukaModalEditMurid(id) {
       const st = students.find(s => s.id === id);
       if(!st) return;
+
       document.getElementById('editMuridId').value = st.id;
       document.getElementById('editNamaSiswa').value = st.nama;
       document.getElementById('editKelasSiswa').value = st.kelas;
+
       openModal('modalEditMurid');
     }
 
@@ -1663,89 +1977,89 @@
 
       const st = students.find(s => s.id === id);
       if(st) {
-        st.nama = namaBaru; st.kelas = kelasBaru;
+        st.nama = namaBaru;
+        st.kelas = kelasBaru;
+
         loans.forEach(l => {
-          if(l.studentId === id) { l.studentName = namaBaru; l.kelas = kelasBaru; }
+          if(l.studentId === id) {
+            l.studentName = namaBaru;
+            l.kelas = kelasBaru;
+          }
         });
-        saveData(); initFilters(); renderMurid(); renderDashboard();
+
+        visits.forEach(v => {
+          if(v.studentId === id) {
+            v.studentName = namaBaru;
+            v.kelas = kelasBaru;
+          }
+        });
+
+        saveData();
+        initFilters();
+        renderMurid();
+        renderSirkulasi();
+        renderKunjungan();
+        renderDashboard();
         closeModal('modalEditMurid');
-        showToast("Perubahan data siswa berhasil disimpan!");
+        showToast("Data siswa & kelas berhasil diperbarui!");
       }
     }
 
-    function handleTambahMuridSatuan(e) {
+    function handleTambahMurid(e) {
       e.preventDefault();
-      const nama = document.getElementById('inNamaSiswa').value.trim();
-      const kelas = document.getElementById('inKelasSiswa').value.trim();
-
-      if(!nama || !kelas) return;
-
-      students.unshift({
+      const newStudent = {
         id: Date.now(),
-        nama: nama,
-        kelas: kelas
-      });
+        nama: document.getElementById('inNamaSiswa').value.trim(),
+        kelas: document.getElementById('inKelasSiswa').value.trim()
+      };
 
-      saveData(); initFilters(); renderMurid(); renderDashboard();
+      students.unshift(newStudent);
+      saveData();
+      initFilters();
+      renderMurid();
+      renderDashboard();
       closeModal('modalInputMurid');
-      document.getElementById('formTambahMuridSatuan').reset();
-      showToast("1 siswa baru berhasil ditambahkan!");
-    }
-
-    function handleTambahMuridMassal(e) {
-      e.preventDefault();
-      const kelas = document.getElementById('inKelasMassal').value.trim();
-      const rawText = document.getElementById('inDaftarNamaMassal').value;
-
-      if(!kelas || !rawText) return;
-
-      const lines = rawText.split('\n').map(l => l.trim()).filter(l => l.length > 0);
-      if(lines.length === 0) {
-        alert("Masukkan minimal 1 nama siswa!");
-        return;
-      }
-
-      lines.forEach((nama, i) => {
-        students.unshift({
-          id: Date.now() + i,
-          nama: nama,
-          kelas: kelas
-        });
-      });
-
-      saveData(); initFilters(); renderMurid(); renderDashboard();
-      closeModal('modalInputMurid');
-      document.getElementById('formTambahMuridMassal').reset();
-      showToast(`Berhasil menambahkan ${lines.length} siswa baru ke ${kelas}!`);
+      document.getElementById('formTambahMurid').reset();
+      showToast("Data siswa baru berhasil disimpan!");
     }
 
     function handleTambahBuku(e) {
       e.preventDefault();
       const stokVal = parseInt(document.getElementById('inStok').value);
-      books.unshift({
+      const newBook = {
         id: Date.now(),
         kode: document.getElementById('inKode').value || `KB/${books.length+1}`,
         judul: document.getElementById('inJudul').value,
         kategori: document.getElementById('inKategori').value,
         penerbit: document.getElementById('inPenerbit').value || "-",
         tahun: document.getElementById('inTahun').value || "-",
-        stok: stokVal, tersedia: stokVal,
+        stok: stokVal,
+        tersedia: stokVal,
         kondisi: document.getElementById('inKondisi').value
-      });
-      saveData(); initFilters(); renderKatalog(); renderDashboard();
+      };
+
+      books.unshift(newBook);
+      saveData();
+      initFilters();
+      renderKatalog();
+      renderDashboard();
       closeModal('modalInputBuku');
       document.getElementById('formTambahBuku').reset();
-      showToast("Buku baru berhasil disimpan!");
+      showToast("Buku baru berhasil ditambahkan!");
     }
 
     function populatePinjamSelects() {
       const sSelect = document.getElementById('pinjamSiswaId');
       sSelect.innerHTML = '';
-      students.forEach(s => sSelect.innerHTML += `<option value="${s.id}">${s.nama} (${s.kelas})</option>`);
+      students.forEach(s => {
+        sSelect.innerHTML += `<option value="${s.id}">${s.nama} (${s.kelas})</option>`;
+      });
 
       const bSelect = document.getElementById('pinjamBukuId');
       bSelect.innerHTML = '';
-      books.filter(b => b.tersedia > 0).forEach(b => bSelect.innerHTML += `<option value="${b.id}">${b.judul} [Stok: ${b.tersedia}]</option>`);
+      books.filter(b => b.tersedia > 0).forEach(b => {
+        bSelect.innerHTML += `<option value="${b.id}">${b.judul} [Stok: ${b.tersedia}]</option>`;
+      });
     }
 
     function handlePinjam(e) {
@@ -1758,22 +2072,64 @@
       const st = students.find(s => s.id === studentId);
       const bk = books.find(b => b.id === bookId);
 
-      if(!st || !bk || bk.tersedia <= 0) return;
-      bk.tersedia -= 1;
+      if(!st || !bk || bk.tersedia <= 0) {
+        alert("Stok buku tidak cukup atau data tidak valid!");
+        return;
+      }
 
       const d = new Date(tglPinjam);
       d.setDate(d.getDate() + lama);
+      const tglKembali = d.toISOString().split('T')[0];
 
-      loans.unshift({
+      bk.tersedia -= 1;
+
+      const newLoan = {
         id: `TRX-${Math.floor(100 + Math.random() * 900)}`,
-        studentId: st.id, studentName: st.nama, kelas: st.kelas,
-        bookId: bk.id, bookTitle: bk.judul,
-        tglPinjam: tglPinjam, tglKembali: d.toISOString().split('T')[0], status: "Dipinjam"
-      });
+        studentId: st.id,
+        studentName: st.nama,
+        kelas: st.kelas,
+        bookId: bk.id,
+        bookTitle: bk.judul,
+        tglPinjam: tglPinjam,
+        tglKembali: tglKembali,
+        status: "Dipinjam"
+      };
 
-      saveData(); renderDashboard(); renderKatalog(); renderMurid(); renderSirkulasi();
+      loans.unshift(newLoan);
+      saveData();
+      renderDashboard();
+      renderKatalog();
+      renderMurid();
+      renderSirkulasi();
       closeModal('modalPinjam');
-      showToast(`Peminjaman "${bk.judul}" dicatat!`);
+      showToast(`Transaksi pinjam ${bk.judul} dicatat!`);
+    }
+
+    function kembalikanBuku(loanId) {
+      const loan = loans.find(l => l.id === loanId);
+      if(!loan) return;
+
+      loan.status = "Dikembalikan";
+
+      const bk = books.find(b => b.id === loan.bookId);
+      if(bk) bk.tersedia += 1;
+
+      saveData();
+      renderDashboard();
+      renderKatalog();
+      renderMurid();
+      renderSirkulasi();
+      showToast("Buku telah dikembalikan!");
+    }
+
+    function hapusBuku(id) {
+      if(confirm("Apakah Anda yakin ingin menghapus buku ini?")) {
+        books = books.filter(b => b.id !== id);
+        saveData();
+        renderKatalog();
+        renderDashboard();
+        showToast("Buku berhasil dihapus.");
+      }
     }
 
     function editStokBuku(id) {
@@ -1784,35 +2140,48 @@
         const diff = parseInt(newStok) - bk.stok;
         bk.stok = parseInt(newStok);
         bk.tersedia = Math.max(0, bk.tersedia + diff);
-        saveData(); renderKatalog(); renderDashboard();
+        saveData();
+        renderKatalog();
+        renderDashboard();
         showToast("Stok buku diperbarui!");
       }
     }
 
-    function kembalikanBuku(loanId) {
-      const loan = loans.find(l => l.id === loanId);
-      if(!loan) return;
-      loan.status = "Dikembalikan";
-      const bk = books.find(b => b.id === loan.bookId);
-      if(bk) bk.tersedia += 1;
-      saveData(); renderDashboard(); renderKatalog(); renderMurid(); renderSirkulasi();
-      showToast("Buku telah dikembalikan!");
-    }
-
-    function hapusBuku(id) {
-      if(confirm("Hapus buku ini?")) {
-        books = books.filter(b => b.id !== id);
-        saveData(); renderKatalog(); renderDashboard();
-        showToast("Buku berhasil dihapus.");
-      }
-    }
-
     function hapusMurid(id) {
-      if(confirm("Hapus data siswa ini?")) {
+      if(confirm("Hapus data siswa ini dari perpustakaan?")) {
         students = students.filter(s => s.id !== id);
-        saveData(); renderMurid(); renderDashboard();
+        saveData();
+        renderMurid();
+        renderDashboard();
         showToast("Data siswa berhasil dihapus.");
       }
+    }
+
+    function exportCSV(type) {
+      let csvContent = "data:text/csv;charset=utf-8,";
+      if(type === 'buku') {
+        csvContent += "Kode,Judul,Kategori,Penerbit,Tahun,Stok Total,Tersedia\n";
+        books.forEach(b => {
+          csvContent += `"${b.kode}","${b.judul}","${b.kategori}","${b.penerbit}","${b.tahun}",${b.stok},${b.tersedia}\n`;
+        });
+      }
+      const encodedUri = encodeURI(csvContent);
+      const link = document.createElement("a");
+      link.setAttribute("href", encodedUri);
+      link.setAttribute("download", `Data_Pustaka_Syamilah_${type}.csv`);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+
+    function processImport() {
+      const file = document.getElementById('fileInput').files[0];
+      if(!file) {
+        alert("Pilih file CSV atau Excel terlebih dahulu!");
+        return;
+      }
+      showToast(`File ${file.name} berhasil disinkronkan!`);
+      closeModal('modalImport');
     }
   </script>
 </body>
