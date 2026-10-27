@@ -866,7 +866,13 @@
       
       <div class="lock-form">
         <label for="inputPin">Akses Masuk Petugas</label>
-        <input type="password" id="inputPin" class="form-control" placeholder="Ketik password..." onkeypress="handleLockKeyPress(event)"/>
+        <div style="position: relative;">
+          <input type="password" id="inputPin" class="form-control" placeholder="Ketik password..." onkeypress="handleLockKeyPress(event)" style="padding-right: 42px;"/>
+          <button type="button" id="togglePwBtn" onclick="togglePasswordVisibility()" title="Tampilkan / Sembunyikan Password"
+            style="position:absolute; right:10px; top:50%; transform:translateY(-50%); background:none; border:none; cursor:pointer; color:var(--text-muted); font-size:15px; padding:4px;">
+            <i class="fa-solid fa-eye" id="togglePwIcon"></i>
+          </button>
+        </div>
         <button class="quick-btn" style="width: 100%; justify-content: center; margin-top: 12px; padding: 10px;" onclick="checkPassword()">
           <i class="fa-solid fa-key"></i> Buka Akses Web
         </button>
@@ -1564,7 +1570,7 @@
       if (input === APP_PASSWORD) {
         document.getElementById('lockScreen').style.display = 'none';
         errEl.style.display = 'none';
-        sessionStorage.setItem('pustaka_auth', 'true');
+        localStorage.setItem('pustaka_auth', 'true');
         showToast("Akses web berhasil dibuka!");
       } else {
         errEl.style.display = 'block';
@@ -1573,12 +1579,26 @@
       }
     }
 
+    function togglePasswordVisibility() {
+      const input = document.getElementById('inputPin');
+      const icon = document.getElementById('togglePwIcon');
+      if (input.type === 'password') {
+        input.type = 'text';
+        icon.classList.remove('fa-eye');
+        icon.classList.add('fa-eye-slash');
+      } else {
+        input.type = 'password';
+        icon.classList.remove('fa-eye-slash');
+        icon.classList.add('fa-eye');
+      }
+    }
+
     function handleLockKeyPress(e) {
       if (e.key === 'Enter') checkPassword();
     }
 
     function lockApp() {
-      sessionStorage.removeItem('pustaka_auth');
+      localStorage.removeItem('pustaka_auth');
       document.getElementById('inputPin').value = '';
       document.getElementById('lockError').style.display = 'none';
       document.getElementById('lockScreen').style.display = 'flex';
@@ -2233,7 +2253,7 @@
     // ===================================================
     // LOGIKA AUTO-UPDATE MEMORI UNTUK PERANGKAT LAMA & BARU
     // ===================================================
-    const DATA_VERSION = "v5.5.1_mobile_opt";
+    const DATA_VERSION = "v5.5.1_lockfix";
 
     function loadAndUpdateBooks() {
       const savedVersion = localStorage.getItem("app_data_version");
@@ -2296,7 +2316,7 @@
     }
 
     document.addEventListener("DOMContentLoaded", () => {
-      if (sessionStorage.getItem('pustaka_auth') === 'true') {
+      if (localStorage.getItem('pustaka_auth') === 'true') {
         document.getElementById('lockScreen').style.display = 'none';
       } else {
         document.getElementById('lockScreen').style.display = 'flex';
