@@ -8,7 +8,7 @@
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate, max-age=0" />
   <meta http-equiv="Pragma" content="no-cache" />
   <meta http-equiv="Expires" content="0" />
-  <meta name="version" content="v5.5.1-mobile" />
+  <meta name="version" content="v6.0" />
   
   <title>Pustaka Syamilah - SD Islam Makarima</title>
   
@@ -937,7 +937,7 @@
     </nav>
 
     <div class="sidebar-footer">
-      <p><strong>Pustaka Syamilah v5.5.1</strong></p>
+      <p><strong>Pustaka Syamilah v6.0</strong></p>
       <p style="margin-top: 2px;">SD Islam Makarima Kartasura</p>
     </div>
   </aside>
@@ -1175,6 +1175,84 @@
 
       <!-- KUNJUNGAN SISWA SECTION -->
       <section id="sec-kunjungan" class="section-content">
+
+        <!-- JADWAL KUNJUNGAN PER KELAS (RESMI) -->
+        <div class="card-panel">
+          <div class="panel-header">
+            <h3><i class="fa-solid fa-calendar-days" style="color:var(--accent-warm);"></i> Jadwal Kunjungan Perpustakaan per Kelas</h3>
+          </div>
+          <p style="font-size:12.5px; color:var(--text-muted); margin-bottom:14px; line-height:1.5;">
+            Periode aktif: <strong>20 Juli 2026 – 27 Oktober 2026</strong>.
+            Khusus <strong>21–29 September 2026</strong> tidak ada kunjungan (pelaksanaan ASTS 1).
+          </p>
+          <div class="table-responsive">
+            <table class="custom-table">
+              <thead>
+                <tr>
+                  <th>Hari</th>
+                  <th>Kelas</th>
+                  <th>Waktu</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td rowspan="3" style="font-weight:700; vertical-align:middle;">Senin</td>
+                  <td><span class="badge badge-class">Kelas 2B Al Hakim</span></td>
+                  <td>11.10 – 11.45</td>
+                </tr>
+                <tr>
+                  <td><span class="badge badge-class">Kelas 3C Ar Rasyiid</span></td>
+                  <td>13.35 – 14.00</td>
+                </tr>
+                <tr>
+                  <td><span class="badge badge-class">Kelas 5 Al Kariim</span></td>
+                  <td>09.45 – 10.20</td>
+                </tr>
+                <tr>
+                  <td rowspan="4" style="font-weight:700; vertical-align:middle;">Selasa</td>
+                  <td><span class="badge badge-class">Kelas 2A Al Malik</span></td>
+                  <td>08.35 – 09.10</td>
+                </tr>
+                <tr>
+                  <td><span class="badge badge-class">Kelas 4A Al Amiin</span></td>
+                  <td>09.45 – 10.20</td>
+                </tr>
+                <tr>
+                  <td><span class="badge badge-class">Kelas 1A</span></td>
+                  <td>11.10 – 11.45</td>
+                </tr>
+                <tr>
+                  <td><span class="badge badge-class">Kelas 2C Al Aziiz</span></td>
+                  <td>13.00 – 13.35</td>
+                </tr>
+                <tr>
+                  <td style="font-weight:700;">Rabu</td>
+                  <td><span class="badge badge-class">Kelas 4B Al Waasi’</span></td>
+                  <td>13.00 – 13.35</td>
+                </tr>
+                <tr>
+                  <td rowspan="2" style="font-weight:700; vertical-align:middle;">Kamis</td>
+                  <td><span class="badge badge-class">Kelas 3B Al Hafizh</span></td>
+                  <td>08.35 – 09.10</td>
+                </tr>
+                <tr>
+                  <td><span class="badge badge-class">Kelas 1B (Luar)</span></td>
+                  <td>13.00 – 13.35</td>
+                </tr>
+                <tr>
+                  <td rowspan="2" style="font-weight:700; vertical-align:middle;">Jumat</td>
+                  <td><span class="badge badge-class">Kelas 3A Al Aliim</span></td>
+                  <td>09.45 – 10.20</td>
+                </tr>
+                <tr>
+                  <td><span class="badge badge-class">Kelas 1C (Dalam)</span></td>
+                  <td>10.35 – 11.10</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
         <div class="metrics-grid">
           <div class="metric-card">
             <div class="metric-info">
@@ -1273,6 +1351,44 @@
 
     </div>
   </main>
+
+
+  <!-- MODAL: EDIT KUNJUNGAN -->
+  <div id="modalEditKunjungan" class="modal-overlay">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h4><i class="fa-solid fa-pen"></i> Edit Presensi Kunjungan</h4>
+        <button class="btn-close" onclick="closeModal('modalEditKunjungan')">&times;</button>
+      </div>
+      <form id="formEditKunjungan" onsubmit="handleEditKunjungan(event)">
+        <div class="modal-body">
+          <input type="hidden" id="editKunjunganId"/>
+          <div class="form-group">
+            <label>Pilih Siswa</label>
+            <select id="editKunjunganSiswaId" class="form-control" required></select>
+          </div>
+          <div class="form-group">
+            <label>Tanggal Kunjungan</label>
+            <input type="date" id="editKunjunganTgl" class="form-control" required/>
+          </div>
+          <div class="form-group">
+            <label>Keperluan / Aktivitas</label>
+            <select id="editKunjunganKeperluan" class="form-control">
+              <option value="Membaca Buku">Membaca Buku</option>
+              <option value="Meminjam Buku">Meminjam Buku</option>
+              <option value="Mengembalikan Buku">Mengembalikan Buku</option>
+              <option value="Kerja Kelompok / Tugas">Kerja Kelompok / Tugas</option>
+              <option value="Lainnya">Lainnya</option>
+            </select>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn-secondary" onclick="closeModal('modalEditKunjungan')">Batal</button>
+          <button type="submit" class="quick-btn purple">Simpan Perubahan</button>
+        </div>
+      </form>
+    </div>
+  </div>
 
   <!-- MODAL: DETAIL BUKU -->
   <div id="modalDetailBuku" class="modal-overlay">
@@ -1443,6 +1559,17 @@
             <label>Kelas</label>
             <input type="text" id="inKelasSiswa" class="form-control" list="classList" required placeholder="Contoh: Kelas 1A, Kelas 2B Al Hakim, dll..."/>
             <datalist id="classList"></datalist>
+          </div>
+          <div style="margin-top:16px; padding-top:14px; border-top:1px dashed var(--border-cream);">
+            <label style="display:block; font-size:11.5px; font-weight:700; color:var(--text-dark); margin-bottom:6px; text-transform:uppercase; letter-spacing:0.5px;">
+              Atau Import Massal dari File (CSV)
+            </label>
+            <input type="file" id="importSiswaFile" accept=".csv,text/csv" class="form-control" style="padding:8px;" onchange="handleImportSiswaCSV(event)"/>
+            <p style="font-size:11px; color:var(--text-muted); margin-top:6px; line-height:1.4;">
+              Format CSV: kolom <code>nama,kelas</code> (baris pertama boleh header).<br/>
+              Contoh: <code>Aisyah Putri,Kelas 1A</code>
+            </p>
+            <div id="importSiswaResult" style="font-size:12px; margin-top:8px; display:none;"></div>
           </div>
         </div>
         <div class="modal-footer">
@@ -2253,7 +2380,7 @@
     // ===================================================
     // LOGIKA AUTO-UPDATE MEMORI UNTUK PERANGKAT LAMA & BARU
     // ===================================================
-    const DATA_VERSION = "v5.5.1_lockfix2";
+    const DATA_VERSION = "v6.0_jadwal_import";
 
     function loadAndUpdateBooks() {
       const savedVersion = localStorage.getItem("app_data_version");
@@ -2783,6 +2910,42 @@
       }
     }
 
+    function bukaModalEditKunjungan(id) {
+      const v = visits.find(x => x.id === id);
+      if (!v) return;
+      document.getElementById('editKunjunganId').value = v.id;
+      const sSelect = document.getElementById('editKunjunganSiswaId');
+      sSelect.innerHTML = '';
+      students.forEach(s => {
+        const sel = s.id === v.studentId ? ' selected' : '';
+        sSelect.innerHTML += `<option value="${s.id}"${sel}>${s.nama} (${s.kelas})</option>`;
+      });
+      document.getElementById('editKunjunganTgl').value = v.tanggal;
+      document.getElementById('editKunjunganKeperluan').value = v.keperluan || 'Membaca Buku';
+      openModal('modalEditKunjungan');
+    }
+
+    function handleEditKunjungan(e) {
+      e.preventDefault();
+      const id = parseInt(document.getElementById('editKunjunganId').value);
+      const studentId = parseInt(document.getElementById('editKunjunganSiswaId').value);
+      const tgl = document.getElementById('editKunjunganTgl').value;
+      const kep = document.getElementById('editKunjunganKeperluan').value;
+      const st = students.find(s => s.id === studentId);
+      const v = visits.find(x => x.id === id);
+      if (!v || !st) return;
+      v.studentId = st.id;
+      v.studentName = st.nama;
+      v.kelas = st.kelas;
+      v.tanggal = tgl;
+      v.keperluan = kep;
+      saveData();
+      renderKunjungan();
+      renderDashboard();
+      closeModal('modalEditKunjungan');
+      showToast("Presensi kunjungan berhasil diperbarui!");
+    }
+
     function renderKunjungan() {
       const selectedMonth = document.getElementById('filterBulanKunjungan').value || new Date().toISOString().slice(0, 7);
       const monthVisits = visits.filter(v => v.tanggal.startsWith(selectedMonth));
@@ -2838,6 +3001,7 @@
               <td>${v.tanggal}</td>
               <td><span class="badge badge-purple">${v.keperluan}</span></td>
               <td style="text-align: right;">
+                <button class="btn-action" title="Edit Presensi" onclick="bukaModalEditKunjungan(${v.id})"><i class="fa-solid fa-pen"></i></button>
                 <button class="btn-action delete" title="Hapus Presensi" onclick="hapusKunjungan(${v.id})"><i class="fa-solid fa-trash"></i></button>
               </td>
             </tr>
@@ -2946,6 +3110,57 @@
       closeModal('modalInputMurid');
       document.getElementById('formTambahMurid').reset();
       showToast("Data siswa baru berhasil disimpan!");
+    }
+
+    function handleImportSiswaCSV(e) {
+      const file = e.target.files && e.target.files[0];
+      const resultEl = document.getElementById('importSiswaResult');
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function(ev) {
+        try {
+          const text = ev.target.result || '';
+          const lines = text.split(/\r?\n/).map(l => l.trim()).filter(l => l.length > 0);
+          if (lines.length === 0) {
+            resultEl.style.display = 'block';
+            resultEl.style.color = 'var(--accent-red)';
+            resultEl.innerText = 'File kosong.';
+            return;
+          }
+          let start = 0;
+          const firstLower = lines[0].toLowerCase();
+          if (firstLower.includes('nama') || firstLower.includes('kelas') || firstLower.includes('name')) {
+            start = 1;
+          }
+          let added = 0;
+          let baseId = Date.now();
+          for (let i = start; i < lines.length; i++) {
+            const parts = lines[i].split(',').map(p => p.trim().replace(/^"|"$/g, ''));
+            if (parts.length < 2) continue;
+            const nama = parts[0];
+            const kelas = parts[1];
+            if (!nama || !kelas) continue;
+            // skip if same name+class already exists
+            if (students.some(s => s.nama.toLowerCase() === nama.toLowerCase() && s.kelas === kelas)) continue;
+            students.push({ id: baseId++, nama: nama, kelas: kelas });
+            added++;
+          }
+          saveData();
+          initFilters();
+          renderMurid();
+          renderDashboard();
+          resultEl.style.display = 'block';
+          resultEl.style.color = 'var(--accent-green)';
+          resultEl.innerText = added > 0 ? `Berhasil menambah ${added} siswa dari file.` : 'Tidak ada data baru yang ditambahkan (mungkin sudah ada / format salah).';
+          if (added > 0) showToast(`Import ${added} siswa berhasil!`);
+          e.target.value = '';
+        } catch (err) {
+          resultEl.style.display = 'block';
+          resultEl.style.color = 'var(--accent-red)';
+          resultEl.innerText = 'Gagal membaca file. Pastikan format CSV benar.';
+        }
+      };
+      reader.readAsText(file);
     }
 
     function handleTambahBuku(e) {
