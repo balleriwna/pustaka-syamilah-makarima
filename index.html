@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
   <title>Pustaka Syamilah - SD Islam Makarima</title>
   
   <!-- Google Fonts & FontAwesome -->
@@ -48,6 +48,7 @@
       color: var(--text-dark);
       min-height: 100vh;
       display: flex;
+      overflow-x: hidden;
     }
 
     /* LOCK SCREEN OVERLAY */
@@ -69,7 +70,7 @@
       background: var(--bg-cream-card);
       border: 1px solid var(--border-cream);
       border-radius: var(--radius-lg);
-      padding: 32px 28px;
+      padding: 32px 24px;
       width: 100%;
       max-width: 380px;
       text-align: center;
@@ -133,6 +134,7 @@
     }
     .sidebar-overlay.active { display: block; }
 
+    /* SIDEBAR LAYOUT */
     .sidebar {
       width: 280px;
       background-color: var(--bg-cream-light);
@@ -254,6 +256,7 @@
       transition: margin-left 0.3s ease, width 0.3s ease;
     }
 
+    /* HEADER AUTO-ADAPTIVE */
     .top-header {
       background-color: var(--bg-cream-light);
       border-bottom: 1px solid var(--border-cream);
@@ -350,9 +353,10 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
+    /* GRID METRIKS ADAPTIF */
     .metrics-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
       gap: 16px;
       margin-bottom: 24px;
     }
@@ -396,6 +400,7 @@
       align-items: center;
       justify-content: center;
       font-size: 18px;
+      flex-shrink: 0;
     }
 
     .icon-gold { background-color: #FAF4E5; color: var(--accent-warm); }
@@ -432,6 +437,7 @@
       gap: 8px;
     }
 
+    /* FILTER TOOLS ADAPTIF */
     .filter-tools {
       display: flex;
       gap: 10px;
@@ -445,14 +451,14 @@
     .search-box {
       position: relative;
       flex-grow: 1;
-      min-width: 180px;
+      min-width: 160px;
     }
 
     .search-input {
       width: 100%;
       background: var(--bg-cream-light);
       border: 1px solid var(--border-cream);
-      padding: 8px 12px 8px 34px;
+      padding: 9px 12px 9px 34px;
       border-radius: var(--radius-md);
       font-size: 13px;
       outline: none;
@@ -476,7 +482,7 @@
     .select-input {
       background: var(--bg-cream-light);
       border: 1px solid var(--border-cream);
-      padding: 8px 12px;
+      padding: 9px 12px;
       border-radius: var(--radius-md);
       font-size: 13px;
       color: var(--text-dark);
@@ -488,6 +494,7 @@
       width: 100%;
       overflow-x: auto;
       -webkit-overflow-scrolling: touch;
+      border-radius: var(--radius-md);
     }
 
     .custom-table {
@@ -549,7 +556,7 @@
       border: none;
       color: var(--text-muted);
       cursor: pointer;
-      padding: 5px 8px;
+      padding: 6px 8px;
       border-radius: var(--radius-sm);
       transition: all 0.2s;
       font-size: 13px;
@@ -570,6 +577,7 @@
       background-color: var(--accent-pink-light);
     }
 
+    /* MODAL LAYOUT */
     .modal-overlay {
       position: fixed;
       top: 0;
@@ -689,7 +697,7 @@
 
     .pagination-info { font-size: 12px; color: var(--text-muted); }
 
-    .pagination-controls { display: flex; gap: 6px; align-items: center; }
+    .pagination-controls { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
 
     .page-btn {
       background: var(--bg-cream-light);
@@ -763,21 +771,71 @@
       color: var(--text-dark);
     }
 
+    /* ========================================================= */
+    /*   MEDIA QUERIES AUTO-RESPONSIVE (LAPTOP, TABLET & MOBILE)   */
+    /* ========================================================= */
+    
+    @media (max-width: 1024px) {
+      .sidebar { width: 250px; }
+      .main-wrapper { margin-left: 250px; width: calc(100% - 250px); }
+      .metrics-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+
     @media (max-width: 768px) {
-      .sidebar { transform: translateX(-100%); width: 260px; }
-      .sidebar.open { transform: translateX(0); box-shadow: 4px 0 20px rgba(0,0,0,0.15); }
+      .sidebar { 
+        transform: translateX(-100%); 
+        width: 270px; 
+        box-shadow: 4px 0 25px rgba(0,0,0,0.15);
+      }
+      .sidebar.open { transform: translateX(0); }
       .main-wrapper { margin-left: 0; width: 100%; }
-      .btn-mobile-toggle { display: flex; }
-      .top-header { padding: 12px 16px; }
-      .admin-badge span { display: none; }
-      .content-container { padding: 16px; }
-      .metrics-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
+      .btn-mobile-toggle { display: flex; align-items: center; justify-content: center; }
+      
+      .top-header { 
+        padding: 12px 16px; 
+        flex-wrap: wrap; 
+        gap: 10px; 
+      }
+      
+      .header-left { width: 100%; }
+      .user-profile { 
+        width: 100%; 
+        justify-content: flex-start; 
+        gap: 8px; 
+        border-top: 1px dashed var(--border-cream);
+        padding-top: 10px;
+      }
+      .quick-btn { flex: 1; justify-content: center; padding: 8px 10px; font-size: 12px; }
+      .admin-badge { padding: 6px 10px; font-size: 11px; }
+
+      .content-container { padding: 14px; }
+      .metrics-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
       .metric-card { padding: 14px; }
-      .metric-info .val { font-size: 18px; }
-      .metric-icon { width: 36px; height: 36px; font-size: 15px; }
-      .filter-tools { justify-content: stretch; }
-      .search-box { width: 100%; }
+      .metric-info .val { font-size: 19px; }
+      .metric-icon { width: 38px; height: 38px; font-size: 15px; }
+
+      .filter-tools { 
+        flex-direction: column; 
+        align-items: stretch; 
+        width: 100%; 
+      }
+      .search-box, .select-input, .filter-tools .quick-btn { width: 100%; }
       .grid-2, .detail-grid { grid-template-columns: 1fr; }
+
+      .modal-card { width: 95% !important; max-height: 90vh; margin: 10px; }
+      .card-panel { padding: 16px; }
+    }
+
+    @media (max-width: 480px) {
+      .metrics-grid { grid-template-columns: 1fr; }
+      .page-title h2 { font-size: 16px; }
+      .page-title p { font-size: 11px; }
+      .user-profile { flex-wrap: wrap; }
+      .admin-badge { width: 100%; justify-content: center; }
+      .custom-table th, .custom-table td { padding: 9px 10px; font-size: 12px; }
+      .pagination-container { flex-direction: column; align-items: center; gap: 12px; }
+      .pagination-controls { justify-content: center; width: 100%; }
+      .chart-container { height: 260px !important; }
     }
 
     @media print {
@@ -866,7 +924,7 @@
     </nav>
 
     <div class="sidebar-footer">
-      <p><strong>Pustaka Syamilah v4.0</strong></p>
+      <p><strong>Pustaka Syamilah v4.5</strong></p>
       <p style="margin-top: 2px;">SD Islam Makarima Kartasura</p>
     </div>
   </aside>
@@ -914,7 +972,7 @@
 
           <div class="metric-card">
             <div class="metric-info">
-              <h3>Total Eksemplar Buku</h3>
+              <h3>Total Eksemplar</h3>
               <div class="val" id="statTotalEksemplar">388</div>
             </div>
             <div class="metric-icon icon-pink">
@@ -924,7 +982,7 @@
 
           <div class="metric-card">
             <div class="metric-info">
-              <h3>Total Anggota Siswa</h3>
+              <h3>Total Siswa</h3>
               <div class="val" id="statTotalMurid">283</div>
             </div>
             <div class="metric-icon icon-green">
@@ -957,7 +1015,7 @@
           <div class="panel-header">
             <h3><i class="fa-solid fa-chart-bar" style="color:var(--accent-warm);"></i> Distribusi Koleksi Buku Berdasarkan Kategori (Total 342 Judul)</h3>
           </div>
-          <div style="position: relative; width: 100%; height: 320px;">
+          <div class="chart-container" style="position: relative; width: 100%; height: 320px;">
             <canvas id="categoryChart"></canvas>
           </div>
         </div>
@@ -1099,7 +1157,7 @@
         <div class="metrics-grid">
           <div class="metric-card">
             <div class="metric-info">
-              <h3>Total Presensi Bulan Ini</h3>
+              <h3>Presensi Bulan Ini</h3>
               <div class="val" id="statKunjunganBulan">0</div>
               <div class="sub" id="statPeriodeAktif">-</div>
             </div>
@@ -1110,8 +1168,8 @@
 
           <div class="metric-card">
             <div class="metric-info">
-              <h3>Siswa Terajin Berkunjung</h3>
-              <div class="val" style="font-size: 16px;" id="statSiswaTerrajin">-</div>
+              <h3>Siswa Terajin</h3>
+              <div class="val" style="font-size: 15px;" id="statSiswaTerrajin">-</div>
               <div class="sub" id="statSiswaTerrajinCount">0 Kunjungan</div>
             </div>
             <div class="metric-icon icon-gold">
@@ -1122,7 +1180,7 @@
           <div class="metric-card">
             <div class="metric-info">
               <h3>Kelas Teraktif</h3>
-              <div class="val" style="font-size: 16px;" id="statKelasTeraktif">-</div>
+              <div class="val" style="font-size: 15px;" id="statKelasTeraktif">-</div>
               <div class="sub" id="statKelasTeraktifCount">0 Presensi</div>
             </div>
             <div class="metric-icon icon-green">
@@ -1195,7 +1253,7 @@
     </div>
   </main>
 
-  <!-- MODAL: DETAIL BUKU (FITUR BARU v4.0) -->
+  <!-- MODAL: DETAIL BUKU -->
   <div id="modalDetailBuku" class="modal-overlay">
     <div class="modal-card" style="max-width: 520px;">
       <div class="modal-header">
@@ -1347,7 +1405,7 @@
     </div>
   </div>
 
-  <!-- MODAL: INPUT / TAMBAH MURID BARU -->
+  <!-- MODAL: INPUT MURID BARU -->
   <div id="modalInputMurid" class="modal-overlay">
     <div class="modal-card">
       <div class="modal-header">
@@ -1991,7 +2049,6 @@
       openModal('modalPrintLabel');
     }
 
-    /* FEATURE UPGRADE v4.0: MODAL DETAIL BUKU */
     function openModalDetail(id) {
       const b = books.find(x => x.id === id);
       if(!b) return;
@@ -2108,7 +2165,6 @@
       });
     }
 
-    /* KATALOG BUKU WITH ADVANCED SORT & DETAIL MODAL */
     function filterAndRenderKatalog() {
       const q = document.getElementById('searchBuku').value.toLowerCase();
       const cat = document.getElementById('filterKategori').value;
