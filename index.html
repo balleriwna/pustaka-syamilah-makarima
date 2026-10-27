@@ -3,6 +3,12 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+  
+  <!-- META TAG ANTI-CACHE (Memaksa HP & Laptop Mengambil Update Terbaru) -->
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
+  
   <title>Pustaka Syamilah - SD Islam Makarima</title>
   
   <!-- Google Fonts & FontAwesome -->
@@ -1957,7 +1963,7 @@
     // ===================================================
     // LOGIKA AUTO-UPDATE MEMORI UNTUK PERANGKAT LAMA & BARU
     // ===================================================
-    const DATA_VERSION = "v3.0_342_books";
+    const DATA_VERSION = "v4.5_force_refresh_342";
 
     function loadAndUpdateBooks() {
       const savedVersion = localStorage.getItem("app_data_version");
@@ -1979,6 +1985,7 @@
 
       if (needReset) {
         localStorage.setItem("makarima_books", JSON.stringify(initialBooks));
+        localStorage.setItem("makarima_students", JSON.stringify(initialStudents));
         localStorage.setItem("app_data_version", DATA_VERSION);
         return initialBooks;
       }
