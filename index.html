@@ -3,6 +3,12 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+  
+  <!-- META TAG ANTI-CACHE (Memaksa HP & Laptop Mengambil Update Terbaru) -->
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
+  
   <title>Pustaka Syamilah - SD Islam Makarima</title>
   
   <!-- Google Fonts & FontAwesome -->
@@ -771,10 +777,6 @@
       color: var(--text-dark);
     }
 
-    /* ========================================================= */
-    /*    MEDIA QUERIES AUTO-RESPONSIVE (LAPTOP, TABLET & MOBILE)   */
-    /* ========================================================= */
-    
     @media (max-width: 1024px) {
       .sidebar { width: 250px; }
       .main-wrapper { margin-left: 250px; width: calc(100% - 250px); }
@@ -924,7 +926,7 @@
     </nav>
 
     <div class="sidebar-footer">
-      <p><strong>Pustaka Syamilah v4.5</strong></p>
+      <p><strong>Pustaka Syamilah v4.6</strong></p>
       <p style="margin-top: 2px;">SD Islam Makarima Kartasura</p>
     </div>
   </aside>
@@ -1940,13 +1942,81 @@
       { id: 21, nama: "Ahmad Alfian Arsyad", kelas: "Kelas 6 Al Fattah" }
     ];
 
-    let loans = [
+    // ===================================================
+    // LOGIKA SINKRONISASI & AUTO-UPDATE LINTAS PERANGKAT
+    // ===================================================
+    const DATA_VERSION = "v4.6_auto_sync_342_all_devices";
+
+    function syncSystemData() {
+      const savedVersion = localStorage.getItem("app_data_version");
+      const savedBooks = localStorage.getItem("makarima_books");
+      const savedStudents = localStorage.getItem("makarima_students");
+      
+      let currentBooks = [];
+      let currentStudents = [];
+      let needUpdate = false;
+
+      if (savedVersion !== DATA_VERSION || !savedBooks || !savedStudents) {
+        needUpdate = true;
+      } else {
+        try {
+          currentBooks = JSON.parse(savedBooks);
+          currentStudents = JSON.parse(savedStudents);
+          if (!Array.isArray(currentBooks) || currentBooks.length < initialBooks.length) {
+            needUpdate = true;
+          }
+          if (!Array.isArray(currentStudents) || currentStudents.length < initialStudents.length) {
+            needUpdate = true;
+          }
+        } catch (e) {
+          needUpdate = true;
+        }
+      }
+
+      if (needUpdate) {
+        let mergedBooks = [...initialBooks];
+        if (savedBooks) {
+          try {
+            const parsed = JSON.parse(savedBooks);
+            if (Array.isArray(parsed)) {
+              const customBooks = parsed.filter(b => !initialBooks.some(ib => ib.id === b.id || ib.kode === b.kode));
+              mergedBooks = [...initialBooks, ...customBooks];
+            }
+          } catch(e) {}
+        }
+
+        let mergedStudents = [...initialStudents];
+        if (savedStudents) {
+          try {
+            const parsed = JSON.parse(savedStudents);
+            if (Array.isArray(parsed)) {
+              const customStudents = parsed.filter(s => !initialStudents.some(is => is.id === s.id || is.nama.toLowerCase() === s.nama.toLowerCase()));
+              mergedStudents = [...initialStudents, ...customStudents];
+            }
+          } catch(e) {}
+        }
+
+        localStorage.setItem("makarima_books", JSON.stringify(mergedBooks));
+        localStorage.setItem("makarima_students", JSON.stringify(mergedStudents));
+        localStorage.setItem("app_data_version", DATA_VERSION);
+
+        return { books: mergedBooks, students: mergedStudents };
+      }
+
+      return { books: currentBooks, students: currentStudents };
+    }
+
+    const syncedData = syncSystemData();
+    let books = syncedData.books;
+    let students = syncedData.students;
+
+    let loans = JSON.parse(localStorage.getItem('makarima_loans')) || [
       { id: "TRX-101", studentId: 11, studentName: "Aisyah Pelangi Muslimah", kelas: "Kelas 2A Al Malik", bookId: 2, bookTitle: "Bacaan Sholat: Disertai Latin & Terjemah Bahasa Indonesia", tglPinjam: "2026-10-20", tglKembali: "2026-10-27", status: "Dipinjam" },
       { id: "TRX-102", studentId: 6, studentName: "Adlan Malik Assami", kelas: "Kelas 1B", bookId: 186, bookTitle: "10 Kisah Pahlawan Surga", tglPinjam: "2026-10-22", tglKembali: "2026-10-29", status: "Dipinjam" },
       { id: "TRX-103", studentId: 15, studentName: "Adifa Safa Azzahra", kelas: "Kelas 3A Al Aliim", bookId: 311, bookTitle: "25 Nabi dan Rasul", tglPinjam: "2026-10-18", tglKembali: "2026-10-25", status: "Terlambat" }
     ];
 
-    let visits = [
+    let visits = JSON.parse(localStorage.getItem('makarima_visits')) || [
       { id: 1, studentId: 1, studentName: "Ambalika Sora Pratama", kelas: "Kelas 1A", tanggal: "2026-10-02", keperluan: "Membaca Buku" },
       { id: 2, studentId: 11, studentName: "Aisyah Pelangi Muslimah", kelas: "Kelas 2A Al Malik", tanggal: "2026-10-05", keperluan: "Meminjam Buku" },
       { id: 3, studentId: 11, studentName: "Aisyah Pelangi Muslimah", kelas: "Kelas 2A Al Malik", tanggal: "2026-10-12", keperluan: "Membaca Buku" },
@@ -1954,42 +2024,7 @@
       { id: 5, studentId: 15, studentName: "Adifa Safa Azzahra", kelas: "Kelas 3A Al Aliim", tanggal: "2026-10-10", keperluan: "Kerja Kelompok / Tugas" }
     ];
 
-    // ===================================================
-    // LOGIKA AUTO-UPDATE MEMORI UNTUK PERANGKAT LAMA & BARU
-    // ===================================================
-    const DATA_VERSION = "v3.0_342_books";
-
-    function loadAndUpdateBooks() {
-      const savedVersion = localStorage.getItem("app_data_version");
-      const savedBooks = localStorage.getItem("makarima_books");
-      let needReset = false;
-
-      if (savedVersion !== DATA_VERSION || !savedBooks) {
-        needReset = true;
-      } else {
-        try {
-          const parsed = JSON.parse(savedBooks);
-          if (!Array.isArray(parsed) || parsed.length < 342) {
-            needReset = true;
-          }
-        } catch (err) {
-          needReset = true;
-        }
-      }
-
-      if (needReset) {
-        localStorage.setItem("makarima_books", JSON.stringify(initialBooks));
-        localStorage.setItem("app_data_version", DATA_VERSION);
-        return initialBooks;
-      }
-
-      return JSON.parse(savedBooks);
-    }
-
-    let books = loadAndUpdateBooks();
-    let students = JSON.parse(localStorage.getItem('makarima_students')) || initialStudents;
     let categoryChartInstance = null;
-
     let currentPage = 1;
     let rowsPerPage = 25;
     let filteredBooks = [];
@@ -2013,9 +2048,28 @@
       renderKunjungan();
     });
 
+    // SINKRONISASI REAL-TIME ANTAR TAB PERANGKAT
+    window.addEventListener('storage', (e) => {
+      if (['makarima_books', 'makarima_students', 'makarima_loans', 'makarima_visits', 'app_data_version'].includes(e.key)) {
+        books = JSON.parse(localStorage.getItem('makarima_books')) || initialBooks;
+        students = JSON.parse(localStorage.getItem('makarima_students')) || initialStudents;
+        loans = JSON.parse(localStorage.getItem('makarima_loans')) || [];
+        visits = JSON.parse(localStorage.getItem('makarima_visits')) || [];
+        
+        initFilters();
+        renderDashboard();
+        filterAndRenderKatalog();
+        renderMurid();
+        renderSirkulasi();
+        renderKunjungan();
+        showToast("Data diperbarui otomatis!");
+      }
+    });
+
     function saveData() {
       localStorage.setItem('makarima_books', JSON.stringify(books));
       localStorage.setItem('makarima_students', JSON.stringify(students));
+      localStorage.setItem('makarima_loans', JSON.stringify(loans));
       localStorage.setItem('makarima_visits', JSON.stringify(visits));
     }
 
