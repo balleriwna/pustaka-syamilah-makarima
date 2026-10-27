@@ -8,9 +8,9 @@
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate, max-age=0" />
   <meta http-equiv="Pragma" content="no-cache" />
   <meta http-equiv="Expires" content="0" />
-  <meta name="version" content="v6.1-20261028" />
+  <meta name="version" content="v7.0-firebase" />
   <meta name="last-updated" content="2026-10-28T04:40:00+07:00" />
-  <!-- build: v6.1.1-force-refresh -->
+  <!-- build: v7.0-firebase-sync -->
   
   <title>Pustaka Syamilah - SD Islam Makarima</title>
   
@@ -856,6 +856,10 @@
       .card-panel { box-shadow: none !important; border: none !important; }
     }
   </style>
+
+  <!-- Firebase SDK (Realtime Database) -->
+  <script src="https://www.gstatic.com/firebasejs/10.14.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.14.0/firebase-database-compat.js"></script>
 </head>
 <body>
 
@@ -865,7 +869,7 @@
       <img src="logo makarima.webp" alt="Logo SD Islam Makarima" class="lock-logo" onerror="this.src='https://via.placeholder.com/64?text=SDIM'"/>
       <h3>Pustaka Syamilah</h3>
       <p>SD Islam Makarima Kartasura</p>
-      <p style="font-size:11px;color:var(--accent-warm);font-weight:700;margin-bottom:14px;">Versi 6.1</p>
+      <p style="font-size:11px;color:var(--accent-warm);font-weight:700;margin-bottom:14px;">Versi 7.0 (Cloud Sync)</p>
       
       <div class="lock-form">
         <label for="inputPin">Akses Masuk Petugas</label>
@@ -940,8 +944,9 @@
     </nav>
 
     <div class="sidebar-footer">
-      <p><strong>Pustaka Syamilah v6.1</strong></p>
+      <p><strong>Pustaka Syamilah v7.0</strong></p>
       <p style="margin-top: 2px;">SD Islam Makarima Kartasura</p>
+      <p style="margin-top: 4px; font-size: 10px; color: var(--accent-green);"><i class="fa-solid fa-cloud"></i> Cloud Sync aktif</p>
     </div>
   </aside>
 
@@ -1694,6 +1699,101 @@
   <script>
     const APP_PASSWORD = "bismillah";
 
+    // ========== FIREBASE CONFIG (Cloud Sync antar device) ==========
+    const firebaseConfig = {
+      apiKey: "AIzaSyCjPbr2EXbV3TBPodkHz4O8HZy8xs-3nAo",
+      authDomain: "pustaka-syamilah-makarima.firebaseapp.com",
+      databaseURL: "https://pustaka-syamilah-makarima-default-rtdb.asia-southeast1.firebasedatabase.app",
+      projectId: "pustaka-syamilah-makarima",
+      storageBucket: "pustaka-syamilah-makarima.firebasestorage.app",
+      messagingSenderId: "977874121903",
+      appId: "1:977874121903:web:2eb285afb720b4e351505a",
+      measurementId: "G-Q6MVDC73QW"
+    };
+
+    let db = null;
+    let cloudReady = false;
+    let syncingFromCloud = false; // cegah loop saat terima data cloud
+
+    try {
+      firebase.initializeApp(firebaseConfig);
+      db = firebase.database();
+      cloudReady = true;
+      console.log("Firebase terhubung");
+    } catch (e) {
+      console.warn("Firebase gagal init, pakai mode lokal:", e);
+      cloudReady = false;
+    }
+
+    const CLOUD_PATH = "pustaka_syamilah";
+
+    function pushAllToCloud() {
+      if (!cloudReady || !db || syncingFromCloud) return;
+      const payload = {
+        books: books,
+        students: students,
+        loans: loans,
+        visits: visits,
+        kunjunganBulanAngka: localStorage.getItem("makarima_kunjungan_bulan_angka"),
+        updatedAt: Date.now()
+      };
+      db.ref(CLOUD_PATH).set(payload).catch(err => {
+        console.warn("Gagal simpan ke cloud:", err);
+      });
+    }
+
+    function applyCloudData(data) {
+      if (!data) return;
+      syncingFromCloud = true;
+      try {
+        if (Array.isArray(data.books) && data.books.length) {
+          books = data.books;
+          localStorage.setItem("makarima_books", JSON.stringify(books));
+        }
+        if (Array.isArray(data.students) && data.students.length) {
+          students = data.students;
+          localStorage.setItem("makarima_students", JSON.stringify(students));
+        }
+        if (Array.isArray(data.loans)) {
+          loans = data.loans;
+          localStorage.setItem("makarima_loans", JSON.stringify(loans));
+        }
+        if (Array.isArray(data.visits)) {
+          visits = data.visits;
+          localStorage.setItem("makarima_visits", JSON.stringify(visits));
+        }
+        if (data.kunjunganBulanAngka !== undefined && data.kunjunganBulanAngka !== null) {
+          localStorage.setItem("makarima_kunjungan_bulan_angka", String(data.kunjunganBulanAngka));
+        } else {
+          localStorage.removeItem("makarima_kunjungan_bulan_angka");
+        }
+        // refresh tampilan
+        try { initFilters(); } catch(e) {}
+        try { renderDashboard(); } catch(e) {}
+        try { filterAndRenderKatalog(); } catch(e) {}
+        try { renderMurid(); } catch(e) {}
+        try { renderSirkulasi(); } catch(e) {}
+        try { renderKunjungan(); } catch(e) {}
+      } finally {
+        syncingFromCloud = false;
+      }
+    }
+
+    function startCloudSync() {
+      if (!cloudReady || !db) return;
+      db.ref(CLOUD_PATH).on("value", (snap) => {
+        const data = snap.val();
+        if (!data) {
+          // Cloud masih kosong → upload data lokal pertama kali
+          pushAllToCloud();
+          return;
+        }
+        applyCloudData(data);
+      }, (err) => {
+        console.warn("Listener cloud error:", err);
+      });
+    }
+
     function checkPassword() {
       const input = document.getElementById('inputPin').value;
       const errEl = document.getElementById('lockError');
@@ -2384,7 +2484,7 @@
     // ===================================================
     // LOGIKA AUTO-UPDATE MEMORI UNTUK PERANGKAT LAMA & BARU
     // ===================================================
-    const DATA_VERSION = "v6.1_edit_kunjungan_angka";
+    const DATA_VERSION = "v7.0_firebase_sync";
 
     function loadAndUpdateBooks() {
       const savedVersion = localStorage.getItem("app_data_version");
@@ -2463,6 +2563,9 @@
       renderMurid();
       renderSirkulasi();
       renderKunjungan();
+
+      // Mulai sinkron cloud (data ikut ke semua device)
+      startCloudSync();
     });
 
     function saveData() {
@@ -2470,6 +2573,8 @@
       localStorage.setItem('makarima_students', JSON.stringify(students));
       localStorage.setItem('makarima_loans', JSON.stringify(loans));
       localStorage.setItem('makarima_visits', JSON.stringify(visits));
+      // Sinkron ke cloud supaya device lain ikut terbarui
+      pushAllToCloud();
     }
 
     // Angka manual "Kunjungan Bulan Ini" (bisa diisi dulu, detail menyusul)
@@ -2498,6 +2603,7 @@
         localStorage.setItem('makarima_kunjungan_bulan_angka', String(n));
         showToast('Angka kunjungan bulan ini diset: ' + n);
       }
+      pushAllToCloud();
       renderDashboard();
       renderKunjungan();
     }
