@@ -858,7 +858,7 @@
 <body>
 
   <!-- LOCK SCREEN OVERLAY -->
-  <div id="lockScreen" class="lock-screen-overlay">
+  <div id="lockScreen" class="lock-screen-overlay" style="display:flex;">
     <div class="lock-card">
       <img src="logo makarima.webp" alt="Logo SD Islam Makarima" class="lock-logo" onerror="this.src='https://via.placeholder.com/64?text=SDIM'"/>
       <h3>Pustaka Syamilah</h3>
@@ -1570,7 +1570,7 @@
       if (input === APP_PASSWORD) {
         document.getElementById('lockScreen').style.display = 'none';
         errEl.style.display = 'none';
-        localStorage.setItem('pustaka_auth', 'true');
+        sessionStorage.setItem('pustaka_auth', 'true');
         showToast("Akses web berhasil dibuka!");
       } else {
         errEl.style.display = 'block';
@@ -1598,7 +1598,7 @@
     }
 
     function lockApp() {
-      localStorage.removeItem('pustaka_auth');
+      sessionStorage.removeItem('pustaka_auth');
       document.getElementById('inputPin').value = '';
       document.getElementById('lockError').style.display = 'none';
       document.getElementById('lockScreen').style.display = 'flex';
@@ -2253,7 +2253,7 @@
     // ===================================================
     // LOGIKA AUTO-UPDATE MEMORI UNTUK PERANGKAT LAMA & BARU
     // ===================================================
-    const DATA_VERSION = "v5.5.1_lockfix";
+    const DATA_VERSION = "v5.5.1_lockfix2";
 
     function loadAndUpdateBooks() {
       const savedVersion = localStorage.getItem("app_data_version");
@@ -2316,7 +2316,7 @@
     }
 
     document.addEventListener("DOMContentLoaded", () => {
-      if (localStorage.getItem('pustaka_auth') === 'true') {
+      if (sessionStorage.getItem('pustaka_auth') === 'true') {
         document.getElementById('lockScreen').style.display = 'none';
       } else {
         document.getElementById('lockScreen').style.display = 'flex';
