@@ -5,21 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
   <title>Pustaka Syamilah - SD Islam Makarima</title>
   
-  <!-- Anti-Cache Meta Tags: Paksa Browser Ambil Data Terbaru -->
-  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
-  <meta http-equiv="Pragma" content="no-cache" />
-  <meta http-equiv="Expires" content="0" />
-  
   <!-- Google Fonts & FontAwesome -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-  <!-- Firebase SDK untuk Realtime Sync Antar Device -->
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 
   <style>
     :root {
@@ -265,6 +256,7 @@
       transition: margin-left 0.3s ease, width 0.3s ease;
     }
 
+    /* HEADER AUTO-ADAPTIVE */
     .top-header {
       background-color: var(--bg-cream-light);
       border-bottom: 1px solid var(--border-cream);
@@ -361,6 +353,7 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
+    /* GRID METRIKS ADAPTIF */
     .metrics-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
@@ -444,6 +437,7 @@
       gap: 8px;
     }
 
+    /* FILTER TOOLS ADAPTIF */
     .filter-tools {
       display: flex;
       gap: 10px;
@@ -777,6 +771,10 @@
       color: var(--text-dark);
     }
 
+    /* ========================================================= */
+    /*    MEDIA QUERIES AUTO-RESPONSIVE (LAPTOP, TABLET & MOBILE)   */
+    /* ========================================================= */
+    
     @media (max-width: 1024px) {
       .sidebar { width: 250px; }
       .main-wrapper { margin-left: 250px; width: calc(100% - 250px); }
@@ -926,7 +924,7 @@
     </nav>
 
     <div class="sidebar-footer">
-      <p><strong>Pustaka Syamilah v5.0</strong></p>
+      <p><strong>Pustaka Syamilah v4.5</strong></p>
       <p style="margin-top: 2px;">SD Islam Makarima Kartasura</p>
     </div>
   </aside>
@@ -1015,7 +1013,7 @@
 
         <div class="card-panel">
           <div class="panel-header">
-            <h3><i class="fa-solid fa-chart-bar" style="color:var(--accent-warm);"></i> Distribusi Koleksi Buku Berdasarkan Kategori</h3>
+            <h3><i class="fa-solid fa-chart-bar" style="color:var(--accent-warm);"></i> Distribusi Koleksi Buku Berdasarkan Kategori (Total 342 Judul)</h3>
           </div>
           <div class="chart-container" style="position: relative; width: 100%; height: 320px;">
             <canvas id="categoryChart"></canvas>
@@ -1027,7 +1025,7 @@
       <section id="sec-katalog" class="section-content">
         <div class="card-panel">
           <div class="panel-header">
-            <h3><i class="fa-solid fa-books"></i> Katalog Inventaris Buku</h3>
+            <h3><i class="fa-solid fa-books"></i> Katalog Inventaris Buku (342 Koleksi Pustaka Syamilah)</h3>
             <div class="filter-tools">
               <div class="search-box">
                 <i class="fa-solid fa-magnifying-glass"></i>
@@ -1069,13 +1067,16 @@
                 </tr>
               </thead>
               <tbody id="tableKatalogBody">
+                <!-- Dynamic Content -->
               </tbody>
             </table>
           </div>
 
+          <!-- Pagination UI -->
           <div class="pagination-container">
             <div class="pagination-info" id="katalogPaginationInfo">Menampilkan 0 dari 0 data</div>
             <div class="pagination-controls" id="katalogPaginationControls">
+              <!-- Dynamic Pagination Buttons -->
             </div>
           </div>
         </div>
@@ -1085,7 +1086,7 @@
       <section id="sec-murid" class="section-content">
         <div class="card-panel">
           <div class="panel-header">
-            <h3><i class="fa-solid fa-user-graduate"></i> Daftar Murid</h3>
+            <h3><i class="fa-solid fa-user-graduate"></i> Daftar Murid (283 Anggota Perpustakaan)</h3>
             <div class="filter-tools">
               <div class="search-box">
                 <i class="fa-solid fa-magnifying-glass"></i>
@@ -1112,6 +1113,7 @@
                 </tr>
               </thead>
               <tbody id="tableMuridBody">
+                <!-- Dynamic Content -->
               </tbody>
             </table>
           </div>
@@ -1143,6 +1145,7 @@
                 </tr>
               </thead>
               <tbody id="tableSirkulasiBody">
+                <!-- Dynamic Content -->
               </tbody>
             </table>
           </div>
@@ -1192,6 +1195,7 @@
             <div class="filter-tools">
               <label style="font-size: 12px; font-weight:700;">Filter Periode:</label>
               <select id="filterBulanKunjungan" class="select-input" onchange="renderKunjungan()">
+                <!-- Dynamic Month Years -->
               </select>
               <button class="quick-btn purple" onclick="openModal('modalKunjungan')">
                 <i class="fa-solid fa-plus"></i> Catat Presensi
@@ -1212,6 +1216,7 @@
                 </tr>
               </thead>
               <tbody id="tableKunjunganBody">
+                <!-- Dynamic Content -->
               </tbody>
             </table>
           </div>
@@ -1238,6 +1243,7 @@
                 </tr>
               </thead>
               <tbody id="tableRekapFrekuensiBody">
+                <!-- Dynamic Content -->
               </tbody>
             </table>
           </div>
@@ -1292,6 +1298,7 @@
             <i class="fa-solid fa-clock-rotate-left"></i> Riwayat Status Peminjaman
           </h5>
           <div id="dtRiwayatLoan" style="font-size: 12.5px; color: var(--text-dark);">
+            <!-- Dynamic Loan History -->
           </div>
         </div>
       </div>
@@ -1531,34 +1538,8 @@
     <span id="toastMsg">Sistem berhasil diperbarui!</span>
   </div>
 
+  <!-- SCRIPTS & DATA LOGIC -->
   <script>
-    // ===================================================
-    // KONEKSI REALTIME DATABASE (FIREBASE CLOUD SYNC)
-    // ===================================================
-    // Masukkan data Firebase kamu di sini agar semua HP terkoneksi langsung ke server yang sama
-    const firebaseConfig = {
-      apiKey: "AIzaSy_DEMO_KEY_MAKARIMA_PUSTAKA",
-      authDomain: "pustaka-makarima.firebaseapp.com",
-      databaseURL: "https://pustaka-makarima-default-rtdb.firebaseio.com",
-      projectId: "pustaka-makarima",
-      storageBucket: "pustaka-makarima.appspot.com",
-      messagingSenderId: "123456789",
-      appId: "1:123456789:web:abcdef"
-    };
-
-    let dbRef = null;
-    let isFirebaseConnected = false;
-
-    try {
-      if (!firebase.apps.length) {
-        firebase.initializeApp(firebaseConfig);
-      }
-      dbRef = firebase.database().ref("pustaka_syamilah_db");
-      isFirebaseConnected = true;
-    } catch(e) {
-      console.warn("Firebase tidak diaktifkan / offline. Menggunakan mode penyimpanan lokal dengan auto-sync.", e);
-    }
-
     const APP_PASSWORD = "bismillah";
 
     function checkPassword() {
@@ -1959,43 +1940,59 @@
       { id: 21, nama: "Ahmad Alfian Arsyad", kelas: "Kelas 6 Al Fattah" }
     ];
 
-    let books = initialBooks;
-    let students = initialStudents;
-    let loans = [];
-    let visits = [];
+    let loans = [
+      { id: "TRX-101", studentId: 11, studentName: "Aisyah Pelangi Muslimah", kelas: "Kelas 2A Al Malik", bookId: 2, bookTitle: "Bacaan Sholat: Disertai Latin & Terjemah Bahasa Indonesia", tglPinjam: "2026-10-20", tglKembali: "2026-10-27", status: "Dipinjam" },
+      { id: "TRX-102", studentId: 6, studentName: "Adlan Malik Assami", kelas: "Kelas 1B", bookId: 186, bookTitle: "10 Kisah Pahlawan Surga", tglPinjam: "2026-10-22", tglKembali: "2026-10-29", status: "Dipinjam" },
+      { id: "TRX-103", studentId: 15, studentName: "Adifa Safa Azzahra", kelas: "Kelas 3A Al Aliim", bookId: 311, bookTitle: "25 Nabi dan Rasul", tglPinjam: "2026-10-18", tglKembali: "2026-10-25", status: "Terlambat" }
+    ];
+
+    let visits = [
+      { id: 1, studentId: 1, studentName: "Ambalika Sora Pratama", kelas: "Kelas 1A", tanggal: "2026-10-02", keperluan: "Membaca Buku" },
+      { id: 2, studentId: 11, studentName: "Aisyah Pelangi Muslimah", kelas: "Kelas 2A Al Malik", tanggal: "2026-10-05", keperluan: "Meminjam Buku" },
+      { id: 3, studentId: 11, studentName: "Aisyah Pelangi Muslimah", kelas: "Kelas 2A Al Malik", tanggal: "2026-10-12", keperluan: "Membaca Buku" },
+      { id: 4, studentId: 11, studentName: "Aisyah Pelangi Muslimah", kelas: "Kelas 2A Al Malik", tanggal: "2026-10-20", keperluan: "Meminjam Buku" },
+      { id: 5, studentId: 15, studentName: "Adifa Safa Azzahra", kelas: "Kelas 3A Al Aliim", tanggal: "2026-10-10", keperluan: "Kerja Kelompok / Tugas" }
+    ];
+
+    // ===================================================
+    // LOGIKA AUTO-UPDATE MEMORI UNTUK PERANGKAT LAMA & BARU
+    // ===================================================
+    const DATA_VERSION = "v3.0_342_books";
+
+    function loadAndUpdateBooks() {
+      const savedVersion = localStorage.getItem("app_data_version");
+      const savedBooks = localStorage.getItem("makarima_books");
+      let needReset = false;
+
+      if (savedVersion !== DATA_VERSION || !savedBooks) {
+        needReset = true;
+      } else {
+        try {
+          const parsed = JSON.parse(savedBooks);
+          if (!Array.isArray(parsed) || parsed.length < 342) {
+            needReset = true;
+          }
+        } catch (err) {
+          needReset = true;
+        }
+      }
+
+      if (needReset) {
+        localStorage.setItem("makarima_books", JSON.stringify(initialBooks));
+        localStorage.setItem("app_data_version", DATA_VERSION);
+        return initialBooks;
+      }
+
+      return JSON.parse(savedBooks);
+    }
+
+    let books = loadAndUpdateBooks();
+    let students = JSON.parse(localStorage.getItem('makarima_students')) || initialStudents;
     let categoryChartInstance = null;
 
     let currentPage = 1;
     let rowsPerPage = 25;
     let filteredBooks = [];
-
-    // ===================================================
-    // SISTEM AUTO-FLUSH CACHE & SESSION TIMEOUT
-    // ===================================================
-    function autoFlushCacheOnSession() {
-      const LAST_SESSION = localStorage.getItem('last_app_session');
-      const CURRENT_TIME = Date.now();
-      const SESSION_TIMEOUT = 2 * 60 * 60 * 1000; // Auto reset cache tiap 2 jam pas dibuka ulang
-
-      if (!LAST_SESSION || (CURRENT_TIME - parseInt(LAST_SESSION)) > SESSION_TIMEOUT) {
-        sessionStorage.clear();
-        if ('caches' in window) {
-          caches.keys().then(names => {
-            names.forEach(name => caches.delete(name));
-          });
-        }
-      }
-      localStorage.setItem('last_app_session', CURRENT_TIME.toString());
-    }
-
-    autoFlushCacheOnSession();
-
-    // Hapus Service Worker lama kalau ada yang tersimpan di HP
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.getRegistrations().then(registrations => {
-        registrations.forEach(r => r.unregister());
-      });
-    }
 
     document.addEventListener("DOMContentLoaded", () => {
       if (sessionStorage.getItem('pustaka_auth') === 'true') {
@@ -2007,79 +2004,19 @@
       document.getElementById('pinjamTgl').value = new Date().toISOString().split('T')[0];
       document.getElementById('kunjunganTgl').value = new Date().toISOString().split('T')[0];
 
-      loadDataFromStorageOrCloud();
-      initKunjunganMonthFilter();
-    });
-
-    // ===================================================
-    // LOAD & SYNC DATA (REALTIME ANTAR HP)
-    // ===================================================
-    function loadDataFromStorageOrCloud() {
-      if (isFirebaseConnected && dbRef) {
-        // Berlangganan perubahan data secara langsung di Cloud
-        dbRef.on('value', (snapshot) => {
-          const val = snapshot.val();
-          if (val) {
-            books = val.books || initialBooks;
-            students = val.students || initialStudents;
-            loans = val.loans || [];
-            visits = val.visits || [];
-            
-            // Simpan copy lokal untuk akses cepat offline
-            localStorage.setItem('makarima_books', JSON.stringify(books));
-            localStorage.setItem('makarima_students', JSON.stringify(students));
-            localStorage.setItem('makarima_loans', JSON.stringify(loans));
-            localStorage.setItem('makarima_visits', JSON.stringify(visits));
-          } else {
-            saveData(); // Inisialisasi awal di cloud jika kosong
-          }
-          refreshAllViews();
-        });
-      } else {
-        // Fallback jika belum tersambung ke Firebase API Key
-        const localB = localStorage.getItem('makarima_books');
-        const localS = localStorage.getItem('makarima_students');
-        const localL = localStorage.getItem('makarima_loans');
-        const localV = localStorage.getItem('makarima_visits');
-
-        if (localB) books = JSON.parse(localB);
-        if (localS) students = JSON.parse(localS);
-        if (localL) loans = JSON.parse(localL);
-        if (localV) visits = JSON.parse(localV);
-
-        refreshAllViews();
-
-        // Polling sederhana untuk sync lokal jika tanpa firebase
-        window.addEventListener('storage', () => {
-          loadDataFromStorageOrCloud();
-        });
-      }
-    }
-
-    function refreshAllViews() {
       initFilters();
+      initKunjunganMonthFilter();
       renderDashboard();
       filterAndRenderKatalog();
       renderMurid();
       renderSirkulasi();
       renderKunjungan();
-    }
+    });
 
     function saveData() {
       localStorage.setItem('makarima_books', JSON.stringify(books));
       localStorage.setItem('makarima_students', JSON.stringify(students));
-      localStorage.setItem('makarima_loans', JSON.stringify(loans));
       localStorage.setItem('makarima_visits', JSON.stringify(visits));
-
-      if (isFirebaseConnected && dbRef) {
-        dbRef.set({
-          books: books,
-          students: students,
-          loans: loans,
-          visits: visits,
-          updatedAt: Date.now()
-        }).catch(err => console.error("Error sync Firebase:", err));
-      }
     }
 
     function showToast(msg) {
@@ -2107,7 +2044,7 @@
 
       const titles = {
         'dashboard': ['Dashboard Perpustakaan', 'Sistem Rekap & Sirkulasi Pustaka Syamilah Makarima'],
-        'katalog': ['Katalog Inventaris Buku', 'Pencarian, Manajemen Stok & Input Koleksi Buku'],
+        'katalog': ['Katalog Inventaris Buku', 'Pencarian, Manajemen Stok & Input Koleksi Buku (342 Judul)'],
         'murid': ['Daftar Murid Sekolah', 'Rekap Keanggotaan Murid SD Islam Makarima'],
         'sirkulasi': ['Sirkulasi Peminjaman', 'Pencatatan Keluar Masuk Buku & Keterlambatan'],
         'kunjungan': ['Presensi Kunjungan Siswa', 'Rekapan Jumlah Kunjungan per Siswa per Bulan']
@@ -2157,7 +2094,7 @@
         'Agama Islam': 'Rak A1 (Agama)',
         'Siroh': 'Rak A2 (Siroh)',
         'Cerita Anak Islami': 'Rak B1 (Cerita Islami)',
-        'Cerita Anak': 'Rak B2 (Cerita Umum)',
+        'Cerita Anak': 'Rak B2 (Cerita Umun)',
         'Sains': 'Rak C1 (Sains & Sains Islam)',
         'Buku Mapel': 'Rak D1 (Pelajaran)',
         'Buku Guru': 'Rak D2 (Pegangan Guru)',
@@ -2185,7 +2122,7 @@
           </div>
         `;
       } else {
-        loanBox.innerHTML = `<p style="color:var(--text-muted); font-style:italic;">Tidak ada transaksi pinjam aktif saat ini. Buku berada di rak.</p>`;
+        loanBox.innerHTML = `<p style="color:var(--text-muted); italic;">Tidak ada transaksi pinjam aktif saat ini. Buku berada di rak.</p>`;
       }
 
       document.getElementById('btnCetakModal').onclick = () => openPrintLabel(b.kode, b.judul);
@@ -2461,21 +2398,25 @@
 
       visits.unshift(newVisit);
       saveData();
+      renderKunjungan();
+      renderDashboard();
       closeModal('modalKunjungan');
-      showToast(`Presensi kunjungan ${st.nama} berhasil dicatat & disinkron!`);
+      showToast(`Presensi kunjungan ${st.nama} berhasil dicatat!`);
     }
 
     function hapusKunjungan(id) {
       if(confirm("Hapus catatan kunjungan ini?")) {
         visits = visits.filter(v => v.id !== id);
         saveData();
+        renderKunjungan();
+        renderDashboard();
         showToast("Catatan kunjungan dihapus.");
       }
     }
 
     function renderKunjungan() {
       const selectedMonth = document.getElementById('filterBulanKunjungan').value || new Date().toISOString().slice(0, 7);
-      const monthVisits = visits.filter(v => v.tanggal && v.tanggal.startsWith(selectedMonth));
+      const monthVisits = visits.filter(v => v.tanggal.startsWith(selectedMonth));
       
       document.getElementById('statKunjunganBulan').innerText = monthVisits.length;
       
@@ -2610,8 +2551,13 @@
         });
 
         saveData();
+        initFilters();
+        renderMurid();
+        renderSirkulasi();
+        renderKunjungan();
+        renderDashboard();
         closeModal('modalEditMurid');
-        showToast("Data siswa berhasil diperbarui!");
+        showToast("Data siswa & kelas berhasil diperbarui!");
       }
     }
 
@@ -2625,9 +2571,12 @@
 
       students.unshift(newStudent);
       saveData();
+      initFilters();
+      renderMurid();
+      renderDashboard();
       closeModal('modalInputMurid');
       document.getElementById('formTambahMurid').reset();
-      showToast("Data siswa baru disimpan!");
+      showToast("Data siswa baru berhasil disimpan!");
     }
 
     function handleTambahBuku(e) {
@@ -2647,6 +2596,9 @@
 
       books.unshift(newBook);
       saveData();
+      initFilters();
+      filterAndRenderKatalog();
+      renderDashboard();
       closeModal('modalInputBuku');
       document.getElementById('formTambahBuku').reset();
       showToast("Buku baru berhasil ditambahkan!");
@@ -2701,6 +2653,10 @@
 
       loans.unshift(newLoan);
       saveData();
+      renderDashboard();
+      filterAndRenderKatalog();
+      renderMurid();
+      renderSirkulasi();
       closeModal('modalPinjam');
       showToast(`Transaksi pinjam ${bk.judul} dicatat!`);
     }
@@ -2715,6 +2671,10 @@
       if(bk) bk.tersedia += 1;
 
       saveData();
+      renderDashboard();
+      filterAndRenderKatalog();
+      renderMurid();
+      renderSirkulasi();
       showToast("Buku telah dikembalikan!");
     }
 
@@ -2722,6 +2682,8 @@
       if(confirm("Apakah Anda yakin ingin menghapus buku ini?")) {
         books = books.filter(b => b.id !== id);
         saveData();
+        filterAndRenderKatalog();
+        renderDashboard();
         showToast("Buku berhasil dihapus.");
       }
     }
@@ -2735,6 +2697,8 @@
         bk.stok = parseInt(newStok);
         bk.tersedia = Math.max(0, bk.tersedia + diff);
         saveData();
+        filterAndRenderKatalog();
+        renderDashboard();
         showToast("Stok buku diperbarui!");
       }
     }
@@ -2743,6 +2707,8 @@
       if(confirm("Hapus data siswa ini dari perpustakaan?")) {
         students = students.filter(s => s.id !== id);
         saveData();
+        renderMurid();
+        renderDashboard();
         showToast("Data siswa berhasil dihapus.");
       }
     }
