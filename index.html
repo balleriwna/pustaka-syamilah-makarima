@@ -11,7 +11,6 @@
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 
   <style>
     :root {
@@ -767,27 +766,6 @@
       .content-container { padding: 0 !important; }
       .card-panel { box-shadow: none !important; border: none !important; }
     }
-
-    /* === UPGRADE === */
-    .dash-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:24px}
-    .dash-grid .card-panel{margin-bottom:0}
-    @media(max-width:860px){.dash-grid{grid-template-columns:1fr}}
-    .rank-row{display:flex;align-items:center;gap:10px;margin-bottom:12px;font-size:13px}
-    .rank-row .no{width:24px;height:24px;border-radius:8px;background:var(--bg-cream-main);color:var(--accent-warm);font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:12px}
-    .rank-row .no.red{background:var(--accent-red-light);color:var(--accent-red)}
-    .rank-t{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-    .rank-sub{display:block;color:var(--text-muted);font-size:11.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-    .rank-bar{height:6px;border-radius:6px;background:var(--bg-cream-main);margin-top:5px;overflow:hidden}
-    .rank-bar i{display:block;height:100%;background:var(--accent-warm);border-radius:6px}
-    .late-info{display:block;font-size:11px;color:var(--accent-red);font-weight:700;margin-top:4px}
-    th.sortable{cursor:pointer;user-select:none}th.sortable:hover{color:var(--accent-warm)}th.sortable i{opacity:.45;margin-left:4px;font-size:11px}
-    .cmd-list{max-height:50vh;overflow:auto;margin-top:10px}
-    .cmd-item{display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:var(--radius-md);cursor:pointer}
-    .cmd-item i{width:20px;text-align:center;color:var(--accent-warm)}
-    .cmd-item span{flex:1;font-weight:600;font-size:13px;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-    .cmd-item small{color:var(--text-muted);font-size:11.5px}
-    .cmd-item.sel,.cmd-item:hover{background:var(--bg-cream-main)}
-    .stat-pop{animation:statPop .4s ease}@keyframes statPop{from{transform:scale(.92);opacity:.5}}
   </style>
 </head>
 <body>
@@ -857,24 +835,6 @@
       </a>
       <a class="menu-item" onclick="exportCSV('buku')">
         <i class="fa-solid fa-file-excel"></i> Ekspor Data Buku
-      </a>
-      <a class="menu-item" onclick="exportCSV('murid')">
-        <i class="fa-solid fa-file-excel"></i> Ekspor Data Murid
-      </a>
-      <a class="menu-item" onclick="exportCSV('sirkulasi')">
-        <i class="fa-solid fa-file-excel"></i> Ekspor Sirkulasi
-      </a>
-      <a class="menu-item" onclick="backupData()">
-        <i class="fa-solid fa-cloud-arrow-down"></i> Backup Data (JSON)
-      </a>
-      <a class="menu-item" onclick="document.getElementById('restoreInput').click()">
-        <i class="fa-solid fa-cloud-arrow-up"></i> Pulihkan Data
-      </a>
-      <a class="menu-item" onclick="setDenda()">
-        <i class="fa-solid fa-coins"></i> Pengaturan Denda
-      </a>
-      <a class="menu-item" onclick="openCmd()">
-        <i class="fa-solid fa-magnifying-glass"></i> Cari Cepat (Ctrl+K)
       </a>
       <a class="menu-item" onclick="window.print()">
         <i class="fa-solid fa-print"></i> Cetak Laporan
@@ -946,7 +906,7 @@
           <div class="metric-card">
             <div class="metric-info">
               <h3>Total Anggota Siswa</h3>
-              <div class="val" id="statTotalMurid">279</div>
+              <div class="val" id="statTotalMurid">283</div>
             </div>
             <div class="metric-icon icon-green">
               <i class="fa-solid fa-users"></i>
@@ -982,17 +942,6 @@
             <canvas id="categoryChart"></canvas>
           </div>
         </div>
-
-        <div class="dash-grid">
-          <div class="card-panel">
-            <div class="panel-header"><h3><i class="fa-solid fa-fire" style="color:var(--accent-warm);"></i> Buku Terpopuler</h3></div>
-            <div id="topBooks"></div>
-          </div>
-          <div class="card-panel">
-            <div class="panel-header"><h3><i class="fa-solid fa-bell" style="color:var(--accent-red);"></i> Perlu Perhatian: Pinjaman Terlambat</h3></div>
-            <div id="attnList"></div>
-          </div>
-        </div>
       </section>
 
       <!-- KATALOG BUKU SECTION -->
@@ -1024,11 +973,11 @@
             <table class="custom-table">
               <thead>
                 <tr>
-                  <th class="sortable" onclick="sortKatalog('kode')">Kode Label <i class="fa-solid fa-sort"></i></th>
-                  <th class="sortable" onclick="sortKatalog('judul')">Judul Buku <i class="fa-solid fa-sort"></i></th>
-                  <th class="sortable" onclick="sortKatalog('kategori')">Kategori <i class="fa-solid fa-sort"></i></th>
+                  <th>Kode Label</th>
+                  <th>Judul Buku</th>
+                  <th>Kategori</th>
                   <th>Penerbit</th>
-                  <th class="sortable" onclick="sortKatalog('tahun')">Tahun <i class="fa-solid fa-sort"></i></th>
+                  <th>Tahun</th>
                   <th>Stok / Available</th>
                   <th>Kondisi</th>
                   <th style="text-align: right;">Aksi</th>
@@ -1093,18 +1042,9 @@
         <div class="card-panel">
           <div class="panel-header">
             <h3><i class="fa-solid fa-arrow-right-arrow-left"></i> Rekap Sirkulasi Peminjaman & Pengembalian</h3>
-            <div class="filter-tools">
-              <div class="search-box">
-                <i class="fa-solid fa-magnifying-glass"></i>
-                <input type="text" id="searchSirkulasi" class="search-input" placeholder="Cari siswa / buku / ID..." oninput="renderSirkulasi()"/>
-              </div>
-              <select id="filterStatusSirkulasi" class="select-input" onchange="renderSirkulasi()">
-                <option value="">Semua Status</option><option>Dipinjam</option><option>Terlambat</option><option>Dikembalikan</option>
-              </select>
-              <button class="quick-btn" onclick="openModal('modalPinjam')">
-                <i class="fa-solid fa-plus"></i> Catat Peminjaman
-              </button>
-            </div>
+            <button class="quick-btn" onclick="openModal('modalPinjam')">
+              <i class="fa-solid fa-plus"></i> Catat Peminjaman
+            </button>
           </div>
 
           <div class="table-responsive">
@@ -1422,15 +1362,13 @@
   <div id="modalKunjungan" class="modal-overlay">
     <div class="modal-card">
       <div class="modal-header">
-        <h4 id="kunjunganModalTitle"><i class="fa-solid fa-user-check"></i> Presensi Kunjungan Siswa</h4>
+        <h4><i class="fa-solid fa-user-check"></i> Presensi Kunjungan Siswa</h4>
         <button class="btn-close" onclick="closeModal('modalKunjungan')">&times;</button>
       </div>
       <form id="formKunjungan" onsubmit="handleTambahKunjungan(event)">
-        <input type="hidden" id="kunjunganEditId" value=""/>
         <div class="modal-body">
           <div class="form-group">
             <label>Pilih Siswa</label>
-            <input type="text" id="kunjunganCari" class="form-control" placeholder="Ketik nama siswa / kelas untuk mencari..." oninput="filterKunjunganSiswa()" autocomplete="off" style="margin-bottom:8px;"/>
             <select id="kunjunganSiswaId" class="form-control" required></select>
           </div>
           <div class="form-group">
@@ -1450,7 +1388,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn-secondary" onclick="closeModal('modalKunjungan')">Batal</button>
-          <button type="submit" id="kunjunganSubmitBtn" class="quick-btn purple">Simpan Presensi</button>
+          <button type="submit" class="quick-btn purple">Simpan Presensi</button>
         </div>
       </form>
     </div>
@@ -1476,8 +1414,7 @@
         </div>
         <div class="form-group">
           <label>Unggah File (.csv / .xlsx)</label>
-          <input type="file" id="fileInput" class="form-control" accept=".csv,.xlsx,.xls"/>
-          <p style="font-size:12px;color:var(--text-muted);margin-top:8px;line-height:1.5;">Buku: kolom <b>Kode Label, Judul Buku, Kategori, Penerbit, Tahun Terbit, Jumlah Buku</b> (sesuai file rekap). Murid: kolom <b>Nama, Kelas</b>. Data yang kode/namanya sudah ada akan dilewati.</p>
+          <input type="file" id="fileInput" class="form-control" accept=".csv,.xlsx"/>
         </div>
       </div>
       <div class="modal-footer">
@@ -1488,15 +1425,6 @@
   </div>
 
   <!-- TOAST NOTIFICATION -->
-  <input type="file" id="restoreInput" accept=".json" hidden onchange="restoreData(this)"/>
-  <div id="modalCmd" class="modal-overlay" style="align-items:flex-start;padding-top:10vh;">
-    <div class="modal-card" style="max-width:560px;">
-      <div class="modal-body">
-        <input type="text" id="cmdInput" class="form-control" placeholder="Cari buku, siswa, atau perintah..." autocomplete="off" oninput="cmdSel=0;cmdRender()"/>
-        <div class="cmd-list" id="cmdList"></div>
-      </div>
-    </div>
-  </div>
   <div id="toast" class="toast">
     <i class="fa-solid fa-circle-check" style="color: #4EAD73; font-size: 16px;"></i>
     <span id="toastMsg">Sistem berhasil diperbarui!</span>
@@ -1541,9 +1469,9 @@
       { "id": 3, "kode": "AI/003", "judul": "Belajar Sholat", "penerbit": "Iqra' Media", "tahun": "-", "kategori": "Agama Islam", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
       { "id": 4, "kode": "AI/004", "judul": "Buku Gemar Berdoa", "penerbit": "Pustaka Setia", "tahun": "-", "kategori": "Agama Islam", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
       { "id": 5, "kode": "AI/005", "judul": "Buku Iqro' 1", "penerbit": "Balai Litbang LPTQ Nasional Team Tadarus \"AMM\" Yogyakarta", "tahun": "-", "kategori": "Agama Islam", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
-      { "id": 6, "kode": "AI/006", "judul": "Buku Iqro' 2", "penerbit": "Balai Litbang LPTQ Nasional Team Tadarus \"AMM\" Yogyakarta", "tahun": "-", "kategori": "Agama Islam", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
-      { "id": 7, "kode": "AI/007", "judul": "Buku Iqro' 3", "penerbit": "Balai Litbang LPTQ Nasional Team Tadarus \"AMM\" Yogyakarta", "tahun": "-", "kategori": "Agama Islam", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
-      { "id": 8, "kode": "AI/008", "judul": "Buku Iqro' 4", "penerbit": "Balai Litbang LPTQ Nasional Team Tadarus \"AMM\" Yogyakarta", "tahun": "-", "kategori": "Agama Islam", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 6, "kode": "AI/006", "judul": "Buku Iqro 2", "penerbit": "Balai Litbang LPTQ Nasional Team Tadarus \"AMM\" Yogyakarta", "tahun": "-", "kategori": "Agama Islam", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 7, "kode": "AI/007", "judul": "Buku Iqro 3", "penerbit": "Balai Litbang LPTQ Nasional Team Tadarus \"AMM\" Yogyakarta", "tahun": "-", "kategori": "Agama Islam", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 8, "kode": "AI/008", "judul": "Buku Iqro 4", "penerbit": "Balai Litbang LPTQ Nasional Team Tadarus \"AMM\" Yogyakarta", "tahun": "-", "kategori": "Agama Islam", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
       { "id": 9, "kode": "AI/009", "judul": "Buku Iqro' 5", "penerbit": "Balai Litbang LPTQ Nasional Team Tadarus \"AMM\" Yogyakarta", "tahun": "-", "kategori": "Agama Islam", "stok": 2, "tersedia": 2, "kondisi": "Baik" },
       { "id": 10, "kode": "AI/010", "judul": "Dzikir-dzikir setelah Sholat", "penerbit": "Perisai Qur'an", "tahun": "2013", "kategori": "Agama Islam", "stok": 2, "tersedia": 2, "kondisi": "Baik" },
       { "id": 11, "kode": "AI/011", "judul": "Risalah Ibadah Haji dan Umroh", "penerbit": "Aulia", "tahun": "-", "kategori": "Agama Islam", "stok": 2, "tersedia": 2, "kondisi": "Baik" },
@@ -1601,7 +1529,7 @@
       { "id": 63, "kode": "BM/034", "judul": "IPAS kelas 6", "penerbit": "Quadra", "tahun": "-", "kategori": "Buku Mapel", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
       { "id": 64, "kode": "BM/035", "judul": "Jago Matematika", "penerbit": "Lingkar Media", "tahun": "-", "kategori": "Buku Mapel", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
       { "id": 65, "kode": "BM/036", "judul": "Joyful English", "penerbit": "Quadra", "tahun": "2020", "kategori": "Buku Mapel", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
-      { "id": 66, "kode": "BM/037", "judul": "Kupas Tematik Indahnya Kebersamaan 4", "penerbit": "Yudhistira", "tahun": "-", "kategori": "Buku Mapel", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 66, "kode": "BM/037", "judul": "Kupas Tematik Indahnya Kebersamaan 4.", "penerbit": "Yudhistira", "tahun": "-", "kategori": "Buku Mapel", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
       { "id": 67, "kode": "BM/038", "judul": "Kupas Tematik Pertumbuhan dan Perkembangan Makhluk Hidup 3", "penerbit": "Yudhistira", "tahun": "-", "kategori": "Buku Mapel", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
       { "id": 68, "kode": "BM/039", "judul": "Mahir Tematik Benda di Sekitarku 3", "penerbit": "Quadra", "tahun": "2019", "kategori": "Buku Mapel", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
       { "id": 69, "kode": "BM/040", "judul": "Mahir Tematik Benda, Hewan, dan Tanaman Sekitarku 1", "penerbit": "Quadra", "tahun": "2018", "kategori": "Buku Mapel", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
@@ -1918,64 +1846,8 @@
       { id: 5, studentId: 15, studentName: "Adifa Safa Azzahra", kelas: "Kelas 3A Al Aliim", tanggal: "2026-10-10", keperluan: "Kerja Kelompok / Tugas" }
     ];
 
-    // Versi katalog: naikkan angka ini jika katalog bawaan (PDF) diperbarui
-    const CATALOG_VERSION = '2026-pdf-1';
-    function loadJSON(key, fallback) {
-      try { const v = JSON.parse(localStorage.getItem(key)); return v || fallback; } catch (e) { return fallback; }
-    }
-    function syncCatalogWithPdf(stored) {
-      // Samakan data buku bawaan dengan PDF; buku tambahan buatan pengguna tetap dipertahankan
-      const byKode = {};
-      (stored || []).forEach(b => { byKode[b.kode] = b; });
-      const merged = initialBooks.map(p => {
-        const old = byKode[p.kode];
-        return { ...p, kondisi: (old && old.kondisi) || p.kondisi };
-      });
-      const pdfKodes = new Set(initialBooks.map(b => b.kode));
-      const custom = (stored || []).filter(b => !pdfKodes.has(b.kode));
-      return custom.concat(merged);
-    }
-    let books = loadJSON('makarima_books', null);
-    if (!books) {
-      books = initialBooks.map(b => ({ ...b }));
-    } else if (localStorage.getItem('makarima_catalog_version') !== CATALOG_VERSION) {
-      books = syncCatalogWithPdf(books);
-    }
-    localStorage.setItem('makarima_catalog_version', CATALOG_VERSION);
-    const SISWA_DOCX = [["Ambalika Sora Pratama","Kelas 1A"],["Adlan Malik Assami","Kelas 1B"],["Abiandra Ibrahim","Kelas 1C"],["Annasya Adreena","Kelas 1A"],["Aldi Rafaeyza","Kelas 1B"],["Ahza Apzarini Frastika","Kelas 1C"],["Arkania Embun Ahmada","Kelas 1A"],["Alvarendra Arasya Widhiyatmoko","Kelas 1B"],["Ardan Wardana","Kelas 1C"],["Arroyan Dylan Alfarizqy Purnomo","Kelas 1A"],["Banafsha Alesha Zoya","Kelas 1B"],["Arfan Putra Alfarizqi","Kelas 1C"],["Aurora Alunasvara Pradana","Kelas 1A"],["Dhanesh Kalle Nugroho","Kelas 1B"],["Azra Hanina Adira Farzana","Kelas 1C"],["Azizan Abqory","Kelas 1A"],["Fisa Efda Al Qisthi","Kelas 1B"],["Ceisya Ranita Putri Sandiya","Kelas 1C"],["Azzahra Shanum Nugroho","Kelas 1A"],["Gaffar Sinambrama Mandegani","Kelas 1B"],["Fayyola Inara Naufalyn","Kelas 1C"],["Bara Atlancea Tosca Atmaja","Kelas 1A"],["Giscara Jan Desmaura","Kelas 1C"],["Carissa Almeira Misel","Kelas 1A"],["Hamizhan Satria Manggala","Kelas 1B"],["Hamizan Kareem Al Ayari","Kelas 1C"],["Crystal Sea Dahayu","Kelas 1A"],["Hana Mekka Arkadewi","Kelas 1B"],["Khalisa Salwa Azzahra","Kelas 1C"],["Dahayu Gendhis Nareswari","Kelas 1A"],["Hilya Annasya Zea","Kelas 1B"],["Kim Solla Kartika Utari","Kelas 1C"],["Embun Pangayuh Aydia Gutomo","Kelas 1A"],["Kareem Benzema Zehiya Khan","Kelas 1B"],["Muhammad Aldebaran Hadiprawira","Kelas 1C"],["Freya Safa Ayesha","Kelas 1A"],["Lingga Rajendra Wibowo","Kelas 1B"],["Ghania Almeera Qiana P","Kelas 1A"],["Mayzura Zayn","Kelas 1B"],["Muhammad Reyhan Azizan","Kelas 1C"],["Irsyad Ibrahim Artha","Kelas 1A"],["Muhammad Farell Abdillah","Kelas 1B"],["Musfira Jariyah Ansar","Kelas 1C"],["Michelle Quenna Manggala","Kelas 1A"],["Muhammad Faris Akbar","Kelas 1B"],["Nabila Chyara Putri Arliansyah","Kelas 1C"],["Nadhif Abyan Hafidz","Kelas 1A"],["Narendra Pasa Alfarizqi","Kelas 1B"],["Nameera Aniqah Pamula","Kelas 1C"],["Noushafarina Chloe Mahendra","Kelas 1A"],["Rashdan Ashim Nugroho","Kelas 1B"],["Qalesya Alena Kinarian Haryono","Kelas 1C"],["Ozora Atthariq Aldebaran","Kelas 1A"],["Rumaysa Nuha Aghnia","Kelas 1B"],["Rakai Novendra Artama Kusuma","Kelas 1C"],["Prabu Gadang Prasetyo","Kelas 1A"],["Sheo Eiji Akira Misdaq","Kelas 1B"],["Rasyid Nur Laqif Gaharutama","Kelas 1C"],["Qiana Almahyra Zea P","Kelas 1A"],["Syafika Fauziah","Kelas 1B"],["Rayyandra Atharizky","Kelas 1C"],["Rania Azzahra Salsabila","Kelas 1A"],["Tsaqif Hanan Al Fawwaz","Kelas 1B"],["Shizasana Ziya Budianta","Kelas 1C"],["Shaqueena Mikhaylova","Kelas 1A"],["Yusya Macaire Abdullah","Kelas 1B"],["Tazkiya Putri Azzahra","Kelas 1C"],["Sharga Virendra Ahzafani","Kelas 1A"],["Zidane Omera Diova","Kelas 1C"],["Zahsy Arisha Putri Alista","Kelas 1A"],["Aisyah Pelangi Muslimah","Kelas 2A Al Malik"],["Affan Ali Adzani","Kelas 2B Al Hakim"],["Al Hisyam Hamizananta","Kelas 2C Al Aziiz"],["Almeera Nahla WS","Kelas 2A Al Malik"],["Aisyah Shadiqah Ismail","Kelas 2B Al Hakim"],["Alvaro Raffasya Mardiansyah","Kelas 2C Al Aziiz"],["Almira Savaira Putri","Kelas 2A Al Malik"],["Akleema Nadya Zawiya","Kelas 2B Al Hakim"],["Arcely Maysha Maheswari","Kelas 2C Al Aziiz"],["Astama Ayyubi Al Ghifari","Kelas 2A Al Malik"],["Alesha Orlin Celmira","Kelas 2B Al Hakim"],["Arvinza Budi Narendra","Kelas 2C Al Aziiz"],["Asyagita Krisswindayu","Kelas 2A Al Malik"],["Arsakha Khalif","Kelas 2B Al Hakim"],["Aviano Pranadipa","Kelas 2C Al Aziiz"],["Aurelie Ramadhani Putri","Kelas 2A Al Malik"],["Arsela Putri Maritza","Kelas 2B Al Hakim"],["Azkia Odellia Zahra","Kelas 2C Al Aziiz"],["Aurora Shafina Zahra R","Kelas 2A Al Malik"],["Ashia Dima Ramadhanisa","Kelas 2B Al Hakim"],["Bilqis Nabila Faiha","Kelas 2C Al Aziiz"],["Ayskaa Zaina Tarhib Ramadhani","Kelas 2A Al Malik"],["Azhalea Daniaa Askha","Kelas 2B Al Hakim"],["Elzio Sabriel Rayyan Candra","Kelas 2C Al Aziiz"],["Azril Rahandika Zhafir Fauzi","Kelas 2A Al Malik"],["Azzgaevano Elziandra Alafasyi","Kelas 2B Al Hakim"],["Evan Hasbuna Arasyi Nugroho","Kelas 2C Al Aziiz"],["Destya Fitriani","Kelas 2B Al Hakim"],["Galih Jaladri Hakim","Kelas 2C Al Aziiz"],["Farzana Zea Sabhira A","Kelas 2A Al Malik"],["Dhanessena Fatharian Awib","Kelas 2B Al Hakim"],["Keinarra Aqila Rujiyatno","Kelas 2C Al Aziiz"],["Kenzo Widjaya Ramadhan","Kelas 2A Al Malik"],["Dylano Putra Prasetya","Kelas 2B Al Hakim"],["Khalil Hulaifi","Kelas 2C Al Aziiz"],["Keyrani Hira Widayat","Kelas 2A Al Malik"],["Fata Zhafi Arazka","Kelas 2B Al Hakim"],["Labibah Kamania Rizani","Kelas 2C Al Aziiz"],["Mikhaila Hasika Arthawidya","Kelas 2A Al Malik"],["Gentamas Endaru Hussein Alkahfi","Kelas 2B Al Hakim"],["Lintang Sekar Jagad","Kelas 2C Al Aziiz"],["Mikhayla Dewi Noureen","Kelas 2A Al Malik"],["Husein Ali Rezka","Kelas 2B Al Hakim"],["Mohammad Rafa Albiansyah","Kelas 2C Al Aziiz"],["Muhammad Adnan Danish","Kelas 2A Al Malik"],["Ichiro Keenan Syahreza","Kelas 2B Al Hakim"],["Muhammad Dima Ramadhan","Kelas 2C Al Aziiz"],["Muhammad Ali Umar A","Kelas 2A Al Malik"],["Kevin Alfatih Hidayat","Kelas 2B Al Hakim"],["Muhammad Firdhan Hafizduddin","Kelas 2C Al Aziiz"],["Muhammad Salman A","Kelas 2A Al Malik"],["Khrisna Maulana Yusuf","Kelas 2B Al Hakim"],["Muhammad Nadhif Safaraz Zafri","Kelas 2C Al Aziiz"],["Mukhbita Azzahra Rahma","Kelas 2A Al Malik"],["Muhammad Taqaa El Fatih","Kelas 2B Al Hakim"],["Nadhifa Maritza Nur Qoyyum","Kelas 2C Al Aziiz"],["Omar Furqan Millian","Kelas 2A Al Malik"],["Musfar Fahlila Ansar","Kelas 2B Al Hakim"],["Narendra Arthur Sangramawijaya","Kelas 2C Al Aziiz"],["Prada Paramartha H","Kelas 2A Al Malik"],["Naylah Tsabita Almahira","Kelas 2B Al Hakim"],["Pradipta Adijaya Wirabudi","Kelas 2C Al Aziiz"],["Rumaisha Dewi Wanov Chalondra","Kelas 2A Al Malik"],["Nesya Areta Putri","Kelas 2B Al Hakim"],["Rezvan Adipati Aprilio","Kelas 2C Al Aziiz"],["Rumaisha Nidya Yutaka","Kelas 2A Al Malik"],["Rayhan Yahya Zulqisthi","Kelas 2B Al Hakim"],["Shaka Mumtaz Ghani Wilalodra","Kelas 2C Al Aziiz"],["Shannon Deya Paramesti Waskito","Kelas 2A Al Malik"],["Rayyan Hafizh Nandana","Kelas 2B Al Hakim"],["Syahan Al Khairat Santoso","Kelas 2C Al Aziiz"],["Shazfa Rebecca Ariana","Kelas 2A Al Malik"],["Sakhi Mauza Fardan","Kelas 2B Al Hakim"],["Wildan Rajendra Al Kafabi","Kelas 2C Al Aziiz"],["Shea Mallika Y. Naafi","Kelas 2A Al Malik"],["Adifa Safa Azzahra","Kelas 3A Al Aliim"],["Adeeva Shaqeena Akhmad","Kelas 3B Al Hafizh"],["Abyan Faatih Alfarizqi","Kelas 3C Ar Rasyiid"],["Albirru Devdas Rafaeyza Prastya","Kelas 3A Al Aliim"],["Ahmad Rafardhan Athallah","Kelas 3B Al Hafizh"],["Alvorenzo Evanovigo A","Kelas 3C Ar Rasyiid"],["Alfarezky Widya Hartanto","Kelas 3A Al Aliim"],["Aiko Arsyila Akselia Candra","Kelas 3B Al Hafizh"],["Anella Setya Indria Jeany","Kelas 3C Ar Rasyiid"],["Anindya Zhahira Ahmad","Kelas 3A Al Aliim"],["Aqila Ega Naura","Kelas 3B Al Hafizh"],["Aqilla Fariza Mufia","Kelas 3C Ar Rasyiid"],["Annasya Meila Hermawan","Kelas 3A Al Aliim"],["Bondan Ethes Mahira","Kelas 3B Al Hafizh"],["Azalea Naura Salsabila","Kelas 3C Ar Rasyiid"],["Arsyta Vionesha","Kelas 3A Al Aliim"],["Claudya Natasha Putri","Kelas 3B Al Hafizh"],["Bagus Hendratno","Kelas 3C Ar Rasyiid"],["Chelmira Noya Almakhzumi","Kelas 3A Al Aliim"],["Dzaka Rasyad Al Fayyadh","Kelas 3B Al Hafizh"],["Eldric Arzanka Al Fikhri","Kelas 3C Ar Rasyiid"],["Davano Putra Prasetyo","Kelas 3A Al Aliim"],["Gentara Jan Diandra","Kelas 3B Al Hafizh"],["Freedella Afra Ahmadi","Kelas 3C Ar Rasyiid"],["Gema Nalikaning Arundaya","Kelas 3A Al Aliim"],["Ghania Aurell Maulidina","Kelas 3B Al Hafizh"],["Ibrahim Abqary Faiz","Kelas 3C Ar Rasyiid"],["Ghina Althafunisa","Kelas 3A Al Aliim"],["Gilang Kresna Mahaeswara","Kelas 3B Al Hafizh"],["Keenan Latief Pratama","Kelas 3C Ar Rasyiid"],["Listuaji Banyu Krisnarendra","Kelas 3A Al Aliim"],["Kenzie Putra Aliando","Kelas 3B Al Hafizh"],["Maulana Mishbakhur Ridlo Al-Arief","Kelas 3C Ar Rasyiid"],["Muhammad Fata Rabbani","Kelas 3A Al Aliim"],["Khaira Nadeeva Almaira","Kelas 3B Al Hafizh"],["Mazaya Ghaisani Morella Prasetya","Kelas 3C Ar Rasyiid"],["Kinnanthi Maharani Putri A","Kelas 3B Al Hafizh"],["Mutia Arifa Rahma","Kelas 3C Ar Rasyiid"],["Muzhaffar Adam Hazim","Kelas 3A Al Aliim"],["Muhammad Narendra Jayawardhana","Kelas 3B Al Hafizh"],["Nararya Aufhar Sangramawijaya","Kelas 3C Ar Rasyiid"],["Nayaka Elok Prasetyo","Kelas 3A Al Aliim"],["Pranaja Alsya Zani A","Kelas 3B Al Hafizh"],["Rafkadyan Arshaka Rasyid","Kelas 3C Ar Rasyiid"],["Ranu Panggalih Jagatru","Kelas 3A Al Aliim"],["Thalita Khumaira Aryawan","Kelas 3C Ar Rasyiid"],["Razqa Syathir Pramono","Kelas 3A Al Aliim"],["Sahla Lubna Farasya","Kelas 3A Al Aliim"],["Sultan Ainul Yaqin Alfikri","Kelas 3A Al Aliim"],["Utsman Abdul Lathif","Kelas 3A Al Aliim"],["Vidar Baihaqi Kurniansyah","Kelas 3A Al Aliim"],["Wishaka Dirgantara Pranadipa","Kelas 3A Al Aliim"],["Zaskia Almira Shanum","Kelas 3A Al Aliim"],["Abhimananta Al Fatih","Kelas 4A Al Amiin"],["Alesha Almahyra Putri Farisa","Kelas 4B Al Waasi’"],["Air Zhafran El Langit","Kelas 4A Al Amiin"],["Alfathar Nathanazell Kurniawan","Kelas 4B Al Waasi’"],["Airlangga Putra Wijaya","Kelas 4A Al Amiin"],["Andara Inas Farzana Ardiyanto","Kelas 4B Al Waasi’"],["Alea Bellvania Zahra","Kelas 4A Al Amiin"],["Anindita Keisha Syakira","Kelas 4B Al Waasi’"],["Arsya Virendra Rony Pratama","Kelas 4A Al Amiin"],["Arsyila Kanaya Putri Danendra","Kelas 4B Al Waasi’"],["Arsyila Syaqueena Ismail","Kelas 4A Al Amiin"],["Ayra Anindita Septiani","Kelas 4B Al Waasi’"],["Aruna Hayu Sitoresmi","Kelas 4A Al Amiin"],["Dinda Kirana","Kelas 4B Al Waasi’"],["Avianyta Locita Astagina","Kelas 4A Al Amiin"],["Dirga Yudha Nurmantyo","Kelas 4B Al Waasi’"],["Ayash Raqila Fardan","Kelas 4A Al Amiin"],["Ditama Sevenda","Kelas 4B Al Waasi’"],["Azka Ahsan Fathurrahman","Kelas 4A Al Amiin"],["Gavin Fattah Riga Buana","Kelas 4B Al Waasi’"],["Chiello Adivyan Hafuzy","Kelas 4A Al Amiin"],["Haffizha Kirana","Kelas 4B Al Waasi’"],["Fathan Al Fattah Fauzy Rasjid","Kelas 4A Al Amiin"],["Hasna Alfa Kemala","Kelas 4B Al Waasi’"],["Gavin Athariz","Kelas 4A Al Amiin"],["Kamila Riskita Sulistyandani","Kelas 4B Al Waasi’"],["Khaira Dhia Syarafana","Kelas 4A Al Amiin"],["Maghfira Shabrina Mumtaz","Kelas 4B Al Waasi’"],["Lintang Kirana Roosprobosari","Kelas 4A Al Amiin"],["Muhammad Argo Herdian","Kelas 4B Al Waasi’"],["Maryam Safira Irawan","Kelas 4A Al Amiin"],["Muhammad Navy Al Arfa","Kelas 4B Al Waasi’"],["Muhammad Shuan Qorizio","Kelas 4A Al Amiin"],["Muhammad Zhafran Al Ghifari","Kelas 4B Al Waasi’"],["Octaviani Aqeela","Kelas 4A Al Amiin"],["Naufal Firzha Alfiansyah","Kelas 4B Al Waasi’"],["Reynand Azfar Nugroho","Kelas 4A Al Amiin"],["Nayla Chairunnisa Hapsari","Kelas 4B Al Waasi’"],["Rizky Akbar","Kelas 4A Al Amiin"],["Rafael Kenzie Putra","Kelas 4B Al Waasi’"],["Samudra Arsa Pratama","Kelas 4A Al Amiin"],["Rafasya Kriswindana","Kelas 4B Al Waasi’"],["Sultan Muhammad Yusuf","Kelas 4A Al Amiin"],["Rafay Utsman Halim","Kelas 4B Al Waasi’"],["Aditya Zharif Arkan","Kelas 5 Al Kariim"],["Ahmad Alfian Arsyad","Kelas 6 Al Fattah"],["Adna Zea Almahyra","Kelas 5 Al Kariim"],["Aisha Kanaka Hariandini","Kelas 6 Al Fattah"],["Aisyah Ghaida Tsurayya","Kelas 5 Al Kariim"],["Anggito Ahmad Hafidzin","Kelas 6 Al Fattah"],["Ashfa Sinar Dzikri An Nashir","Kelas 5 Al Kariim"],["Aulia Syafara Yusnaputri","Kelas 6 Al Fattah"],["Az-Zahra Dima Cahya Dewi","Kelas 5 Al Kariim"],["Azzam Althaf Faeyza","Kelas 6 Al Fattah"],["Haidar Agra Rizqi","Kelas 5 Al Kariim"],["Dhega Mahardhika Hermawan","Kelas 6 Al Fattah"],["Idris Suseno Putra","Kelas 5 Al Kariim"],["Fahri Nugroho","Kelas 6 Al Fattah"],["Kamea Afsheen Mayasa","Kelas 5 Al Kariim"],["Fania Raudati","Kelas 6 Al Fattah"],["Latifa Athaya Queen","Kelas 5 Al Kariim"],["Fathan Kamil","Kelas 6 Al Fattah"],["Muhammad Bagus Wuragil","Kelas 5 Al Kariim"],["Galendra Althario Radeva","Kelas 6 Al Fattah"],["Muhammad Hafizh Ahnaf P","Kelas 5 Al Kariim"],["Hideo Pradipta Alfatih","Kelas 6 Al Fattah"],["Nafisa Nuria Adzka","Kelas 5 Al Kariim"],["Husain Athallah Musyaffa","Kelas 6 Al Fattah"],["Najwa Rahma Alfilla","Kelas 5 Al Kariim"],["Ivandher Elang Prabangkoro","Kelas 6 Al Fattah"],["Qinanty Hikari Azzahra","Kelas 5 Al Kariim"],["Kaisa Adni Al Ayari","Kelas 6 Al Fattah"],["Rifqiady Aghazka","Kelas 5 Al Kariim"],["Khalif Andhitya","Kelas 6 Al Fattah"],["Syailendra Maheswara Putra R.","Kelas 5 Al Kariim"],["Muhammad Gibran Naufalih","Kelas 6 Al Fattah"],["Yuan Sebastian","Kelas 5 Al Kariim"],["Muhammad Hilmi Nur Al Fatih","Kelas 6 Al Fattah"],["Muhammad Rifai Suharto","Kelas 6 Al Fattah"],["Raisya Bilqis Nuriasya","Kelas 6 Al Fattah"],["Syakila Aulia Putri Wicaksono","Kelas 6 Al Fattah"]];
-    // Murid bertanda merah di file Pembagian Siswa: tidak dihitung sebagai anggota
-    const SISWA_TIDAK_DIHITUNG = ["Haikal Zavier Pradefa", "Muhammad Haafizh Sagara", "Clarissa Adeeva", "Muhammad Rafisqy Khailas"];
-    const STUDENTS_VERSION = '2026-docx-2';
-    function mergeStudentsDocx(list) {
-      // Lengkapi daftar murid dari file Pembagian Siswa; murid yang sudah ada (nama sama) tidak diubah
-      const nk = n => String(n).toLowerCase().replace(/\s+/g, ' ').trim();
-      // Buang murid bertanda merah (tidak dihitung), kecuali sudah punya riwayat pinjam/kunjungan
-      const merah = new Set(SISWA_TIDAK_DIHITUNG.map(nk));
-      const dipakai = new Set();
-      ['makarima_loans', 'makarima_visits'].forEach(k => { try { (JSON.parse(localStorage.getItem(k)) || []).forEach(x => dipakai.add(x.studentId)); } catch (e) {} });
-      list = list.filter(s => !merah.has(nk(s.nama)) || dipakai.has(s.id));
-      const have = new Set(list.map(s => nk(s.nama)));
-      let nid = list.reduce((m, s) => Math.max(m, Number(s.id) || 0), 0) + 1;
-      const add = [];
-      SISWA_DOCX.forEach(r => { if (!have.has(nk(r[0]))) { add.push({ id: nid++, nama: r[0], kelas: r[1] }); have.add(nk(r[0])); } });
-      return list.concat(add);
-    }
-    let students = loadJSON('makarima_students', initialStudents);
-    if (localStorage.getItem('makarima_students_version') !== STUDENTS_VERSION) {
-      students = mergeStudentsDocx(students);
-      localStorage.setItem('makarima_students', JSON.stringify(students));
-      localStorage.setItem('makarima_students_version', STUDENTS_VERSION);
-    }
-    loans = loadJSON('makarima_loans', loans);
-    visits = loadJSON('makarima_visits', visits);
-    // Stok tersedia selalu dihitung dari transaksi yang masih aktif (sinkron otomatis)
-    function recalcAvailability() {
-      refreshLoanStatuses();
-      const out = {};
-      loans.forEach(l => { if (l.status !== 'Dikembalikan') out[l.bookId] = (out[l.bookId] || 0) + 1; });
-      books.forEach(b => { b.tersedia = Math.max(0, (b.stok || 1) - (out[b.id] || 0)); });
-    }
-    recalcAvailability();
+    let books = JSON.parse(localStorage.getItem('makarima_books')) || initialBooks;
+    let students = JSON.parse(localStorage.getItem('makarima_students')) || initialStudents;
     let categoryChartInstance = null;
 
     // PAGINATION STATE FOR KATALOG BUKU
@@ -2006,7 +1878,6 @@
       localStorage.setItem('makarima_books', JSON.stringify(books));
       localStorage.setItem('makarima_students', JSON.stringify(students));
       localStorage.setItem('makarima_visits', JSON.stringify(visits));
-      localStorage.setItem('makarima_loans', JSON.stringify(loans));
     }
 
     function showToast(msg) {
@@ -2261,7 +2132,7 @@
       });
     }
 
-    function renderSirkulasiLama() {
+    function renderSirkulasi() {
       const tbody = document.getElementById('tableSirkulasiBody');
       tbody.innerHTML = '';
 
@@ -2598,7 +2469,6 @@
       if(!loan) return;
 
       loan.status = "Dikembalikan";
-      loan.tglDikembalikan = todayStr();
 
       const bk = books.find(b => b.id === loan.bookId);
       if(bk) bk.tersedia += 1;
@@ -2646,285 +2516,32 @@
       }
     }
 
-    /* ===== Kunjungan: edit presensi + cari siswa saat input ===== */
-    let _editVisitPending = false;
-    function setKunjunganMode(editId) {
-      document.getElementById('kunjunganEditId').value = editId || '';
-      document.getElementById('kunjunganModalTitle').innerHTML = editId ? '<i class="fa-solid fa-pen"></i> Edit Presensi Kunjungan' : '<i class="fa-solid fa-user-check"></i> Presensi Kunjungan Siswa';
-      document.getElementById('kunjunganSubmitBtn').innerText = editId ? 'Simpan Perubahan' : 'Simpan Presensi';
-    }
-    const _openModalAsli = openModal;
-    openModal = function (id) {
-      if (id === 'modalKunjungan' && !_editVisitPending) {
-        setKunjunganMode('');
-        _openModalAsli(id);
-        document.getElementById('kunjunganCari').value = '';
-        document.getElementById('kunjunganTgl').value = todayStr();
-        document.getElementById('kunjunganKeperluan').selectedIndex = 0;
-        return;
-      }
-      _editVisitPending = false;
-      _openModalAsli(id);
-    };
-    function filterKunjunganSiswa() {
-      const q = document.getElementById('kunjunganCari').value.toLowerCase().trim();
-      const sel = document.getElementById('kunjunganSiswaId'), cur = sel.value;
-      const list = students.filter(s => !q || (s.nama + ' ' + s.kelas).toLowerCase().includes(q));
-      sel.innerHTML = list.map(s => `<option value="${s.id}">${escHtml(s.nama)} (${escHtml(s.kelas)})</option>`).join('') || '<option value="">Siswa tidak ditemukan</option>';
-      if (list.some(s => String(s.id) === cur)) sel.value = cur;
-    }
-    function bukaModalEditKunjungan(id) {
-      const v = visits.find(x => x.id === id); if (!v) return;
-      _editVisitPending = true;
-      openModal('modalKunjungan');
-      setKunjunganMode(id);
-      document.getElementById('kunjunganCari').value = '';
-      filterKunjunganSiswa();
-      const sel = document.getElementById('kunjunganSiswaId');
-      if (!students.some(s => s.id === v.studentId)) sel.insertAdjacentHTML('afterbegin', `<option value="${v.studentId}">${escHtml(v.studentName)} (${escHtml(v.kelas)})</option>`);
-      sel.value = v.studentId;
-      document.getElementById('kunjunganTgl').value = v.tanggal;
-      const kep = document.getElementById('kunjunganKeperluan');
-      if (![...kep.options].some(o => o.value === v.keperluan)) kep.insertAdjacentHTML('beforeend', `<option value="${escHtml(v.keperluan)}">${escHtml(v.keperluan)}</option>`);
-      kep.value = v.keperluan;
-    }
-    const _tambahKunjunganAsli = handleTambahKunjungan;
-    handleTambahKunjungan = function (e) {
-      const editId = document.getElementById('kunjunganEditId').value;
-      if (!editId) return _tambahKunjunganAsli(e);
-      e.preventDefault();
-      const v = visits.find(x => String(x.id) === String(editId)); if (!v) { closeModal('modalKunjungan'); return; }
-      const sid = parseInt(document.getElementById('kunjunganSiswaId').value);
-      const st = students.find(s => s.id === sid);
-      if (st) { v.studentId = st.id; v.studentName = st.nama; v.kelas = st.kelas; }
-      v.tanggal = document.getElementById('kunjunganTgl').value;
-      v.keperluan = document.getElementById('kunjunganKeperluan').value;
-      saveData(); renderKunjungan(); renderDashboard(); closeModal('modalKunjungan'); setKunjunganMode('');
-      showToast('Presensi kunjungan berhasil diperbarui!');
-    };
-    const _renderKunjunganAsli = renderKunjungan;
-    renderKunjungan = function () {
-      _renderKunjunganAsli();
-      document.querySelectorAll('#tableKunjunganBody .btn-action.delete').forEach(b => {
-        const m = (b.getAttribute('onclick') || '').match(/hapusKunjungan\((\d+)\)/); if (!m) return;
-        const btn = document.createElement('button');
-        btn.className = 'btn-action'; btn.title = 'Edit Presensi'; btn.setAttribute('onclick', `bukaModalEditKunjungan(${m[1]})`);
-        btn.innerHTML = '<i class="fa-solid fa-pen"></i>'; b.parentNode.insertBefore(btn, b);
-      });
-    };
-
-    /* ================= UPGRADE ================= */
-    function todayStr() { const d = new Date(); d.setMinutes(d.getMinutes() - d.getTimezoneOffset()); return d.toISOString().slice(0, 10); }
-    function escHtml(s) { return String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])); }
-    function rupiah(n) { return 'Rp ' + Number(n).toLocaleString('id-ID'); }
-    function refreshLoanStatuses() { loans.forEach(l => { if (l.status !== 'Dikembalikan') l.status = l.tglKembali < todayStr() ? 'Terlambat' : 'Dipinjam'; }); }
-
-    /* Denda & perpanjangan */
-    function getDenda() { const v = localStorage.getItem('makarima_denda'); return v === null ? 1000 : Number(v); }
-    function setDenda() {
-      const v = prompt('Denda keterlambatan per hari (Rp):', getDenda());
-      if (v === null) return;
-      const n = parseInt(v);
-      if (isNaN(n) || n < 0) { alert('Nilai tidak valid.'); return; }
-      localStorage.setItem('makarima_denda', n); renderSirkulasi(); renderDashboard(); showToast('Denda diatur: ' + rupiah(n) + ' / hari');
-    }
-    function lateDays(l) {
-      if (l.status === 'Dikembalikan' && !l.tglDikembalikan) return 0;
-      const end = l.tglDikembalikan || todayStr();
-      return Math.max(0, Math.round((new Date(end) - new Date(l.tglKembali)) / 864e5));
-    }
-    function lateInfo(l) { const d = lateDays(l); return d > 0 ? `<span class="late-info">${d} hari &middot; ${rupiah(d * getDenda())}</span>` : ''; }
-    function perpanjangPinjam(id) {
-      const l = loans.find(x => x.id === id); if (!l) return;
-      const v = prompt('Perpanjang berapa hari?', 7); if (v === null) return;
-      const n = parseInt(v); if (isNaN(n) || n < 1) { alert('Jumlah hari tidak valid.'); return; }
-      const d = new Date(l.tglKembali + 'T00:00:00'); d.setDate(d.getDate() + n); d.setMinutes(d.getMinutes() - d.getTimezoneOffset());
-      l.tglKembali = d.toISOString().slice(0, 10);
-      saveData(); renderSirkulasi(); renderDashboard(); showToast('Jatuh tempo diperpanjang ' + n + ' hari');
-    }
-
-    /* Sirkulasi: pencarian + filter status + denda + perpanjang */
-    function renderSirkulasi() {
-      refreshLoanStatuses();
-      const tbody = document.getElementById('tableSirkulasiBody');
-      const q = (document.getElementById('searchSirkulasi').value || '').toLowerCase();
-      const st = document.getElementById('filterStatusSirkulasi').value;
-      const list = loans.filter(l => (!st || l.status === st) && (!q || (l.studentName + ' ' + l.bookTitle + ' ' + l.id).toLowerCase().includes(q)));
-      if (!list.length) { tbody.innerHTML = '<tr><td colspan="8" style="text-align:center; color:var(--text-muted); padding:20px;">Belum ada transaksi yang cocok.</td></tr>'; return; }
-      tbody.innerHTML = list.map(l => {
-        const badgeClass = l.status === 'Dipinjam' ? 'badge-warning' : (l.status === 'Terlambat' ? 'badge-danger' : 'badge-success');
-        const actionBtn = l.status !== 'Dikembalikan'
-          ? `<button class="quick-btn" style="padding: 4px 10px; font-size: 11px;" onclick="kembalikanBuku('${l.id}')"><i class="fa-solid fa-rotate-left"></i> Kembalikan</button> <button class="quick-btn" title="Perpanjang" style="padding: 4px 10px; font-size: 11px; background:var(--accent-green);" onclick="perpanjangPinjam('${l.id}')"><i class="fa-solid fa-calendar-plus"></i></button>`
-          : `<span style="color:var(--text-muted); font-size:12px;"><i class="fa-solid fa-check"></i> Selesai</span>`;
-        return `<tr>
-          <td><code>${escHtml(l.id)}</code></td>
-          <td style="font-weight:700;">${escHtml(l.studentName)}</td>
-          <td><span class="badge badge-class">${escHtml(l.kelas)}</span></td>
-          <td>${escHtml(l.bookTitle)}</td>
-          <td>${l.tglPinjam}</td>
-          <td>${l.tglKembali}</td>
-          <td><span class="badge ${badgeClass}">${l.status}</span>${lateInfo(l)}</td>
-          <td style="text-align: right;">${actionBtn}</td>
-        </tr>`;
-      }).join('');
-    }
-
-    /* Dashboard: panel tambahan + animasi angka */
-    const _renderDashboardAsli = renderDashboard;
-    renderDashboard = function () { refreshLoanStatuses(); _renderDashboardAsli(); renderDashExtras(); animateStats(); };
-    function renderDashExtras() {
-      const c = {}; loans.forEach(l => { c[l.bookId] = (c[l.bookId] || 0) + 1; });
-      const top = Object.entries(c).sort((a, b) => b[1] - a[1]).slice(0, 5);
-      document.getElementById('topBooks').innerHTML = top.length ? top.map((x, i) => {
-        const b = books.find(k => String(k.id) === x[0]); const t = b ? b.judul : ((loans.find(l => String(l.bookId) === x[0]) || {}).bookTitle || '-');
-        return `<div class="rank-row"><span class="no">${i + 1}</span><div style="flex:1;min-width:0;"><b class="rank-t">${escHtml(t)}</b><div class="rank-bar"><i style="width:${x[1] / top[0][1] * 100}%"></i></div></div><small>${x[1]}x</small></div>`;
-      }).join('') : '<p style="color:var(--text-muted);font-size:13px;">Belum ada data peminjaman.</p>';
-      const late = loans.filter(l => l.status === 'Terlambat').sort((a, b) => a.tglKembali.localeCompare(b.tglKembali)).slice(0, 6);
-      document.getElementById('attnList').innerHTML = late.length ? late.map(l =>
-        `<div class="rank-row"><span class="no red"><i class="fa-solid fa-clock"></i></span><div style="flex:1;min-width:0;"><b class="rank-t">${escHtml(l.studentName)}</b><span class="rank-sub">${escHtml(l.bookTitle)}</span></div><small style="color:var(--accent-red);font-weight:700;white-space:nowrap;">${lateDays(l)} hr &middot; ${rupiah(lateDays(l) * getDenda())}</small></div>`).join('')
-        : '<p style="color:var(--accent-green);font-size:13px;font-weight:600;"><i class="fa-solid fa-circle-check"></i> Tidak ada keterlambatan.</p>';
-    }
-    function animateStats() {
-      ['statTotalJudul', 'statTotalEksemplar', 'statTotalMurid', 'statTotalKunjunganBulanIni', 'statTotalDipinjam'].forEach(id => {
-        const el = document.getElementById(id), n = parseInt(el.innerText) || 0, from = +el.dataset.v || 0; el.dataset.v = n;
-        if (from === n) return;
-        const t0 = performance.now();
-        (function f(t) { const p = Math.min(1, (t - t0) / 700); el.innerText = Math.round(from + (n - from) * (1 - Math.pow(1 - p, 3))); if (p < 1) requestAnimationFrame(f); })(t0);
-      });
-    }
-
-    /* Katalog: urutkan kolom */
-    let sortKat = { k: null, d: 1 };
-    const _filterKatalogAsli = filterAndRenderKatalog;
-    filterAndRenderKatalog = function () {
-      _filterKatalogAsli();
-      if (sortKat.k) { filteredBooks.sort((a, b) => String(a[sortKat.k]).localeCompare(String(b[sortKat.k]), 'id', { numeric: true }) * sortKat.d); renderKatalogTable(); }
-    };
-    function sortKatalog(k) {
-      sortKat.d = sortKat.k === k ? -sortKat.d : 1; sortKat.k = k;
-      filterAndRenderKatalog();
-      document.querySelectorAll('th.sortable').forEach(th => { const on = th.getAttribute('onclick').includes("'" + k + "'"); th.querySelector('i').className = 'fa-solid ' + (on ? (sortKat.d === 1 ? 'fa-sort-up' : 'fa-sort-down') : 'fa-sort'); });
-    }
-
-    /* Ekspor CSV (aman untuk koma/kutip, kompatibel Excel) */
-    function csvQ(v) { return '"' + String(v ?? '').replace(/"/g, '""') + '"'; }
-    function downloadFile(name, text, type) { const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([text], { type })); a.download = name; document.body.appendChild(a); a.click(); a.remove(); }
     function exportCSV(type) {
-      let head, rows;
-      if (type === 'buku') { head = ['Kode', 'Judul', 'Kategori', 'Penerbit', 'Tahun', 'Stok Total', 'Tersedia']; rows = books.map(b => [b.kode, b.judul, b.kategori, b.penerbit, b.tahun, b.stok, b.tersedia]); }
-      else if (type === 'murid') { head = ['Nama', 'Kelas', 'Status Pinjam']; rows = students.map(s => [s.nama, s.kelas, loans.some(l => l.studentId === s.id && l.status !== 'Dikembalikan') ? 'Sedang Meminjam' : 'Bersih']); }
-      else { head = ['ID', 'Nama Siswa', 'Kelas', 'Judul Buku', 'Tgl Pinjam', 'Jatuh Tempo', 'Tgl Kembali', 'Status', 'Hari Terlambat', 'Denda']; refreshLoanStatuses(); rows = loans.map(l => [l.id, l.studentName, l.kelas, l.bookTitle, l.tglPinjam, l.tglKembali, l.tglDikembalikan || '', l.status, lateDays(l), lateDays(l) * getDenda()]); }
-      downloadFile(`Data_Pustaka_Syamilah_${type}.csv`, '\ufeff' + [head, ...rows].map(r => r.map(csvQ).join(',')).join('\r\n'), 'text/csv;charset=utf-8');
-      showToast('File ' + type + ' berhasil diekspor');
+      let csvContent = "data:text/csv;charset=utf-8,";
+      if(type === 'buku') {
+        csvContent += "Kode,Judul,Kategori,Penerbit,Tahun,Stok Total,Tersedia\n";
+        books.forEach(b => {
+          csvContent += `"${b.kode}","${b.judul}","${b.kategori}","${b.penerbit}","${b.tahun}",${b.stok},${b.tersedia}\n`;
+        });
+      }
+      const encodedUri = encodeURI(csvContent);
+      const link = document.createElement("a");
+      link.setAttribute("href", encodedUri);
+      link.setAttribute("download", `Data_Pustaka_Syamilah_${type}.csv`);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
     }
 
-    /* Import CSV / Excel sungguhan */
     function processImport() {
       const file = document.getElementById('fileInput').files[0];
-      if (!file) { alert("Pilih file CSV / Excel terlebih dahulu!"); return; }
-      if (typeof XLSX === 'undefined') { alert("Pustaka pembaca Excel belum termuat. Periksa koneksi internet lalu coba lagi."); return; }
-      const type = document.getElementById('importType').value, rd = new FileReader();
-      rd.onload = e => {
-        try {
-          const wb = XLSX.read(e.target.result, { type: 'array' });
-          let rows = [];
-          wb.SheetNames.some(n => {
-            const arr = XLSX.utils.sheet_to_json(wb.Sheets[n], { header: 1, defval: '' });
-            const hi = arr.findIndex(r => r.some(c => /judul|nama|kode|kelas/i.test(String(c))) && r.filter(c => String(c).trim()).length >= 2);
-            if (hi < 0) return false;
-            const head = arr[hi].map(c => String(c).trim().toLowerCase());
-            rows = arr.slice(hi + 1).filter(r => r.some(c => String(c).trim())).map(r => { const o = {}; head.forEach((h, i) => { if (h) o[h] = String(r[i] ?? '').trim(); }); return o; });
-            return rows.length > 0;
-          });
-          const g = (o, keys) => { for (const k of keys) { if (o[k]) return o[k]; } return ''; };
-          let add = 0, skip = 0;
-          if (type === 'buku') {
-            let nid = books.reduce((m, b) => Math.max(m, Number(b.id) || 0), 0) + 1;
-            const have = new Set(books.map(b => String(b.kode).toLowerCase()));
-            rows.forEach(r => {
-              const kode = g(r, ['kode label', 'kode', 'code']), judul = g(r, ['judul buku', 'judul', 'title']);
-              if (!judul || (kode && have.has(kode.toLowerCase()))) { skip++; return; }
-              const stok = parseInt(g(r, ['jumlah buku', 'stok total', 'stok', 'jumlah'])) || 1;
-              books.push({ id: nid++, kode: kode || `KB/${books.length + 1}`, judul, penerbit: g(r, ['penerbit', 'publisher']) || '-', tahun: g(r, ['tahun terbit', 'tahun', 'year']) || '-', kategori: g(r, ['kategori', 'category']) || 'Umum', stok, tersedia: stok, kondisi: 'Baik' });
-              if (kode) have.add(kode.toLowerCase()); add++;
-            });
-          } else {
-            let nid = students.reduce((m, s) => Math.max(m, Number(s.id) || 0), 0) + 1;
-            const have = new Set(students.map(s => (s.nama + '|' + s.kelas).toLowerCase()));
-            rows.forEach(r => {
-              const nama = g(r, ['nama lengkap', 'nama siswa', 'nama', 'name']), kelas = g(r, ['kelas', 'class']);
-              if (!nama || !kelas || have.has((nama + '|' + kelas).toLowerCase())) { skip++; return; }
-              students.push({ id: nid++, nama, kelas }); have.add((nama + '|' + kelas).toLowerCase()); add++;
-            });
-          }
-          recalcAvailability(); saveData(); initFilters(); updateClassDatalists(); filterAndRenderKatalog(); renderMurid(); renderDashboard();
-          closeModal('modalImport'); document.getElementById('fileInput').value = '';
-          showToast(`Impor selesai: ${add} data ditambahkan, ${skip} dilewati`);
-        } catch (err) { alert("File tidak dapat dibaca. Pastikan format .csv / .xlsx dan judul kolom sesuai."); }
-      };
-      rd.readAsArrayBuffer(file);
-    }
-
-    /* Backup & pulihkan */
-    function backupData() { downloadFile('backup_pustaka_syamilah_' + todayStr() + '.json', JSON.stringify({ books, students, loans, visits, denda: getDenda() }), 'application/json'); showToast('Backup berhasil diunduh'); }
-    function restoreData(inp) {
-      const f = inp.files[0]; if (!f) return; const r = new FileReader();
-      r.onload = e => {
-        try {
-          const d = JSON.parse(e.target.result);
-          if (!Array.isArray(d.books) || !Array.isArray(d.students) || !Array.isArray(d.loans)) throw 0;
-          if (!confirm('Ganti seluruh data saat ini dengan file backup ini?')) { inp.value = ''; return; }
-          books = d.books; students = d.students; loans = d.loans; visits = Array.isArray(d.visits) ? d.visits : [];
-          if (d.denda !== undefined) localStorage.setItem('makarima_denda', d.denda);
-          recalcAvailability(); saveData(); initFilters(); updateClassDatalists(); initKunjunganMonthFilter(); filterAndRenderKatalog(); renderMurid(); renderSirkulasi(); renderKunjungan(); renderDashboard();
-          showToast('Data berhasil dipulihkan');
-        } catch (x) { alert('File backup tidak valid.'); }
-        inp.value = '';
-      };
-      r.readAsText(f);
-    }
-
-    /* Cari Cepat (Ctrl/Cmd + K) */
-    let cmdSel = 0, CMDI = [];
-    const CMDS = [['Dashboard', 'fa-chart-pie', () => switchTab('dashboard')], ['Katalog Buku', 'fa-book', () => switchTab('katalog')], ['Data Murid', 'fa-users', () => switchTab('murid')], ['Sirkulasi', 'fa-arrow-right-arrow-left', () => switchTab('sirkulasi')], ['Kunjungan Siswa', 'fa-clipboard-user', () => switchTab('kunjungan')], ['Catat Peminjaman', 'fa-plus', () => openModal('modalPinjam')], ['Input Buku Baru', 'fa-book-medical', () => openModal('modalInputBuku')], ['Input Siswa Baru', 'fa-user-plus', () => openModal('modalInputMurid')], ['Catat Kunjungan', 'fa-user-check', () => openModal('modalKunjungan')], ['Kunci Web', 'fa-lock', () => lockApp()]];
-    function appUnlocked() { return document.getElementById('lockScreen').style.display === 'none'; }
-    function openCmd() { if (!appUnlocked()) return; openModal('modalCmd'); const i = document.getElementById('cmdInput'); i.value = ''; cmdSel = 0; cmdRender(); setTimeout(() => i.focus(), 50); }
-    function cmdRender() {
-      const q = document.getElementById('cmdInput').value.toLowerCase().trim();
-      let it = CMDS.filter(c => !q || c[0].toLowerCase().includes(q)).map(c => ({ t: c[0], i: c[1], s: 'Perintah', f: c[2] }));
-      if (q.length >= 2) {
-        books.filter(b => b.judul.toLowerCase().includes(q) || String(b.kode).toLowerCase().includes(q)).slice(0, 5).forEach(b => it.push({ t: b.judul, i: 'fa-book', s: b.kode + ' · sisa ' + b.tersedia, f: () => { switchTab('katalog'); document.getElementById('searchBuku').value = b.judul; filterAndRenderKatalog(); } }));
-        students.filter(s => s.nama.toLowerCase().includes(q)).slice(0, 5).forEach(s => it.push({ t: s.nama, i: 'fa-user-graduate', s: s.kelas, f: () => { switchTab('murid'); document.getElementById('searchMurid').value = s.nama; renderMurid(); } }));
+      if(!file) {
+        alert("Pilih file CSV terlebih dahulu!");
+        return;
       }
-      CMDI = it.slice(0, 10); cmdSel = Math.min(cmdSel, Math.max(0, CMDI.length - 1));
-      document.getElementById('cmdList').innerHTML = CMDI.map((x, i) => `<div class="cmd-item${i === cmdSel ? ' sel' : ''}" onclick="cmdRun(${i})"><i class="fa-solid ${x.i}"></i><span>${escHtml(x.t)}</span><small>${escHtml(x.s)}</small></div>`).join('') || '<p style="text-align:center;color:var(--text-muted);padding:16px;">Tidak ditemukan</p>';
+      showToast(`File ${file.name} berhasil disinkronkan!`);
+      closeModal('modalImport');
     }
-    function cmdRun(i) { if (!CMDI[i]) return; closeModal('modalCmd'); CMDI[i].f(); }
-    document.getElementById('cmdInput').addEventListener('keydown', e => {
-      if (e.key === 'ArrowDown') { e.preventDefault(); cmdSel = Math.min(CMDI.length - 1, cmdSel + 1); cmdRender(); }
-      else if (e.key === 'ArrowUp') { e.preventDefault(); cmdSel = Math.max(0, cmdSel - 1); cmdRender(); }
-      else if (e.key === 'Enter') cmdRun(cmdSel);
-    });
-    document.addEventListener('keydown', e => {
-      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') { e.preventDefault(); openCmd(); }
-      if (e.key === 'Escape') document.querySelectorAll('.modal-overlay.active').forEach(m => m.classList.remove('active'));
-    });
-
-    /* Keamanan: batas percobaan password & kunci otomatis */
-    const _checkPasswordAsli = checkPassword;
-    const _lockErrEl = document.getElementById('lockError'), _lockErrHTML = _lockErrEl.innerHTML;
-    let _fails = 0, _lockUntil = 0, _idleT;
-    checkPassword = function () {
-      const sisa = Math.ceil((_lockUntil - Date.now()) / 1000);
-      if (sisa > 0) { _lockErrEl.style.display = 'block'; _lockErrEl.textContent = `Terlalu banyak percobaan. Coba lagi dalam ${sisa} detik.`; document.getElementById('inputPin').value = ''; return; }
-      _lockErrEl.innerHTML = _lockErrHTML;
-      _checkPasswordAsli();
-      if (sessionStorage.getItem('pustaka_auth') === 'true') { _fails = 0; idleReset(); }
-      else if (++_fails >= 5) { _fails = 0; _lockUntil = Date.now() + 30000; _lockErrEl.textContent = 'Terlalu banyak percobaan. Coba lagi dalam 30 detik.'; }
-    };
-    function idleReset() { clearTimeout(_idleT); if (appUnlocked()) _idleT = setTimeout(() => { if (appUnlocked()) lockApp(); }, 600000); }
-    ['click', 'keydown', 'touchstart', 'mousemove'].forEach(ev => document.addEventListener(ev, idleReset, { passive: true }));
-    idleReset();
   </script>
 </body>
 </html>
