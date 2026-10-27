@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Pustaka Syamilah - SD Islam Makarima</title>
+  
   <!-- Google Fonts & FontAwesome -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -24,6 +25,8 @@
       --accent-red-light: #FDF0F0;
       --accent-purple: #7B61FF;
       --accent-purple-light: #F0EDFF;
+      --accent-pink: #EC4899;
+      --accent-pink-light: #FCE7F3;
       --text-dark: #2D2A26;
       --text-muted: #7A756C;
       --border-cream: #E8E2D5;
@@ -130,9 +133,7 @@
       z-index: 99;
       display: none;
     }
-    .sidebar-overlay.active {
-      display: block;
-    }
+    .sidebar-overlay.active { display: block; }
 
     /* Sidebar Navigation */
     .sidebar {
@@ -333,14 +334,9 @@
       white-space: nowrap;
     }
 
-    .quick-btn.purple {
-      background-color: var(--accent-purple);
-    }
-
-    .quick-btn:hover {
-      background-color: var(--accent-warm-hover);
-      transform: translateY(-1px);
-    }
+    .quick-btn.purple { background-color: var(--accent-purple); }
+    .quick-btn.pink { background-color: var(--accent-pink); }
+    .quick-btn:hover { opacity: 0.9; transform: translateY(-1px); }
 
     .content-container {
       padding: 24px;
@@ -352,10 +348,7 @@
       display: none;
       animation: fadeIn 0.3s ease-in-out;
     }
-
-    .section-content.active {
-      display: block;
-    }
+    .section-content.active { display: block; }
 
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(6px); }
@@ -416,6 +409,7 @@
     .icon-red { background-color: var(--accent-red-light); color: var(--accent-red); }
     .icon-blue { background-color: #EBF3FA; color: #3B82F6; }
     .icon-purple { background-color: var(--accent-purple-light); color: var(--accent-purple); }
+    .icon-pink { background-color: var(--accent-pink-light); color: var(--accent-pink); }
 
     /* Tables & Cards */
     .card-panel {
@@ -451,7 +445,7 @@
       align-items: center;
       flex-wrap: wrap;
       width: 100%;
-      max-width: 650px;
+      max-width: 780px;
       justify-content: flex-end;
     }
 
@@ -529,9 +523,7 @@
       color: var(--text-dark);
     }
 
-    .custom-table tr:hover {
-      background-color: #FAF8F3;
-    }
+    .custom-table tr:hover { background-color: #FAF8F3; }
 
     /* Badges */
     .badge {
@@ -548,6 +540,7 @@
     .badge-warning { background-color: #FEF3D6; color: #B7791F; }
     .badge-danger { background-color: #FCE8E6; color: #C5221F; }
     .badge-purple { background-color: var(--accent-purple-light); color: var(--accent-purple); }
+    .badge-pink { background-color: var(--accent-pink-light); color: var(--accent-pink); }
 
     /* Action Buttons */
     .btn-action {
@@ -571,6 +564,11 @@
       background-color: var(--accent-red-light);
     }
 
+    .btn-action.print-label:hover {
+      color: var(--accent-pink);
+      background-color: var(--accent-pink-light);
+    }
+
     /* Modals */
     .modal-overlay {
       position: fixed;
@@ -587,9 +585,7 @@
       padding: 16px;
     }
 
-    .modal-overlay.active {
-      display: flex;
-    }
+    .modal-overlay.active { display: flex; }
 
     .modal-card {
       background: var(--bg-cream-card);
@@ -616,10 +612,7 @@
       align-items: center;
     }
 
-    .modal-header h4 {
-      font-size: 15px;
-      font-weight: 700;
-    }
+    .modal-header h4 { font-size: 15px; font-weight: 700; }
 
     .btn-close {
       background: none;
@@ -635,9 +628,7 @@
       overflow-y: auto;
     }
 
-    .form-group {
-      margin-bottom: 14px;
-    }
+    .form-group { margin-bottom: 14px; }
 
     .form-group label {
       display: block;
@@ -664,12 +655,6 @@
       background: #FFFFFF;
     }
 
-    .form-hint {
-      font-size: 11px;
-      color: var(--text-muted);
-      margin-top: 4px;
-    }
-
     .modal-footer {
       padding: 14px 20px;
       background: var(--bg-cream-light);
@@ -689,11 +674,48 @@
       cursor: pointer;
     }
 
-    .grid-2 {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+    /* Pagination UI */
+    .pagination-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 16px;
+      margin-top: 12px;
+      border-top: 1px solid var(--border-cream);
+      flex-wrap: wrap;
+      gap: 10px;
     }
+
+    .pagination-info { font-size: 12px; color: var(--text-muted); }
+
+    .pagination-controls { display: flex; gap: 6px; align-items: center; }
+
+    .page-btn {
+      background: var(--bg-cream-light);
+      border: 1px solid var(--border-cream);
+      padding: 6px 12px;
+      border-radius: var(--radius-md);
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-dark);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .page-btn:hover:not(:disabled) {
+      background: var(--accent-warm);
+      color: white;
+    }
+
+    .page-btn.active {
+      background: var(--accent-warm);
+      color: white;
+      border-color: var(--accent-warm);
+    }
+
+    .page-btn:disabled { opacity: 0.4; cursor: not-allowed; }
 
     /* Toast Notification */
     .toast {
@@ -716,98 +738,39 @@
       transition: all 0.3s ease;
     }
 
-    .toast.show {
-      transform: translateY(0);
-      opacity: 1;
-    }
+    .toast.show { transform: translateY(0); opacity: 1; }
 
-    /* Mobile & Responsive Adjustments */
+    /* Mobile Responsive */
     @media (max-width: 768px) {
-      .sidebar {
-        transform: translateX(-100%);
-        width: 260px;
-      }
-
-      .sidebar.open {
-        transform: translateX(0);
-        box-shadow: 4px 0 20px rgba(0,0,0,0.15);
-      }
-
-      .main-wrapper {
-        margin-left: 0;
-        width: 100%;
-      }
-
-      .btn-mobile-toggle {
-        display: flex;
-      }
-
-      .top-header {
-        padding: 12px 16px;
-      }
-
-      .admin-badge span {
-        display: none;
-      }
-
-      .content-container {
-        padding: 16px;
-      }
-
-      .metrics-grid {
-        grid-template-columns: 1fr 1fr;
-        gap: 10px;
-      }
-
-      .metric-card {
-        padding: 14px;
-      }
-
-      .metric-info .val {
-        font-size: 18px;
-      }
-
-      .metric-icon {
-        width: 36px;
-        height: 36px;
-        font-size: 15px;
-      }
-
-      .filter-tools {
-        justify-content: stretch;
-      }
-
-      .search-box {
-        width: 100%;
-      }
-
-      .grid-2 {
-        grid-template-columns: 1fr;
-      }
+      .sidebar { transform: translateX(-100%); width: 260px; }
+      .sidebar.open { transform: translateX(0); box-shadow: 4px 0 20px rgba(0,0,0,0.15); }
+      .main-wrapper { margin-left: 0; width: 100%; }
+      .btn-mobile-toggle { display: flex; }
+      .top-header { padding: 12px 16px; }
+      .admin-badge span { display: none; }
+      .content-container { padding: 16px; }
+      .metrics-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
+      .metric-card { padding: 14px; }
+      .metric-info .val { font-size: 18px; }
+      .metric-icon { width: 36px; height: 36px; font-size: 15px; }
+      .filter-tools { justify-content: stretch; }
+      .search-box { width: 100%; }
+      .grid-2 { grid-template-columns: 1fr; }
     }
 
-    /* Print styling */
     @media print {
-      .lock-screen-overlay, .sidebar, .top-header, .filter-tools, .btn-action, .quick-btn, .sidebar-overlay {
+      .lock-screen-overlay, .sidebar, .top-header, .filter-tools, .btn-action, .quick-btn, .sidebar-overlay, .pagination-container {
         display: none !important;
       }
-      .main-wrapper {
-        margin-left: 0 !important;
-        width: 100% !important;
-      }
-      .content-container {
-        padding: 0 !important;
-      }
-      .card-panel {
-        box-shadow: none !important;
-        border: none !important;
-      }
+      .main-wrapper { margin-left: 0 !important; width: 100% !important; }
+      .content-container { padding: 0 !important; }
+      .card-panel { box-shadow: none !important; border: none !important; }
     }
   </style>
 </head>
 <body>
 
-  <!-- LOCK SCREEN OVERLAY (Password Protection) -->
+  <!-- LOCK SCREEN OVERLAY -->
   <div id="lockScreen" class="lock-screen-overlay">
     <div class="lock-card">
       <img src="logo makarima.webp" alt="Logo SD Islam Makarima" class="lock-logo" onerror="this.src='https://via.placeholder.com/64?text=SDIM'"/>
@@ -827,7 +790,6 @@
     </div>
   </div>
 
-  <!-- Backdrop overlay for mobile menu -->
   <div id="sidebarOverlay" class="sidebar-overlay" onclick="toggleMobileSidebar()"></div>
 
   <!-- Sidebar Nav -->
@@ -885,14 +847,13 @@
     </nav>
 
     <div class="sidebar-footer">
-      <p><strong>Pustaka Syamilah v3.0</strong></p>
+      <p><strong>Pustaka Syamilah v3.5</strong></p>
       <p style="margin-top: 2px;">SD Islam Makarima Kartasura</p>
     </div>
   </aside>
 
   <!-- Main Wrapper -->
   <main class="main-wrapper">
-    <!-- Header -->
     <header class="top-header">
       <div class="header-left">
         <button class="btn-mobile-toggle" onclick="toggleMobileSidebar()" aria-label="Toggle Menu">
@@ -917,7 +878,6 @@
       </div>
     </header>
 
-    <!-- Main Content Container -->
     <div class="content-container">
 
       <!-- DASHBOARD SECTION -->
@@ -930,6 +890,16 @@
             </div>
             <div class="metric-icon icon-gold">
               <i class="fa-solid fa-book"></i>
+            </div>
+          </div>
+
+          <div class="metric-card">
+            <div class="metric-info">
+              <h3>Total Eksemplar Buku</h3>
+              <div class="val" id="statTotalEksemplar">388</div>
+            </div>
+            <div class="metric-icon icon-pink">
+              <i class="fa-solid fa-layer-group"></i>
             </div>
           </div>
 
@@ -982,10 +952,16 @@
             <div class="filter-tools">
               <div class="search-box">
                 <i class="fa-solid fa-magnifying-glass"></i>
-                <input type="text" id="searchBuku" class="search-input" placeholder="Cari judul / penerbit / kode..." oninput="renderKatalog()"/>
+                <input type="text" id="searchBuku" class="search-input" placeholder="Cari judul / penerbit / kode..." oninput="filterAndRenderKatalog()"/>
               </div>
-              <select id="filterKategori" class="select-input" onchange="renderKatalog()">
-                <option value="">Semua Kategori</option>
+              <select id="filterKategori" class="select-input" onchange="filterAndRenderKatalog()">
+                <option value="">Semua Kategori (14)</option>
+              </select>
+              <select id="rowsPerPageSelect" class="select-input" onchange="changeRowsPerPage()">
+                <option value="10">10 per Hal</option>
+                <option value="25" selected>25 per Hal</option>
+                <option value="50">50 per Hal</option>
+                <option value="ALL">Semua Buku</option>
               </select>
               <button class="quick-btn" onclick="openModal('modalInputBuku')">
                 <i class="fa-solid fa-plus"></i> Tambah Buku
@@ -997,12 +973,12 @@
             <table class="custom-table">
               <thead>
                 <tr>
-                  <th>Kode</th>
+                  <th>Kode Label</th>
                   <th>Judul Buku</th>
                   <th>Kategori</th>
                   <th>Penerbit</th>
                   <th>Tahun</th>
-                  <th>Stok Available</th>
+                  <th>Stok / Available</th>
                   <th>Kondisi</th>
                   <th style="text-align: right;">Aksi</th>
                 </tr>
@@ -1011,6 +987,14 @@
                 <!-- Dynamic Content -->
               </tbody>
             </table>
+          </div>
+
+          <!-- Pagination UI -->
+          <div class="pagination-container">
+            <div class="pagination-info" id="katalogPaginationInfo">Menampilkan 0 dari 0 data</div>
+            <div class="pagination-controls" id="katalogPaginationControls">
+              <!-- Dynamic Pagination Buttons -->
+            </div>
           </div>
         </div>
       </section>
@@ -1085,9 +1069,8 @@
         </div>
       </section>
 
-      <!-- KUNJUNGAN SISWA SECTION (Fitur Baru) -->
+      <!-- KUNJUNGAN SISWA SECTION -->
       <section id="sec-kunjungan" class="section-content">
-        <!-- Metric Cards Kunjungan -->
         <div class="metrics-grid">
           <div class="metric-card">
             <div class="metric-info">
@@ -1188,6 +1171,32 @@
     </div>
   </main>
 
+  <!-- MODAL: CETAK LABEL PUNGGUNG BUKU (Fitur Baru) -->
+  <div id="modalPrintLabel" class="modal-overlay">
+    <div class="modal-card" style="max-width: 360px;">
+      <div class="modal-header">
+        <h4><i class="fa-solid fa-barcode"></i> Cetak Label Punggung Buku</h4>
+        <button class="btn-close" onclick="closeModal('modalPrintLabel')">&times;</button>
+      </div>
+      <div class="modal-body text-center">
+        <div style="border: 2px dashed var(--accent-warm); padding: 18px; border-radius: 16px; background: #FAF4E5; text-align: center;">
+          <p style="font-size: 10px; font-weight: 800; color: #7A612A; text-transform: uppercase; letter-spacing: 1px;">SD ISLAM MAKARIMA</p>
+          <div style="background: white; border: 1px solid var(--border-cream); margin: 8px 0; padding: 10px; border-radius: 10px;">
+            <p id="lblKode" style="font-size: 22px; font-weight: 800; color: var(--text-dark); font-family: monospace;">AI/001</p>
+            <p id="lblJudul" style="font-size: 12px; color: var(--text-muted); font-weight: 600; text-overflow: ellipsis; overflow: hidden; white-space: nowrap; margin-top: 2px;">Judul Buku</p>
+          </div>
+          <div style="font-size: 36px; color: #333; margin-top: 4px;">
+            <i class="fa-solid fa-barcode"></i>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn-secondary" onclick="closeModal('modalPrintLabel')">Batal</button>
+        <button type="button" class="quick-btn pink" onclick="window.print()"><i class="fa-solid fa-print"></i> Cetak Label Now</button>
+      </div>
+    </div>
+  </div>
+
   <!-- MODAL: INPUT BUKU BARU -->
   <div id="modalInputBuku" class="modal-overlay">
     <div class="modal-card">
@@ -1219,6 +1228,9 @@
                 <option value="Buku Guru"></option>
                 <option value="English Book"></option>
                 <option value="Monograf"></option>
+                <option value="Buku Panduan Sekolah"></option>
+                <option value="Buku Rujukan / Referensi"></option>
+                <option value="Majalah"></option>
               </datalist>
             </div>
           </div>
@@ -1271,9 +1283,7 @@
           <div class="form-group">
             <label>Kelas (Dapat Diketik Bebas)</label>
             <input type="text" id="inKelasSiswa" class="form-control" list="classList" required placeholder="Contoh: Kelas 1A, Kelas 2B Al Hakim, dll..."/>
-            <datalist id="classList">
-              <!-- Populated dynamically -->
-            </datalist>
+            <datalist id="classList"></datalist>
           </div>
         </div>
         <div class="modal-footer">
@@ -1301,9 +1311,7 @@
           <div class="form-group">
             <label>Kelas Siswa (Bisa Di-edit / Disesuaikan)</label>
             <input type="text" id="editKelasSiswa" class="form-control" list="classListEdit" required placeholder="Masukkan nama kelas baru atau tambahan..."/>
-            <datalist id="classListEdit">
-              <!-- Populated dynamically -->
-            </datalist>
+            <datalist id="classListEdit"></datalist>
           </div>
         </div>
         <div class="modal-footer">
@@ -1325,15 +1333,11 @@
         <div class="modal-body">
           <div class="form-group">
             <label>Pilih Siswa</label>
-            <select id="pinjamSiswaId" class="form-control" required>
-              <!-- Dynamic Options -->
-            </select>
+            <select id="pinjamSiswaId" class="form-control" required></select>
           </div>
           <div class="form-group">
             <label>Pilih Buku (Stok Tersedia)</label>
-            <select id="pinjamBukuId" class="form-control" required>
-              <!-- Dynamic Options -->
-            </select>
+            <select id="pinjamBukuId" class="form-control" required></select>
           </div>
           <div class="grid-2">
             <div class="form-group">
@@ -1354,7 +1358,7 @@
     </div>
   </div>
 
-  <!-- MODAL: CATAT KUNJUNGAN SISWA (Fitur Baru) -->
+  <!-- MODAL: CATAT KUNJUNGAN SISWA -->
   <div id="modalKunjungan" class="modal-overlay">
     <div class="modal-card">
       <div class="modal-header">
@@ -1365,9 +1369,7 @@
         <div class="modal-body">
           <div class="form-group">
             <label>Pilih Siswa</label>
-            <select id="kunjunganSiswaId" class="form-control" required>
-              <!-- Dynamic Student Options -->
-            </select>
+            <select id="kunjunganSiswaId" class="form-control" required></select>
           </div>
           <div class="form-group">
             <label>Tanggal Kunjungan</label>
@@ -1430,7 +1432,6 @@
 
   <!-- SCRIPTS & DATA LOGIC -->
   <script>
-    // ACCESS PASSWORD CONFIGURATION
     const APP_PASSWORD = "bismillah";
 
     function checkPassword() {
@@ -1461,50 +1462,352 @@
       showToast("Akses web telah dikunci.");
     }
 
-    // CATEGORY MAPPING REFERENCE (From Sheet 2: Kode Kategori)
-    const categoryRef = [
-      { name: "Agama Islam", code: "AI", target: 13 },
-      { name: "Siroh", code: "SR", target: 32 },
-      { name: "Cerita Anak Islami", code: "CAI", target: 74 },
-      { name: "Cerita Anak", code: "CA", target: 20 },
-      { name: "Sains", code: "SA", target: 34 },
-      { name: "English Book", code: "EB", target: 10 },
-      { name: "Buku Guru", code: "BG", target: 16 },
-      { name: "Buku Mapel", code: "BM", target: 128 },
-      { name: "Kamus Bergambar / Sains Anak", code: "KBS", target: 1 },
-      { name: "Kamus Bergambar / Buku Referensi", code: "KBR", target: 1 },
-      { name: "Buku Rujukan / Referensi", code: "BR", target: 1 },
-      { name: "Monograf", code: "M", target: 4 },
-      { name: "Buku Panduan Sekolah", code: "BPS", target: 7 },
-      { name: "Majalah", code: "MA", target: 1 }
-    ];
-
-    // SAMPLE BOOKS PLACEHOLDER FOR SCRIPT (Complete 342 Books are rendered dynamically or stored)
+    // COMPLETE 342 VERIFIED BOOKS COLLECTION
     const initialBooks = [
-      { id: 1, kode: "AI/001", judul: "99 Asmaul Husna", penerbit: "Karya Gemilang Utama", tahun: "-", kategori: "Agama Islam", stok: 1, tersedia: 1, kondisi: "Baik" },
-      { id: 2, kode: "AI/002", judul: "Bacaan Sholat: Disertai Latin & Terjemah Bahasa Indonesia", penerbit: "-", tahun: "-", kategori: "Agama Islam", stok: 2, tersedia: 1, kondisi: "Baik" },
-      { id: 3, kode: "AI/003", judul: "Belajar Sholat", penerbit: "Iqra' Media", tahun: "-", kategori: "Agama Islam", stok: 1, tersedia: 1, kondisi: "Baik" },
-      { id: 4, kode: "AI/004", judul: "Buku Gemar Berdoa", penerbit: "Pustaka Setia", tahun: "-", kategori: "Agama Islam", stok: 1, tersedia: 1, kondisi: "Baik" },
-      { id: 5, kode: "AI/005", judul: "Buku Iqro' 1", penerbit: "Balai Litbang LPTQ Team AMM", tahun: "-", kategori: "Agama Islam", stok: 1, tersedia: 1, kondisi: "Baik" },
-      { id: 6, kode: "AI/006", judul: "Buku Iqro' 2", penerbit: "Balai Litbang LPTQ Team AMM", tahun: "-", kategori: "Agama Islam", stok: 1, tersedia: 1, kondisi: "Baik" },
-      { id: 7, kode: "AI/007", judul: "Buku Iqro' 3", penerbit: "Balai Litbang LPTQ Team AMM", tahun: "-", kategori: "Agama Islam", stok: 1, tersedia: 1, kondisi: "Baik" },
-      { id: 8, kode: "AI/008", judul: "Buku Iqro' 4", penerbit: "Balai Litbang LPTQ Team AMM", tahun: "-", kategori: "Agama Islam", stok: 1, tersedia: 1, kondisi: "Baik" },
-      { id: 9, kode: "AI/009", judul: "Buku Iqro' 5", penerbit: "Balai Litbang LPTQ Team AMM", tahun: "-", kategori: "Agama Islam", stok: 2, tersedia: 2, kondisi: "Baik" },
-      { id: 10, kode: "AI/010", judul: "Dzikir-dzikir setelah Sholat", penerbit: "Perisai Qur'an", tahun: "2013", kategori: "Agama Islam", stok: 2, tersedia: 2, kondisi: "Baik" },
-      { id: 11, kode: "AI/011", judul: "Risalah Ibadah Haji dan Umroh", penerbit: "Aulia", tahun: "-", kategori: "Agama Islam", stok: 2, tersedia: 2, kondisi: "Baik" },
-      { id: 12, kode: "AI/012", judul: "Tata Cara Sholat dan Ziarah Kubur", penerbit: "Media Pustaka", tahun: "2016", kategori: "Agama Islam", stok: 2, tersedia: 2, kondisi: "Baik" },
-      { id: 13, kode: "AI/013", judul: "Wudhu Sholat dan Doa", penerbit: "Lingkar Media", tahun: "-", kategori: "Agama Islam", stok: 2, tersedia: 2, kondisi: "Baik" },
-      { id: 14, kode: "BG/001", judul: "Adab-Adab Islam", penerbit: "Tinta Medina", tahun: "2018", kategori: "Buku Guru", stok: 2, tersedia: 2, kondisi: "Baik" },
-      { id: 15, kode: "BG/002", judul: "Ayat-ayat Rezeki", penerbit: "Zaman", tahun: "2013", kategori: "Buku Guru", stok: 1, tersedia: 1, kondisi: "Baik" },
-      { id: 16, kode: "CAI/001", judul: "Kisah Nabi Muhammad SAW", penerbit: "Pustaka Al-Kautsar", tahun: "2020", kategori: "Cerita Anak Islami", stok: 4, tersedia: 3, kondisi: "Baik" },
-      { id: 17, kode: "CAI/002", judul: "Kisah 25 Nabi dan Rasul", penerbit: "Bintang Indonesia", tahun: "2019", kategori: "Cerita Anak Islami", stok: 3, tersedia: 2, kondisi: "Baik" },
-      { id: 18, kode: "SR/001", judul: "Siroh Nabawiyah untuk Anak", penerbit: "Gema Insani", tahun: "2021", kategori: "Siroh", stok: 5, tersedia: 5, kondisi: "Baik" },
-      { id: 19, kode: "SA/001", judul: "Ensiklopedia Sains Anak: Tata Surya", penerbit: "Tiga Ananda", tahun: "2018", kategori: "Sains", stok: 2, tersedia: 2, kondisi: "Baik" },
-      { id: 20, kode: "BM/001", judul: "Pendidikan Pancasila Kelas 1 SD", penerbit: "Kementerian Pendidikan", tahun: "2022", kategori: "Buku Mapel", stok: 25, tersedia: 25, kondisi: "Baik" },
-      { id: 21, kode: "BM/002", judul: "Bahasa Indonesia SD Kelas 2", penerbit: "Erlangga", tahun: "2023", kategori: "Buku Mapel", stok: 20, tersedia: 19, kondisi: "Baik" }
+      { "id": 1, "kode": "AI/001", "judul": "99 Asmaul Husna", "penerbit": "Karya Gemilang Utama", "tahun": "-", "kategori": "Agama Islam", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 2, "kode": "AI/002", "judul": "Bacaan Sholat: Disertai Latin & Terjemah Bahasa Indonesia", "penerbit": "-", "tahun": "-", "kategori": "Agama Islam", "stok": 2, "tersedia": 2, "kondisi": "Baik" },
+      { "id": 3, "kode": "AI/003", "judul": "Belajar Sholat", "penerbit": "Iqra' Media", "tahun": "-", "kategori": "Agama Islam", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 4, "kode": "AI/004", "judul": "Buku Gemar Berdoa", "penerbit": "Pustaka Setia", "tahun": "-", "kategori": "Agama Islam", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 5, "kode": "AI/005", "judul": "Buku Iqro' 1", "penerbit": "Balai Litbang LPTQ Nasional Team Tadarus \"AMM\" Yogyakarta", "tahun": "-", "kategori": "Agama Islam", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 6, "kode": "AI/006", "judul": "Buku Iqro 2", "penerbit": "Balai Litbang LPTQ Nasional Team Tadarus \"AMM\" Yogyakarta", "tahun": "-", "kategori": "Agama Islam", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 7, "kode": "AI/007", "judul": "Buku Iqro 3", "penerbit": "Balai Litbang LPTQ Nasional Team Tadarus \"AMM\" Yogyakarta", "tahun": "-", "kategori": "Agama Islam", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 8, "kode": "AI/008", "judul": "Buku Iqro 4", "penerbit": "Balai Litbang LPTQ Nasional Team Tadarus \"AMM\" Yogyakarta", "tahun": "-", "kategori": "Agama Islam", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 9, "kode": "AI/009", "judul": "Buku Iqro' 5", "penerbit": "Balai Litbang LPTQ Nasional Team Tadarus \"AMM\" Yogyakarta", "tahun": "-", "kategori": "Agama Islam", "stok": 2, "tersedia": 2, "kondisi": "Baik" },
+      { "id": 10, "kode": "AI/010", "judul": "Dzikir-dzikir setelah Sholat", "penerbit": "Perisai Qur'an", "tahun": "2013", "kategori": "Agama Islam", "stok": 2, "tersedia": 2, "kondisi": "Baik" },
+      { "id": 11, "kode": "AI/011", "judul": "Risalah Ibadah Haji dan Umroh", "penerbit": "Aulia", "tahun": "-", "kategori": "Agama Islam", "stok": 2, "tersedia": 2, "kondisi": "Baik" },
+      { "id": 12, "kode": "AI/012", "judul": "Tata Cara Sholat dan Ziarah Kubur", "penerbit": "Media Pustaka", "tahun": "2016", "kategori": "Agama Islam", "stok": 2, "tersedia": 2, "kondisi": "Baik" },
+      { "id": 13, "kode": "AI/013", "judul": "Wudhu Sholat dan Doa", "penerbit": "Lingkar Media", "tahun": "-", "kategori": "Agama Islam", "stok": 2, "tersedia": 2, "kondisi": "Baik" },
+      { "id": 14, "kode": "BG/001", "judul": "Adab-Adab Islam", "penerbit": "Tinta Medina", "tahun": "2018", "kategori": "Buku Guru", "stok": 2, "tersedia": 2, "kondisi": "Baik" },
+      { "id": 15, "kode": "BG/002", "judul": "Ayat-ayat Rezeki", "penerbit": "Zaman", "tahun": "2013", "kategori": "Buku Guru", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 16, "kode": "BG/003", "judul": "Banyak Jalan Menuju Surga", "penerbit": "Puskafi", "tahun": "2015", "kategori": "Buku Guru", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 17, "kode": "BG/004", "judul": "Fiqih Wanita", "penerbit": "CV Asy-syifa", "tahun": "-", "kategori": "Buku Guru", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 18, "kode": "BG/005", "judul": "Genius Book RPUL", "penerbit": "Charissa Publisher", "tahun": "2022", "kategori": "Buku Guru", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 19, "kode": "BG/006", "judul": "Kumpulan Puisi Pantun", "penerbit": "Widya Karya", "tahun": "-", "kategori": "Buku Guru", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 20, "kode": "BG/007", "judul": "Kumpulan Puisi Pantun dan Peribahasa", "penerbit": "CV. Beringin 55", "tahun": "-", "kategori": "Buku Guru", "stok": 2, "tersedia": 2, "kondisi": "Baik" },
+      { "id": 21, "kode": "BG/008", "judul": "Menjadi Kepala Sekolah Efektif", "penerbit": "Arus Media", "tahun": "2016", "kategori": "Buku Guru", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 22, "kode": "BG/009", "judul": "Metode Smart Tahsin", "penerbit": "Ashabul Qur'an", "tahun": "2021", "kategori": "Buku Guru", "stok": 2, "tersedia": 2, "kondisi": "Baik" },
+      { "id": 23, "kode": "BG/010", "judul": "Mudah Menghafal Hadits 1", "penerbit": "Pustaka Arafah", "tahun": "2023", "kategori": "Buku Guru", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 24, "kode": "BG/011", "judul": "Mudah Menghafal Hadits 2", "penerbit": "Pustaka Arafah", "tahun": "2023", "kategori": "Buku Guru", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 25, "kode": "BG/012", "judul": "Mudah Menghafal Hadits 3", "penerbit": "Pustaka Arafah", "tahun": "2023", "kategori": "Buku Guru", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 26, "kode": "BG/013", "judul": "Pepak Bahasa Jawa", "penerbit": "Lingkar Media", "tahun": "2022", "kategori": "Buku Guru", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 27, "kode": "BG/014", "judul": "Pepak Basa Jawa Lengkap", "penerbit": "Lingkar Media", "tahun": "-", "kategori": "Buku Guru", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 28, "kode": "BG/015", "judul": "RPAL", "penerbit": "Lingkar Media", "tahun": "-", "kategori": "Buku Guru", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 29, "kode": "BG/016", "judul": "Tazkiyatunnafs", "penerbit": "Ummul Qura", "tahun": "-", "kategori": "Buku Guru", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 30, "kode": "BM/001", "judul": "Adab Islami", "penerbit": "Pustaka Sofwa", "tahun": "2020", "kategori": "Buku Mapel", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 31, "kode": "BM/002", "judul": "Akrab dengan Dunia IPA 4", "penerbit": "Tiga Serangkai", "tahun": "2020", "kategori": "Buku Mapel", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 32, "kode": "BM/003", "judul": "Al-Qur'an dan Hadits 1", "penerbit": "Yudhistira", "tahun": "-", "kategori": "Buku Mapel", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 33, "kode": "BM/004", "judul": "Al-Qur'an dan Hadits 1", "penerbit": "Pustaka Sofwa", "tahun": "2021", "kategori": "Buku Mapel", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 34, "kode": "BM/005", "judul": "Baca Tulis Al-Qur'an 1", "penerbit": "Yudhistira", "tahun": "-", "kategori": "Buku Mapel", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 35, "kode": "BM/006", "judul": "Baca Tulis Al-Qur'an 3", "penerbit": "Yudhistira", "tahun": "-", "kategori": "Buku Mapel", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 36, "kode": "BM/007", "judul": "Baca Tulis Al-Qur'an 5", "penerbit": "Yudhistira", "tahun": "-", "kategori": "Buku Mapel", "stok": 2, "tersedia": 2, "kondisi": "Baik" },
+      { "id": 37, "kode": "BM/008", "judul": "Bahasa Indonesia kelas 1", "penerbit": "Yudhistira", "tahun": "-", "kategori": "Buku Mapel", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 38, "kode": "BM/009", "judul": "Bahasa Indonesia kelas 1", "penerbit": "Erlangga", "tahun": "2022", "kategori": "Buku Mapel", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 39, "kode": "BM/010", "judul": "Bahasa Indonesia kelas 1 Fase A", "penerbit": "Mediatama", "tahun": "2022", "kategori": "Buku Mapel", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 40, "kode": "BM/011", "judul": "Bahasa Indonesia kelas 5", "penerbit": "Yudhistira", "tahun": "-", "kategori": "Buku Mapel", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 41, "kode": "BM/012", "judul": "Bahasa Indonesia kelas 5", "penerbit": "Kemendikbud", "tahun": "2021", "kategori": "Buku Mapel", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 42, "kode": "BM/013", "judul": "Bahasa Jawa 1", "penerbit": "Yudhistira", "tahun": "-", "kategori": "Buku Mapel", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 43, "kode": "BM/014", "judul": "Bahasa Jawa 2", "penerbit": "Yudhistira", "tahun": "-", "kategori": "Buku Mapel", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 44, "kode": "BM/015", "judul": "Bahasa Jawa 4", "penerbit": "Yudhistira", "tahun": "-", "kategori": "Buku Mapel", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 45, "kode": "BM/016", "judul": "Bahasa Jawa 5", "penerbit": "Yudhistira", "tahun": "-", "kategori": "Buku Mapel", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 46, "kode": "BM/017", "judul": "Bank Soal", "penerbit": "Bmedia Inprink", "tahun": "-", "kategori": "Buku Mapel", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 47, "kode": "BM/018", "judul": "Basic English 1", "penerbit": "Yudhistira", "tahun": "-", "kategori": "Buku Mapel", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 48, "kode": "BM/019", "judul": "Basic English 3", "penerbit": "Yudhistira", "tahun": "-", "kategori": "Buku Mapel", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 49, "kode": "BM/020", "judul": "Basic English 4", "penerbit": "Yudhistira", "tahun": "-", "kategori": "Buku Mapel", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 50, "kode": "BM/021", "judul": "Basic English kelas 2", "penerbit": "Yudhistira", "tahun": "-", "kategori": "Buku Mapel", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 51, "kode": "BM/022", "judul": "Buku Panduan Guru: PAI dan Budi Pekerti kelas 4", "penerbit": "Kemendikbud", "tahun": "-", "kategori": "Buku Mapel", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 52, "kode": "BM/023", "judul": "Explore Kecerdasan Artifisial & Koding untuk SD/MI Kelas VI", "penerbit": "-", "tahun": "-", "kategori": "Buku Mapel", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 53, "kode": "BM/024", "judul": "Fikih 1", "penerbit": "Yudhistira", "tahun": "-", "kategori": "Buku Mapel", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 54, "kode": "BM/025", "judul": "Fikih 2", "penerbit": "Yudhistira", "tahun": "-", "kategori": "Buku Mapel", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 55, "kode": "BM/026", "judul": "Fiqih Kelas 1", "penerbit": "Pustaka Sofwa", "tahun": "2021", "kategori": "Buku Mapel", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 56, "kode": "BM/027", "judul": "Grow with English 2", "penerbit": "Erlangga", "tahun": "2016", "kategori": "Buku Mapel", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 57, "kode": "BM/028", "judul": "Informatika untuk SD/MI Kelas II", "penerbit": "Erlangga", "tahun": "-", "kategori": "Buku Mapel", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 58, "kode": "BM/029", "judul": "Informatika untuk SD/MI Kelas III", "penerbit": "Erlangga", "tahun": "-", "kategori": "Buku Mapel", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 59, "kode": "BM/030", "judul": "IPAS 1", "penerbit": "Erlangga", "tahun": "2022", "kategori": "Buku Mapel", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 60, "kode": "BM/031", "judul": "IPAS kelas 3", "penerbit": "Quadra", "tahun": "-", "kategori": "Buku Mapel", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 61, "kode": "BM/032", "judul": "IPAS kelas 4", "penerbit": "Yudhistira", "tahun": "-", "kategori": "Buku Mapel", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 62, "kode": "BM/033", "judul": "IPAS Kelas 5", "penerbit": "Kemendikbud", "tahun": "2021", "kategori": "Buku Mapel", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 63, "kode": "BM/034", "judul": "IPAS kelas 6", "penerbit": "Quadra", "tahun": "-", "kategori": "Buku Mapel", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 64, "kode": "BM/035", "judul": "Jago Matematika", "penerbit": "Lingkar Media", "tahun": "-", "kategori": "Buku Mapel", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 65, "kode": "BM/036", "judul": "Joyful English", "penerbit": "Quadra", "tahun": "2020", "kategori": "Buku Mapel", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 66, "kode": "BM/037", "judul": "Kupas Tematik Indahnya Kebersamaan 4.", "penerbit": "Yudhistira", "tahun": "-", "kategori": "Buku Mapel", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 67, "kode": "BM/038", "judul": "Kupas Tematik Pertumbuhan dan Perkembangan Makhluk Hidup 3", "penerbit": "Yudhistira", "tahun": "-", "kategori": "Buku Mapel", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 68, "kode": "BM/039", "judul": "Mahir Tematik Benda di Sekitarku 3", "penerbit": "Quadra", "tahun": "2019", "kategori": "Buku Mapel", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 69, "kode": "BM/040", "judul": "Mahir Tematik Benda, Hewan, dan Tanaman Sekitarku 1", "penerbit": "Quadra", "tahun": "2018", "kategori": "Buku Mapel", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 70, "kode": "BM/041", "judul": "Mahir Tematik Bermain di Lingkunganku 2", "penerbit": "Quadra", "tahun": "2018", "kategori": "Buku Mapel", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 71, "kode": "BM/042", "judul": "Mahir Tematik Diriku 1", "penerbit": "Quadra", "tahun": "2018", "kategori": "Buku Mapel", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 72, "kode": "BM/043", "judul": "Mahir Tematik Hidup Bersih dan Sehat 2", "penerbit": "Quadra", "tahun": "2018", "kategori": "Buku Mapel", "stok": 2, "tersedia": 2, "kondisi": "Baik" },
+      { "id": 73, "kode": "BM/044", "judul": "Mahir Tematik Hidup Rukun 2", "penerbit": "Quadra", "tahun": "2019", "kategori": "Buku Mapel", "stok": 2, "tersedia": 2, "kondisi": "Baik" },
+      { "id": 74, "kode": "BM/045", "judul": "Mahir Tematik Kebersamaan 2", "penerbit": "Quadra", "tahun": "2018", "kategori": "Buku Mapel", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 75, "kode": "BM/046", "judul": "Mahir Tematik Kegemaranku 1", "penerbit": "Quadra", "tahun": "2019", "kategori": "Buku Mapel", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 76, "kode": "BM/047", "judul": "Mahir Tematik Kegiatanku 1", "penerbit": "Quadra", "tahun": "2018", "kategori": "Buku Mapel", "stok": 2, "tersedia": 2, "kondisi": "Baik" },
+      { "id": 77, "kode": "BM/048", "judul": "Mahir Tematik Keluargaku 1", "penerbit": "Quadra", "tahun": "2017", "kategori": "Buku Mapel", "stok": 2, "tersedia": 2, "kondisi": "Baik" },
+      { "id": 78, "kode": "BM/049", "judul": "Mahir Tematik Keselamatan Di rumah dan Perjalanan 2", "penerbit": "Quadra", "tahun": "2018", "kategori": "Buku Mapel", "stok": 2, "tersedia": 2, "kondisi": "Baik" },
+      { "id": 79, "kode": "BM/050", "judul": "Mahir Tematik Lingkungan Bersih, Sehat, dan Asri 1", "penerbit": "Quadra", "tahun": "2018", "kategori": "Buku Mapel", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 80, "kode": "BM/051", "judul": "Mahir Tematik Menyayangi Tumbuhan dan Hewan 3", "penerbit": "Quadra", "tahun": "2019", "kategori": "Buku Mapel", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 81, "kode": "BM/052", "judul": "Mahir Tematik Merawat Hewan dan Tumbuhan 2", "penerbit": "Quadra", "tahun": "2018", "kategori": "Buku Mapel", "stok": 2, "tersedia": 2, "kondisi": "Baik" },
+      { "id": 82, "kode": "BM/053", "judul": "Mahir Tematik Pengalamanku 1", "penerbit": "Quadra", "tahun": "2018", "kategori": "Buku Mapel", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 83, "kode": "BM/054", "judul": "Mahir Tematik Pengalamanku 2", "penerbit": "Quadra", "tahun": "2018", "kategori": "Buku Mapel", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 84, "kode": "BM/055", "judul": "Mahir Tematik Peristiwa Alam kelas 1", "penerbit": "Quadra", "tahun": "2018", "kategori": "Buku Mapel", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 85, "kode": "BM/056", "judul": "Mahir Tematik Pertumbuhan dan Perkembangan Makhluk Hidup 3", "penerbit": "Quadra", "tahun": "2019", "kategori": "Buku Mapel", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 86, "kode": "BM/057", "judul": "Mahir Tematik Terpadu Peristiwa Alam 1", "penerbit": "Quadra", "tahun": "2020", "kategori": "Buku Mapel", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 87, "kode": "BM/058", "judul": "Mahir Tematik Tugasku Sehari-hari 2", "penerbit": "Quadra", "tahun": "2018", "kategori": "Buku Mapel", "stok": 2, "tersedia": 2, "kondisi": "Baik" },
+      { "id": 88, "kode": "BM/059", "judul": "Matematika 1", "penerbit": "Erlangga", "tahun": "2022", "kategori": "Buku Mapel", "stok": 2, "tersedia": 2, "kondisi": "Baik" },
+      { "id": 89, "kode": "BM/060", "judul": "Matematika 1", "penerbit": "Pustaka Mulia", "tahun": "2023", "kategori": "Buku Mapel", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 90, "kode": "BM/061", "judul": "Matematika 4", "penerbit": "Quadra", "tahun": "2018", "kategori": "Buku Mapel", "stok": 2, "tersedia": 2, "kondisi": "Baik" },
+      { "id": 91, "kode": "BM/062", "judul": "Matematika kelas 2", "penerbit": "Yudhistira", "tahun": "-", "kategori": "Buku Mapel", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 92, "kode": "BM/063", "judul": "Matematika kelas 3", "penerbit": "Quadra", "tahun": "-", "kategori": "Buku Mapel", "stok": 2, "tersedia": 2, "kondisi": "Baik" },
+      { "id": 93, "kode": "BM/064", "judul": "Matematika kelas 4", "penerbit": "Yudhistira", "tahun": "-", "kategori": "Buku Mapel", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 94, "kode": "BM/065", "judul": "Matematika kelas 4 Fase B", "penerbit": "Mediatama", "tahun": "2022", "kategori": "Buku Mapel", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 95, "kode": "BM/066", "judul": "Matematika kelas 4 Semester 2 Fase B", "penerbit": "Mediatama", "tahun": "-", "kategori": "Buku Mapel", "stok": 2, "tersedia": 2, "kondisi": "Baik" },
+      { "id": 96, "kode": "BM/067", "judul": "Matematika kelas 5 Fase C", "penerbit": "Mediatama", "tahun": "2023", "kategori": "Buku Mapel", "stok": 2, "tersedia": 2, "kondisi": "Baik" },
+      { "id": 97, "kode": "BM/068", "judul": "Matematika kelas 5 Semester 1 Fase C", "penerbit": "Mediatama", "tahun": "-", "kategori": "Buku Mapel", "stok": 2, "tersedia": 2, "kondisi": "Baik" },
+      { "id": 98, "kode": "BM/069", "judul": "Matematika kelas 5 Semester 2 Fase C", "penerbit": "Mediatama", "tahun": "-", "kategori": "Buku Mapel", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 99, "kode": "BM/070", "judul": "My Next Words", "penerbit": "Kemendikbud", "tahun": "-", "kategori": "Buku Mapel", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 100, "kode": "BM/071", "judul": "Pendidikan Pancasila 1", "penerbit": "Erlangga", "tahun": "2022", "kategori": "Buku Mapel", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 101, "kode": "BM/072", "judul": "Pendidikan Seni Musik kelas 4", "penerbit": "Yudhistira", "tahun": "-", "kategori": "Buku Mapel", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 102, "kode": "BM/073", "judul": "Pendidikan Seni Musik kelas 5", "penerbit": "Yudhistira", "tahun": "-", "kategori": "Buku Mapel", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 103, "kode": "BM/074", "judul": "Pendidikan Seni Rupa kelas 1", "penerbit": "Yudhistira", "tahun": "-", "kategori": "Buku Mapel", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 104, "kode": "BM/075", "judul": "Pendidikan Seni Rupa kelas 2", "penerbit": "Yudhistira", "tahun": "-", "kategori": "Buku Mapel", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 105, "kode": "BM/076", "judul": "Penjasorkes kelas 3", "penerbit": "Quadra", "tahun": "-", "kategori": "Buku Mapel", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 106, "kode": "BM/077", "judul": "Penjasorkes kelas 4", "penerbit": "Quadra", "tahun": "2019", "kategori": "Buku Mapel", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 107, "kode": "BM/078", "judul": "Penjasorkes SD Kelas VI", "penerbit": "Quadra", "tahun": "-", "kategori": "Buku Mapel", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 108, "kode": "BM/079", "judul": "PJOK Kelas 1", "penerbit": "Erlangga", "tahun": "2022", "kategori": "Buku Mapel", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 109, "kode": "BM/080", "judul": "PJOK Kelas 4", "penerbit": "Tiga Serangkai", "tahun": "2020", "kategori": "Buku Mapel", "stok": 2, "tersedia": 2, "kondisi": "Baik" },
+      { "id": 110, "kode": "BM/081", "judul": "REMEN Basa Jawi 1", "penerbit": "Erlangga", "tahun": "2016", "kategori": "Buku Mapel", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 111, "kode": "BM/082", "judul": "REMEN Basa Jawi 2", "penerbit": "Erlangga", "tahun": "2016", "kategori": "Buku Mapel", "stok": 2, "tersedia": 2, "kondisi": "Baik" },
+      { "id": 112, "kode": "BM/083", "judul": "REMEN Basa Jawi 4", "penerbit": "Erlangga", "tahun": "-", "kategori": "Buku Mapel", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 113, "kode": "BM/084", "judul": "Seni Budaya kelas 1", "penerbit": "Erlangga", "tahun": "2022", "kategori": "Buku Mapel", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 114, "kode": "BM/085", "judul": "Seni Musik kelas 5", "penerbit": "Kemendikbud", "tahun": "2021", "kategori": "Buku Mapel", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 115, "kode": "BM/086", "judul": "Seni Rupa Kelas 3", "penerbit": "Quadra", "tahun": "-", "kategori": "Buku Mapel", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 116, "kode": "BM/087", "judul": "Seni Tari kelas 5", "penerbit": "Kemendikbud", "tahun": "2021", "kategori": "Buku Mapel", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 117, "kode": "BM/088", "judul": "Seni Teater kelas 5", "penerbit": "Kemendikbud", "tahun": "2021", "kategori": "Buku Mapel", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 118, "kode": "BM/089", "judul": "Tematik 2 Tema 1 Hidup Rukun", "penerbit": "Tiga Serangkai", "tahun": "2018", "kategori": "Buku Mapel", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 119, "kode": "BM/090", "judul": "Tematik 2 Tema 2 Bermain di Lingkunganku", "penerbit": "Quadra", "tahun": "2019", "kategori": "Buku Mapel", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 120, "kode": "BM/091", "judul": "Tematik 2 Tema 3 Tugasku sehari-hari", "penerbit": "Quadra", "tahun": "2019", "kategori": "Buku Mapel", "stok": 2, "tersedia": 2, "kondisi": "Baik" },
+      { "id": 121, "kode": "BM/092", "judul": "Tematik 2 Tema 4 Membiasakan Hidup Bersih dan Sehat", "penerbit": "Quadra", "tahun": "2018", "kategori": "Buku Mapel", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 122, "kode": "BM/093", "judul": "Tematik 4 Tema 1 Membangun Indahnya Kebersamaan", "penerbit": "Tiga Serangkai", "tahun": "2018", "kategori": "Buku Mapel", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 123, "kode": "BM/094", "judul": "Tematik 4 Tema 2 Selalu Berhemat Energi", "penerbit": "Tiga Serangkai", "tahun": "2018", "kategori": "Buku Mapel", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 124, "kode": "BM/095", "judul": "Tematik 4 Tema 3 Lebih Peduli Terhadap Makhluk Hidup", "penerbit": "Tiga Serangkai", "tahun": "2019", "kategori": "Buku Mapel", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 125, "kode": "BM/096", "judul": "Tematik 4 Tema 4 Mengenal Berbagai Jenis Pekerjaan", "penerbit": "Tiga Serangkai", "tahun": "2019", "kategori": "Buku Mapel", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 126, "kode": "BM/097", "judul": "Tematik 4 Tema 5 Menumbuhkan Sikap Menghargai Jasa Pahlawan", "penerbit": "Tiga Serangkai", "tahun": "2019", "kategori": "Buku Mapel", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 127, "kode": "BM/098", "judul": "Tematik Bermain di Lingkunganku 2", "penerbit": "Media Pena", "tahun": "-", "kategori": "Buku Mapel", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 128, "kode": "BM/099", "judul": "Tematik Indahnya Kebersamaan 4", "penerbit": "Media Pena", "tahun": "-", "kategori": "Buku Mapel", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 129, "kode": "BM/100", "judul": "Tematik Kegemaranku 1", "penerbit": "Quadra", "tahun": "-", "kategori": "Buku Mapel", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 130, "kode": "BM/101", "judul": "Tematik Keluargaku 1", "penerbit": "Quadra", "tahun": "-", "kategori": "Buku Mapel", "stok": 2, "tersedia": 2, "kondisi": "Baik" },
+      { "id": 131, "kode": "BM/102", "judul": "Tematik Pengalamanku 1", "penerbit": "Quadra", "tahun": "-", "kategori": "Buku Mapel", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 132, "kode": "BM/103", "judul": "Tematik Terpadu Benda di Sekitarku 3", "penerbit": "Quadra", "tahun": "2019", "kategori": "Buku Mapel", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 133, "kode": "BM/104", "judul": "Tematik Terpadu Benda, Hewan dan Tanaman Sekitarku 1", "penerbit": "Quadra", "tahun": "2020", "kategori": "Buku Mapel", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 134, "kode": "BM/105", "judul": "Tematik Terpadu Benda, Hewan dan Tanaman Sekitarku 1 Tema 7", "penerbit": "Kemendikbud", "tahun": "2017", "kategori": "Buku Mapel", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 135, "kode": "BM/106", "judul": "Tematik Terpadu Bermain di Lingkunganku 2", "penerbit": "Quadra", "tahun": "2019", "kategori": "Buku Mapel", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 136, "kode": "BM/107", "judul": "Tematik Terpadu Cuaca 3", "penerbit": "Quadra", "tahun": "2020", "kategori": "Buku Mapel", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 137, "kode": "BM/108", "judul": "Tematik Terpadu Diriku 1", "penerbit": "Yudhistira", "tahun": "2018", "kategori": "Buku Mapel", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 138, "kode": "BM/109", "judul": "Tematik Terpadu Energi dan Perubahannya 3", "penerbit": "Quadra", "tahun": "2019", "kategori": "Buku Mapel", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 139, "kode": "BM/110", "judul": "Tematik Terpadu Hidup Bersih dan Sehat 2", "penerbit": "Quadra", "tahun": "2018", "kategori": "Buku Mapel", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 140, "kode": "BM/111", "judul": "Tematik Terpadu Hidup Rukun 2", "penerbit": "Quadra", "tahun": "2017", "kategori": "Buku Mapel", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 141, "kode": "BM/112", "judul": "Tematik Terpadu Indahnya Kebersamaan 4", "penerbit": "Quadra", "tahun": "2017", "kategori": "Buku Mapel", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 142, "kode": "BM/113", "judul": "Tematik Terpadu Kebersamaan 2", "penerbit": "Quadra", "tahun": "2018", "kategori": "Buku Mapel", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 143, "kode": "BM/114", "judul": "Tematik Terpadu Kegemaranku 1", "penerbit": "Quadra", "tahun": "2018", "kategori": "Buku Mapel", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 144, "kode": "BM/115", "judul": "Tematik Terpadu Keluargaku 1", "penerbit": "Quadra", "tahun": "2019", "kategori": "Buku Mapel", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 145, "kode": "BM/116", "judul": "Tematik Terpadu Keselamatan dirumah dan Perjalanan 2", "penerbit": "Quadra", "tahun": "2018", "kategori": "Buku Mapel", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 146, "kode": "BM/117", "judul": "Tematik Terpadu Kewajiban dan Hakku 3", "penerbit": "Quadra", "tahun": "2019", "kategori": "Buku Mapel", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 147, "kode": "BM/118", "judul": "Tematik Terpadu Lingkungan Bersih, Sehat, dan Asri 1", "penerbit": "Quadra", "tahun": "2018", "kategori": "Buku Mapel", "stok": 2, "tersedia": 2, "kondisi": "Baik" },
+      { "id": 148, "kode": "BM/119", "judul": "Tematik Terpadu Menyayangi Tumbuhan dan Hewan 3", "penerbit": "Quadra", "tahun": "2019", "kategori": "Buku Mapel", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 149, "kode": "BM/120", "judul": "Tematik Terpadu Merawat Hewan dan Tumbuhan 2", "penerbit": "Quadra", "tahun": "2018", "kategori": "Buku Mapel", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 150, "kode": "BM/121", "judul": "Tematik Terpadu Pengalamanku 1", "penerbit": "Quadra", "tahun": "2020", "kategori": "Buku Mapel", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 151, "kode": "BM/122", "judul": "Tematik Terpadu Pengalamanku 2", "penerbit": "Quadra", "tahun": "2018", "kategori": "Buku Mapel", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 152, "kode": "BM/123", "judul": "Tematik Terpadu Perkembangan Teknologi 3", "penerbit": "Quadra", "tahun": "2019", "kategori": "Buku Mapel", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 153, "kode": "BM/124", "judul": "Tematik Terpadu Pertumbuhan dan Perkembangan Makhluk Hidup 3", "penerbit": "Quadra", "tahun": "2019", "kategori": "Buku Mapel", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 154, "kode": "BM/125", "judul": "Tematik Terpadu Praja Muda Karana 3", "penerbit": "Quadra", "tahun": "2020", "kategori": "Buku Mapel", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 155, "kode": "BM/126", "judul": "Tematik Terpadu Tema 8 Peristiwa Alam 1", "penerbit": "Kemendikbud", "tahun": "2017", "kategori": "Buku Mapel", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 156, "kode": "BM/127", "judul": "Tematik Terpadu Tugasku sehari-hari 2", "penerbit": "Quadra", "tahun": "2018", "kategori": "Buku Mapel", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 157, "kode": "BM/128", "judul": "TIK: Teknologi Informasi dan Komunikasi SD/MI Kelas VI", "penerbit": "Quadra", "tahun": "-", "kategori": "Buku Mapel", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 158, "kode": "BPS/001", "judul": "Bilingual Parents Handbook Grade A", "penerbit": "SD Islam Makarima", "tahun": "-", "kategori": "Buku Panduan Sekolah", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 159, "kode": "BPS/002", "judul": "Bilingual Parents Handbook Grade B", "penerbit": "SD Islam Makarima", "tahun": "-", "kategori": "Buku Panduan Sekolah", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 160, "kode": "BPS/003", "judul": "Parent Handbook Kelas 1 Tahun Pelajaran 2022-2023", "penerbit": "SD Islam Makarima", "tahun": "-", "kategori": "Buku Panduan Sekolah", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 161, "kode": "BPS/004", "judul": "Parent Handbook Kelas 2 Tahun Pelajaran 2021-2022", "penerbit": "SD Islam Makarima", "tahun": "-", "kategori": "Buku Panduan Sekolah", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 162, "kode": "BPS/005", "judul": "Parent Handbook Kelas 2 Tahun Pelajaran 2022-2023", "penerbit": "SD Islam Makarima", "tahun": "-", "kategori": "Buku Panduan Sekolah", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 163, "kode": "BPS/006", "judul": "Parent Handbook Kelas 3 Tahun Pelajaran 2021-2022", "penerbit": "SD Islam Makarima", "tahun": "-", "kategori": "Buku Panduan Sekolah", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 164, "kode": "BPS/007", "judul": "Parent Handbook Kelas 3 Tahun Pelajaran 2022-2023", "penerbit": "SD Islam Makarima", "tahun": "-", "kategori": "Buku Panduan Sekolah", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 165, "kode": "BR/001", "judul": "Kamus Besar Bahasa Indonesia", "penerbit": "Pustaka Baru Press", "tahun": "-", "kategori": "Buku Rujukan / Referensi", "stok": 4, "tersedia": 4, "kondisi": "Baik" },
+      { "id": 166, "kode": "CA/001", "judul": "Mengapa Rambutku Kusam", "penerbit": "BIP", "tahun": "2016", "kategori": "Cerita Anak", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 167, "kode": "CA/002", "judul": "Abu Nawas", "penerbit": "Gali Ilmu", "tahun": "-", "kategori": "Cerita Anak", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 168, "kode": "CA/003", "judul": "Aku dan Alam Semesta", "penerbit": "Lingkar Media", "tahun": "-", "kategori": "Cerita Anak", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 169, "kode": "CA/004", "judul": "Aku Sayang Keluargaku", "penerbit": "PT. Kanisius", "tahun": "2017", "kategori": "Cerita Anak", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 170, "kode": "CA/005", "judul": "Aku Tidak Suka Berbohong", "penerbit": "Bintang Indonesia", "tahun": "-", "kategori": "Cerita Anak", "stok": 2, "tersedia": 2, "kondisi": "Baik" },
+      { "id": 171, "kode": "CA/006", "judul": "Buah Kesabaran", "penerbit": "Serba Jaya", "tahun": "-", "kategori": "Cerita Anak", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 172, "kode": "CA/007", "judul": "Di Manakah Howi?", "penerbit": "Tiga Ananda", "tahun": "-", "kategori": "Cerita Anak", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 173, "kode": "CA/008", "judul": "Dongeng", "penerbit": "Erlangga", "tahun": "-", "kategori": "Cerita Anak", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 174, "kode": "CA/009", "judul": "Dongeng Pengantar Tidur: Malin Kundang", "penerbit": "Media Pustaka", "tahun": "2016", "kategori": "Cerita Anak", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 175, "kode": "CA/010", "judul": "Joko Tingkir", "penerbit": "Serba Jaya", "tahun": "2021", "kategori": "Cerita Anak", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 176, "kode": "CA/011", "judul": "Kamarku Bersih", "penerbit": "Perisai Qur'an", "tahun": "2016", "kategori": "Cerita Anak", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 177, "kode": "CA/012", "judul": "Kumpulan Dongeng Si Kancil", "penerbit": "Lingkar Media", "tahun": "2013", "kategori": "Cerita Anak", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 178, "kode": "CA/013", "judul": "Kumpulan Si Kancil", "penerbit": "Grafika Mulia", "tahun": "2004", "kategori": "Cerita Anak", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 179, "kode": "CA/014", "judul": "Nasihat Burung Kenari", "penerbit": "Lingkar Media", "tahun": "2017", "kategori": "Cerita Anak", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 180, "kode": "CA/015", "judul": "Pentingnya Identitas Diri", "penerbit": "CV. Dipomulyo", "tahun": "2017", "kategori": "Cerita Anak", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 181, "kode": "CA/016", "judul": "Pesan Penyelamat", "penerbit": "Pustaka Kreatif", "tahun": "2010", "kategori": "Cerita Anak", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 182, "kode": "CA/017", "judul": "Roro Jonggrang", "penerbit": "Serba Jaya", "tahun": "2022", "kategori": "Cerita Anak", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 183, "kode": "CA/018", "judul": "Sehatnya Jalan Kaki", "penerbit": "Tiga Ananda", "tahun": "-", "kategori": "Cerita Anak", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 184, "kode": "CA/019", "judul": "Serunya Memanah", "penerbit": "Tiga Ananda", "tahun": "-", "kategori": "Cerita Anak", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 185, "kode": "CA/020", "judul": "Si Bolang", "penerbit": "Gramedia", "tahun": "2016", "kategori": "Cerita Anak", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 186, "kode": "CAI/001", "judul": "10 Kisah Pahlawan Surga", "penerbit": "Dua Media", "tahun": "-", "kategori": "Cerita Anak Islami", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 187, "kode": "CAI/002", "judul": "20 Sahabat Penghafal Al-Quran", "penerbit": "Pustaka Arafah", "tahun": "2022", "kategori": "Cerita Anak Islami", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 188, "kode": "CAI/003", "judul": "Abu Bakar Ash-Shiddiq", "penerbit": "Lingkar Media", "tahun": "-", "kategori": "Cerita Anak Islami", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 189, "kode": "CAI/004", "judul": "Ada Apa Dengan Tobi?", "penerbit": "Tiga Ananda", "tahun": "2018", "kategori": "Cerita Anak Islami", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 190, "kode": "CAI/005", "judul": "Adab Belajar", "penerbit": "Media Kids", "tahun": "-", "kategori": "Cerita Anak Islami", "stok": 2, "tersedia": 2, "kondisi": "Baik" },
+      { "id": 191, "kode": "CAI/006", "judul": "Adab di Sekolah", "penerbit": "Perisai Qur'an", "tahun": "-", "kategori": "Cerita Anak Islami", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 192, "kode": "CAI/007", "judul": "Adab Makan dan Minum", "penerbit": "Lingkar Media", "tahun": "-", "kategori": "Cerita Anak Islami", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 193, "kode": "CAI/008", "judul": "Adab Tidur", "penerbit": "Lingkar Media", "tahun": "-", "kategori": "Cerita Anak Islami", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 194, "kode": "CAI/009", "judul": "Aku Cinta Allah", "penerbit": "Dzikrul Hakim", "tahun": "2017", "kategori": "Cerita Anak Islami", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 195, "kode": "CAI/010", "judul": "Aku Gemar Berdoa", "penerbit": "Readboy", "tahun": "2011", "kategori": "Cerita Anak Islami", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 196, "kode": "CAI/011", "judul": "Aku Mau jadi Anak yang Jujur", "penerbit": "Ziyad Book", "tahun": "2018", "kategori": "Cerita Anak Islami", "stok": 2, "tersedia": 2, "kondisi": "Baik" },
+      { "id": 197, "kode": "CAI/012", "judul": "Aku Sayang Adik dan Kakak", "penerbit": "Perisai Qur'an", "tahun": "-", "kategori": "Cerita Anak Islami", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 198, "kode": "CAI/013", "judul": "Aku Siap Berpuasa", "penerbit": "Lingkar Media", "tahun": "-", "kategori": "Cerita Anak Islami", "stok": 2, "tersedia": 2, "kondisi": "Baik" },
+      { "id": 199, "kode": "CAI/014", "judul": "Aku Suka Bersedekah", "penerbit": "Lingkar Media", "tahun": "-", "kategori": "Cerita Anak Islami", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 200, "kode": "CAI/015", "judul": "Aku Suka Ke Masjid", "penerbit": "Bintang Indonesia", "tahun": "-", "kategori": "Cerita Anak Islami", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 201, "kode": "CAI/016", "judul": "Ali Kecil Mengenal Islam", "penerbit": "Lingkar Media", "tahun": "-", "kategori": "Cerita Anak Islami", "stok": 2, "tersedia": 2, "kondisi": "Baik" },
+      { "id": 202, "kode": "CAI/017", "judul": "Ali Sang Pemberani", "penerbit": "Dar Mizan", "tahun": "-", "kategori": "Cerita Anak Islami", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 203, "kode": "CAI/018", "judul": "Ashabul Kahfi", "penerbit": "Pustaka Arafah", "tahun": "-", "kategori": "Cerita Anak Islami", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 204, "kode": "CAI/019", "judul": "Ayo Belajar Bersuci", "penerbit": "Lingkar Media", "tahun": "-", "kategori": "Cerita Anak Islami", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 205, "kode": "CAI/020", "judul": "Ayo Belajar Bersuci", "penerbit": "Perisai Qur'an", "tahun": "2016", "kategori": "Cerita Anak Islami", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 206, "kode": "CAI/021", "judul": "Ayo Belajar Haji", "penerbit": "Perisai Qur'an", "tahun": "2016", "kategori": "Cerita Anak Islami", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 207, "kode": "CAI/022", "judul": "Ayo Kita Zakat", "penerbit": "Perisai Qur'an", "tahun": "2016", "kategori": "Cerita Anak Islami", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 208, "kode": "CAI/023", "judul": "Baarakallaahu Fiik", "penerbit": "Tiga Ananda", "tahun": "-", "kategori": "Cerita Anak Islami", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 209, "kode": "CAI/024", "judul": "Berlatih Sabar dengan Puasa", "penerbit": "Lingkar Media", "tahun": "-", "kategori": "Cerita Anak Islami", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 210, "kode": "CAI/025", "judul": "Berpakaian dan Bercermin", "penerbit": "Tiga Ananda", "tahun": "-", "kategori": "Cerita Anak Islami", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 211, "kode": "CAI/026", "judul": "Bilal Pemilik Suara Emas", "penerbit": "Lingkar Media", "tahun": "-", "kategori": "Cerita Anak Islami", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 212, "kode": "CAI/027", "judul": "Ceria Ramadhan di 5 Benua 25 Negara", "penerbit": "Ziyad Book", "tahun": "2018", "kategori": "Cerita Anak Islami", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 213, "kode": "CAI/028", "judul": "Dakwah Nabi Ibrahim", "penerbit": "Lingkar Media", "tahun": "-", "kategori": "Cerita Anak Islami", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 214, "kode": "CAI/029", "judul": "Dakwah Nabi Musa", "penerbit": "Lingkar Media", "tahun": "-", "kategori": "Cerita Anak Islami", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 215, "kode": "CAI/030", "judul": "Dongeng Anak Muslim", "penerbit": "Dua Media", "tahun": "-", "kategori": "Cerita Anak Islami", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 216, "kode": "CAI/031", "judul": "Fii Amaanillaah", "penerbit": "Tiga Ananda", "tahun": "-", "kategori": "Cerita Anak Islami", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 217, "kode": "CAI/032", "judul": "Fiqih Adzan dan Iqomah", "penerbit": "BIP", "tahun": "2014", "kategori": "Cerita Anak Islami", "stok": 2, "tersedia": 2, "kondisi": "Baik" },
+      { "id": 218, "kode": "CAI/033", "judul": "Gajah Pasukan Abraham", "penerbit": "Lingkar Media", "tahun": "-", "kategori": "Cerita Anak Islami", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 219, "kode": "CAI/034", "judul": "Jazaakallaahu Khairan", "penerbit": "Tiga Ananda", "tahun": "-", "kategori": "Cerita Anak Islami", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 220, "kode": "CAI/035", "judul": "Ke Kamar Mandi", "penerbit": "Tiga Ananda", "tahun": "-", "kategori": "Cerita Anak Islami", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 221, "kode": "CAI/036", "judul": "Keajaiban untuk Tasya", "penerbit": "Tiga Ananda", "tahun": "-", "kategori": "Cerita Anak Islami", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 222, "kode": "CAI/037", "judul": "Khalid bin Walid", "penerbit": "Lingkar Media", "tahun": "-", "kategori": "Cerita Anak Islami", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 223, "kode": "CAI/038", "judul": "Kisah Ulul Azmi", "penerbit": "Ziyad Book", "tahun": "2021", "kategori": "Cerita Anak Islami", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 224, "kode": "CAI/039", "judul": "Kisah-Kisah Fabel dalam Al-Qur'an", "penerbit": "Dua Media", "tahun": "-", "kategori": "Cerita Anak Islami", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 225, "kode": "CAI/040", "judul": "Kisah-Kisah Hewan dalam Hadits Nabi", "penerbit": "Media Shalih", "tahun": "2022", "kategori": "Cerita Anak Islami", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 226, "kode": "CAI/041", "judul": "Kumpulan Cerita Anak Muslim Berkarakter Hebat", "penerbit": "Tiga Ananda", "tahun": "-", "kategori": "Cerita Anak Islami", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 227, "kode": "CAI/042", "judul": "Kumpulan: Karakter Terpuji", "penerbit": "Qiblat", "tahun": "2020", "kategori": "Cerita Anak Islami", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 228, "kode": "CAI/043", "judul": "Makan dan Minum", "penerbit": "Tiga Ananda", "tahun": "-", "kategori": "Cerita Anak Islami", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 229, "kode": "CAI/044", "judul": "Malaikat Allah yang Selalu Taat", "penerbit": "Lingkar Media", "tahun": "-", "kategori": "Cerita Anak Islami", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 230, "kode": "CAI/045", "judul": "Masa Kecil Nabi Ibrahim", "penerbit": "Lingkar Media", "tahun": "-", "kategori": "Cerita Anak Islami", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 231, "kode": "CAI/046", "judul": "Masa Kecil Nabi Isa", "penerbit": "Lingkar Media", "tahun": "-", "kategori": "Cerita Anak Islami", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 232, "kode": "CAI/047", "judul": "Masa Kecil Nabi Muhammad", "penerbit": "Lingkar Media", "tahun": "-", "kategori": "Cerita Anak Islami", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 233, "kode": "CAI/048", "judul": "Masa Kecil Nabi Yahya", "penerbit": "Lingkar Media", "tahun": "-", "kategori": "Cerita Anak Islami", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 234, "kode": "CAI/049", "judul": "Masa Kecil Nabi Yusuf", "penerbit": "Lingkar Media", "tahun": "-", "kategori": "Cerita Anak Islami", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 235, "kode": "CAI/050", "judul": "Masya Allah Inilah Keajaiban", "penerbit": "Pustaka Arafah", "tahun": "-", "kategori": "Cerita Anak Islami", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 236, "kode": "CAI/051", "judul": "Memakai Sepatu dan Berjalan", "penerbit": "Tiga Ananda", "tahun": "-", "kategori": "Cerita Anak Islami", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 237, "kode": "CAI/052", "judul": "Menabung Sejak Dini untuk Haji", "penerbit": "Lingkar Media", "tahun": "-", "kategori": "Cerita Anak Islami", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 238, "kode": "CAI/053", "judul": "Menebar Manfaat dengan Zakat", "penerbit": "Lingkar Media", "tahun": "-", "kategori": "Cerita Anak Islami", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 239, "kode": "CAI/054", "judul": "Mengaji itu Prestasiku", "penerbit": "Tiga Ananda", "tahun": "-", "kategori": "Cerita Anak Islami", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 240, "kode": "CAI/055", "judul": "Mengekankan Agama dengan Sholat", "penerbit": "Lingkar Media", "tahun": "-", "kategori": "Cerita Anak Islami", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 241, "kode": "CAI/056", "judul": "Menjaga Kalimat Syahadat", "penerbit": "Tiga Ananda", "tahun": "-", "kategori": "Cerita Anak Islami", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 242, "kode": "CAI/057", "judul": "Menyayangi Makhluk Ciptaan Allah", "penerbit": "Tiga Ananda", "tahun": "-", "kategori": "Cerita Anak Islami", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 243, "kode": "CAI/058", "judul": "Mukjizat Nabi Isa", "penerbit": "Lingkar Media", "tahun": "-", "kategori": "Cerita Anak Islami", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 244, "kode": "CAI/059", "judul": "Mukjizat Nabi Isa", "penerbit": "Lingkar Media", "tahun": "-", "kategori": "Cerita Anak Islami", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 245, "kode": "CAI/060", "judul": "Nabi Musa", "penerbit": "Bintang Indonesia", "tahun": "-", "kategori": "Cerita Anak Islami", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 246, "kode": "CAI/061", "judul": "Pesantren Itu Keren", "penerbit": "Tiga Ananda", "tahun": "-", "kategori": "Cerita Anak Islami", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 247, "kode": "CAI/062", "judul": "Puasa dan Beramal", "penerbit": "Tiga Ananda", "tahun": "-", "kategori": "Cerita Anak Islami", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 248, "kode": "CAI/063", "judul": "Punggung Onta Berpunuk", "penerbit": "Glorier International", "tahun": "-", "kategori": "Cerita Anak Islami", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 249, "kode": "CAI/064", "judul": "Qadarullaah", "penerbit": "Tiga Ananda", "tahun": "-", "kategori": "Cerita Anak Islami", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 250, "kode": "CAI/065", "judul": "Sebuah Persaksian dengan Syahadat", "penerbit": "Lingkar Media", "tahun": "-", "kategori": "Cerita Anak Islami", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 251, "kode": "CAI/066", "judul": "Segera Tidur dan Bangun Pagi", "penerbit": "Tiga Ananda", "tahun": "-", "kategori": "Cerita Anak Islami", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 252, "kode": "CAI/067", "judul": "Senangnya Mengaji Bersama", "penerbit": "Tiga Ananda", "tahun": "-", "kategori": "Cerita Anak Islami", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 253, "kode": "CAI/068", "judul": "Shalat Sunnah Rawatib", "penerbit": "Tiga Ananda", "tahun": "-", "kategori": "Cerita Anak Islami", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 254, "kode": "CAI/069", "judul": "Sultan Domas", "penerbit": "Cahaya Agensi", "tahun": "-", "kategori": "Cerita Anak Islami", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 255, "kode": "CAI/070", "judul": "Syafaakallaah", "penerbit": "Tiga Ananda", "tahun": "-", "kategori": "Cerita Anak Islami", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 256, "kode": "CAI/071", "judul": "Tertidur di Dalam Goa", "penerbit": "Perisai Qur'an", "tahun": "2019", "kategori": "Cerita Anak Islami", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 257, "kode": "CAI/072", "judul": "Umar bin Khattab", "penerbit": "Ziyad Book", "tahun": "2019", "kategori": "Cerita Anak Islami", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 258, "kode": "CAI/073", "judul": "Umar bin Khattab jagoanku", "penerbit": "Lingkar Media", "tahun": "-", "kategori": "Cerita Anak Islami", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 259, "kode": "CAI/074", "judul": "Usman bin Affan", "penerbit": "Lingkar Media", "tahun": "-", "kategori": "Cerita Anak Islami", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 260, "kode": "EB/001", "judul": "English Today 3 for SD/MI Grade III", "penerbit": "Quadra", "tahun": "-", "kategori": "English Book", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 261, "kode": "EB/002", "judul": "Grow with English Book 2", "penerbit": "Erlangga", "tahun": "-", "kategori": "English Book", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 262, "kode": "EB/003", "judul": "Helping Your Child To Read", "penerbit": "Oxford", "tahun": "2012", "kategori": "English Book", "stok": 2, "tersedia": 2, "kondisi": "Baik" },
+      { "id": 263, "kode": "EB/004", "judul": "Kamus 3 Bahasa", "penerbit": "Lingkar Media", "tahun": "-", "kategori": "English Book", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 264, "kode": "EB/005", "judul": "Kamus Bergambar 3 Bahasa", "penerbit": "Gemilang Utama", "tahun": "-", "kategori": "English Book", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 265, "kode": "EB/006", "judul": "Kamus Lengkap", "penerbit": "Serba Jaya", "tahun": "-", "kategori": "English Book", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 266, "kode": "EB/007", "judul": "Manusia Evolusi", "penerbit": "Balai Pelestarian Situs", "tahun": "2020", "kategori": "English Book", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 267, "kode": "EB/008", "judul": "My First Book England", "penerbit": "Globerd", "tahun": "-", "kategori": "English Book", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 268, "kode": "EB/009", "judul": "Sabo The Turtle", "penerbit": "Fiji", "tahun": "-", "kategori": "English Book", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 269, "kode": "EB/010", "judul": "We Love English 2", "penerbit": "Cambridge", "tahun": "-", "kategori": "English Book", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 270, "kode": "KBR/001", "judul": "Kamus Pengetahuan Alam Bergambar", "penerbit": "Tiga Ananda", "tahun": "-", "kategori": "Kamus Bergambar / Sains Anak", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 271, "kode": "KBS/001", "judul": "Kamus Pengetahuan Sosial Bergambar", "penerbit": "Tiga Ananda", "tahun": "-", "kategori": "Kamus Bergambar / Buku Referensi", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 272, "kode": "MA/001", "judul": "Bintangku: Majalah Kenangan 2017-2018 (Edisi Mei 2018)", "penerbit": "-", "tahun": "2018", "kategori": "Majalah", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 273, "kode": "M/001", "judul": "Aku Bisa Bercocok Tanam: Bayam", "penerbit": "Tiga Ananda", "tahun": "-", "kategori": "Monograf", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 274, "kode": "M/002", "judul": "Aku Bisa Bercocok Tanam: Cabai", "penerbit": "Tiga Ananda", "tahun": "-", "kategori": "Monograf", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 275, "kode": "M/003", "judul": "Aku Bisa Bercocok Tanam: Kangkung", "penerbit": "Tiga Ananda", "tahun": "-", "kategori": "Monograf", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 276, "kode": "M/004", "judul": "Aku Bisa Bercocok Tanam: Tomat", "penerbit": "Tiga Ananda", "tahun": "-", "kategori": "Monograf", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 277, "kode": "SA/001", "judul": "366 Pertanyaan dan Jawaban", "penerbit": "Karisma Publishing", "tahun": "2002", "kategori": "Sains", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 278, "kode": "SA/002", "judul": "Amazing Cerita Sains Terbaik dari Al-Qur'an", "penerbit": "Al-Qudwah", "tahun": "2015", "kategori": "Sains", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 279, "kode": "SA/003", "judul": "Anak Cerdas \"Jam Berapa, Sih?\"", "penerbit": "Penerbit Erlangga", "tahun": "2003", "kategori": "Sains", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 280, "kode": "SA/004", "judul": "Berpikir Seperti Seekor Harimau", "penerbit": "National Geographic", "tahun": "2011", "kategori": "Sains", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 281, "kode": "SA/005", "judul": "Daur Hidup Ayam", "penerbit": "Tiga Ananda", "tahun": "-", "kategori": "Sains", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 282, "kode": "SA/006", "judul": "Daur Hidup Bunga Matahari", "penerbit": "Tiga Ananda", "tahun": "-", "kategori": "Sains", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 283, "kode": "SA/007", "judul": "Daur Hidup Hiu", "penerbit": "Tiga Ananda", "tahun": "-", "kategori": "Sains", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 284, "kode": "SA/008", "judul": "Daur Hidup Kanguru", "penerbit": "Tiga Ananda", "tahun": "-", "kategori": "Sains", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 285, "kode": "SA/009", "judul": "Daur Hidup Katak", "penerbit": "Tiga Ananda", "tahun": "-", "kategori": "Sains", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 286, "kode": "SA/010", "judul": "Dunia Satwa: Jerapah", "penerbit": "Tiga Ananda", "tahun": "-", "kategori": "Sains", "stok": 2, "tersedia": 2, "kondisi": "Baik" },
+      { "id": 287, "kode": "SA/011", "judul": "Dunia Satwa: Kupu-Kupu", "penerbit": "Tiga Ananda", "tahun": "-", "kategori": "Sains", "stok": 2, "tersedia": 2, "kondisi": "Baik" },
+      { "id": 288, "kode": "SA/012", "judul": "Eksperimen Jin Botol", "penerbit": "Tiga Ananda", "tahun": "2018", "kategori": "Sains", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 289, "kode": "SA/013", "judul": "Ensiklopedia Antariksa", "penerbit": "BIP Gramedia", "tahun": "2024", "kategori": "Sains", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 290, "kode": "SA/014", "judul": "Ensiklopedia Atlas", "penerbit": "BIP Gramedia", "tahun": "2024", "kategori": "Sains", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 291, "kode": "SA/015", "judul": "Ensiklopedia Cerdas: Penemuan yang mengubah Dunia", "penerbit": "C-Klik Media", "tahun": "2018", "kategori": "Sains", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 292, "kode": "SA/016", "judul": "Ensiklopedia Hewan", "penerbit": "BIP Gramedia", "tahun": "2024", "kategori": "Sains", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 293, "kode": "SA/017", "judul": "Ensiklopedia Tubuh Manusia", "penerbit": "BIP Gramedia", "tahun": "2024", "kategori": "Sains", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 294, "kode": "SA/018", "judul": "Jelajah Pengetahuan 1: Fauna & Flora", "penerbit": "Tiga Ananda", "tahun": "-", "kategori": "Sains", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 295, "kode": "SA/019", "judul": "KAIFA", "penerbit": "Zain Penyejuk Hati", "tahun": "2021", "kategori": "Sains", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 296, "kode": "SA/020", "judul": "Masya Allah Inilah Keajaiban Flora dalam Al-Qur'an", "penerbit": "Pustaka Arafah", "tahun": "2020", "kategori": "Sains", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 297, "kode": "SA/021", "judul": "Masya Allah Inilah Keajaiban Sains dalam Hadits", "penerbit": "Pustaka Arafah", "tahun": "2020", "kategori": "Sains", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 298, "kode": "SA/022", "judul": "Masya Allah Keajaiban Sains dalam Al-Qur'an", "penerbit": "Pustaka Arafah", "tahun": "2020", "kategori": "Sains", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 299, "kode": "SA/023", "judul": "Masya Allah! Inilah Keajaiban Flora dalam Al-Qur'an", "penerbit": "Pustaka Arafah", "tahun": "-", "kategori": "Sains", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 300, "kode": "SA/024", "judul": "Mengapa Cabai Pedas?", "penerbit": "Tiga Ananda", "tahun": "-", "kategori": "Sains", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 301, "kode": "SA/025", "judul": "Mengapa Daun Putri Malu Menutup saat Disentuh?", "penerbit": "Tiga Ananda", "tahun": "-", "kategori": "Sains", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 302, "kode": "SA/026", "judul": "Mengapa Ekor Cecak yang Putus Masih Dapat Bergerak?", "penerbit": "Tiga Ananda", "tahun": "-", "kategori": "Sains", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 303, "kode": "SA/027", "judul": "Mengapa Paus Itu Bukan Ikan?", "penerbit": "Tiga Ananda", "tahun": "-", "kategori": "Sains", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 304, "kode": "SA/028", "judul": "Para Detektif Mungil \"Apakah Ada Kehidupan di Dasar Laut\"", "penerbit": "Hoddots Children", "tahun": "-", "kategori": "Sains", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 305, "kode": "SA/029", "judul": "Para Detektif Mungil \"Apakah Hewan Bisa Berjalan di Atas Air\"", "penerbit": "Hoddots Children", "tahun": "-", "kategori": "Sains", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 306, "kode": "SA/030", "judul": "Para Detektif Mungil \"Apakah Inti Bumi Panas\"", "penerbit": "Hoddots Children", "tahun": "-", "kategori": "Sains", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 307, "kode": "SA/031", "judul": "Pertanyaan Ajaib dari Anak", "penerbit": "Noktah", "tahun": "2019", "kategori": "Sains", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 308, "kode": "SA/032", "judul": "Petir", "penerbit": "Tiga Ananda", "tahun": "2017", "kategori": "Sains", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 309, "kode": "SA/033", "judul": "Siklus Air", "penerbit": "Ahlan", "tahun": "2021", "kategori": "Sains", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 310, "kode": "SA/034", "judul": "Tidak! No!", "penerbit": "Erlangga", "tahun": "2015", "kategori": "Sains", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 311, "kode": "SR/001", "judul": "25 Nabi dan Rasul", "penerbit": "Mizan Book Publishing", "tahun": "2022", "kategori": "Siroh", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 312, "kode": "SR/002", "judul": "25 Nabi dan Rasul", "penerbit": "CV. Pustaka Agung Harapan", "tahun": "-", "kategori": "Siroh", "stok": 3, "tersedia": 3, "kondisi": "Baik" },
+      { "id": 313, "kode": "SR/003", "judul": "25 Nabi dan Rasul", "penerbit": "Lintas Media", "tahun": "-", "kategori": "Siroh", "stok": 2, "tersedia": 2, "kondisi": "Baik" },
+      { "id": 314, "kode": "SR/004", "judul": "25 Nabi dan Rasul", "penerbit": "Karya Gemilang Utama", "tahun": "-", "kategori": "Siroh", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 315, "kode": "SR/005", "judul": "Al Fatih", "penerbit": "AL Fatih Press", "tahun": "2019", "kategori": "Siroh", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 316, "kode": "SR/006", "judul": "Baitera Nabi Nuh", "penerbit": "Lingkar Media", "tahun": "-", "kategori": "Siroh", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 317, "kode": "SR/007", "judul": "Baitul Maqdis: Masjid Suci", "penerbit": "Al-Fatih Press", "tahun": "-", "kategori": "Siroh", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 318, "kode": "SR/008", "judul": "Berhala", "penerbit": "Al-Huda", "tahun": "2005", "kategori": "Siroh", "stok": 2, "tersedia": 2, "kondisi": "Baik" },
+      { "id": 319, "kode": "SR/009", "judul": "Hikmah Kisah 25 Nabi dan Rasul", "penerbit": "Mizan Book Publishing", "tahun": "2022", "kategori": "Siroh", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 320, "kode": "SR/010", "judul": "Jejak Rasul", "penerbit": "Idea WorkKids", "tahun": "-", "kategori": "Siroh", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 321, "kode": "SR/011", "judul": "Kisah 25 Nabi dan Rasul", "penerbit": "Dar Mizan", "tahun": "-", "kategori": "Siroh", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 322, "kode": "SR/012", "judul": "Kisah 25 Nabi dan Rasul", "penerbit": "Central Media", "tahun": "-", "kategori": "Siroh", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 323, "kode": "SR/013", "judul": "Kisah Masa Kecil Para Nabi dan Rasul", "penerbit": "Mentari Media", "tahun": "2017", "kategori": "Siroh", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 324, "kode": "SR/014", "judul": "Kisah Nabi dan Rasul", "penerbit": "Media Shalih", "tahun": "2015", "kategori": "Siroh", "stok": 2, "tersedia": 2, "kondisi": "Baik" },
+      { "id": 325, "kode": "SR/015", "judul": "Kisah Nabi Sholeh", "penerbit": "CV. Pustaka Agung Harapan", "tahun": "-", "kategori": "Siroh", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 326, "kode": "SR/016", "judul": "Kisah Nabi Yunus", "penerbit": "Media Kids", "tahun": "-", "kategori": "Siroh", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 327, "kode": "SR/017", "judul": "Kisah Teladan 25 Nabi & Rasul: 1001 Hikmah dalam Sebuah Perjalanan Dakwah", "penerbit": "Lingkar Media", "tahun": "-", "kategori": "Siroh", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 328, "kode": "SR/018", "judul": "Kisah Teladan 25 Nabi dan Rasul", "penerbit": "Lingkar Media", "tahun": "-", "kategori": "Siroh", "stok": 2, "tersedia": 2, "kondisi": "Baik" },
+      { "id": 329, "kode": "SR/019", "judul": "Kisah Teladan dan Mukjizat 25 Nabi & Rasul", "penerbit": "-", "tahun": "-", "kategori": "Siroh", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 330, "kode": "SR/020", "judul": "Kisah Teladan dan Mukjizat 25 Nabi dan Rasul", "penerbit": "Buku Bijak", "tahun": "2023", "kategori": "Siroh", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 331, "kode": "SR/021", "judul": "Kisah Teladan Para Nabi Seri 4 dan 5", "penerbit": "Zain Penyejuk Hati", "tahun": "2018", "kategori": "Siroh", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 332, "kode": "SR/022", "judul": "Kumpulan Kisah Nabi dan Rasul pilihan", "penerbit": "Dzikrul Hakim", "tahun": "2019", "kategori": "Siroh", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 333, "kode": "SR/023", "judul": "Mukjizat Para Nabi", "penerbit": "Ziyad Book", "tahun": "2021", "kategori": "Siroh", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 334, "kode": "SR/024", "judul": "Mutiara Kisah 25 Nabi dan Rasul", "penerbit": "CV. Pustaka Agung Harapan", "tahun": "-", "kategori": "Siroh", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 335, "kode": "SR/025", "judul": "Nabi Idris", "penerbit": "Tiga Ananda", "tahun": "-", "kategori": "Siroh", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 336, "kode": "SR/026", "judul": "Nabi Ishaq", "penerbit": "Tiga Ananda", "tahun": "-", "kategori": "Siroh", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 337, "kode": "SR/027", "judul": "Nabi Ismail", "penerbit": "Tiga Ananda", "tahun": "-", "kategori": "Siroh", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 338, "kode": "SR/028", "judul": "Nabi Muhammad Khatimul Anbiya", "penerbit": "Lingkar Media", "tahun": "-", "kategori": "Siroh", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 339, "kode": "SR/029", "judul": "Nabi Sulaiman", "penerbit": "Serba Jaya", "tahun": "-", "kategori": "Siroh", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 340, "kode": "SR/030", "judul": "Nabi Yunus A.s", "penerbit": "Pustaka Sandro Jaya", "tahun": "-", "kategori": "Siroh", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 341, "kode": "SR/031", "judul": "Tugas Nabi dan Rasul", "penerbit": "Ziyad Book", "tahun": "2021", "kategori": "Siroh", "stok": 1, "tersedia": 1, "kondisi": "Baik" },
+      { "id": 342, "kode": "SR/032", "judul": "Utusan Allah yang Selalu Sabar", "penerbit": "Lingkar Media", "tahun": "-", "kategori": "Siroh", "stok": 1, "tersedia": 1, "kondisi": "Baik" }
     ];
 
-    // INITIAL STUDENTS DATA
     const initialStudents = [
       { id: 1, nama: "Ambalika Sora Pratama", kelas: "Kelas 1A" },
       { id: 2, nama: "Annasya Adreena", kelas: "Kelas 1A" },
@@ -1529,27 +1832,28 @@
       { id: 21, nama: "Ahmad Alfian Arsyad", kelas: "Kelas 6 Al Fattah" }
     ];
 
-    // INITIAL LOANS DATA
     let loans = [
       { id: "TRX-101", studentId: 11, studentName: "Aisyah Pelangi Muslimah", kelas: "Kelas 2A Al Malik", bookId: 2, bookTitle: "Bacaan Sholat: Disertai Latin & Terjemah Bahasa Indonesia", tglPinjam: "2026-10-20", tglKembali: "2026-10-27", status: "Dipinjam" },
-      { id: "TRX-102", studentId: 6, studentName: "Adlan Malik Assami", kelas: "Kelas 1B", bookId: 16, bookTitle: "Kisah Nabi Muhammad SAW", tglPinjam: "2026-10-22", tglKembali: "2026-10-29", status: "Dipinjam" },
-      { id: "TRX-103", studentId: 15, studentName: "Adifa Safa Azzahra", kelas: "Kelas 3A Al Aliim", bookId: 17, bookTitle: "Kisah 25 Nabi dan Rasul", tglPinjam: "2026-10-18", tglKembali: "2026-10-25", status: "Terlambat" }
+      { id: "TRX-102", studentId: 6, studentName: "Adlan Malik Assami", kelas: "Kelas 1B", bookId: 186, bookTitle: "10 Kisah Pahlawan Surga", tglPinjam: "2026-10-22", tglKembali: "2026-10-29", status: "Dipinjam" },
+      { id: "TRX-103", studentId: 15, studentName: "Adifa Safa Azzahra", kelas: "Kelas 3A Al Aliim", bookId: 311, bookTitle: "25 Nabi dan Rasul", tglPinjam: "2026-10-18", tglKembali: "2026-10-25", status: "Terlambat" }
     ];
 
-    // INITIAL VISITS LOGS (Fitur Kunjungan)
     let visits = [
       { id: 1, studentId: 1, studentName: "Ambalika Sora Pratama", kelas: "Kelas 1A", tanggal: "2026-10-02", keperluan: "Membaca Buku" },
       { id: 2, studentId: 11, studentName: "Aisyah Pelangi Muslimah", kelas: "Kelas 2A Al Malik", tanggal: "2026-10-05", keperluan: "Meminjam Buku" },
       { id: 3, studentId: 11, studentName: "Aisyah Pelangi Muslimah", kelas: "Kelas 2A Al Malik", tanggal: "2026-10-12", keperluan: "Membaca Buku" },
       { id: 4, studentId: 11, studentName: "Aisyah Pelangi Muslimah", kelas: "Kelas 2A Al Malik", tanggal: "2026-10-20", keperluan: "Meminjam Buku" },
-      { id: 5, studentId: 15, studentName: "Adifa Safa Azzahra", kelas: "Kelas 3A Al Aliim", tanggal: "2026-10-10", keperluan: "Kerja Kelompok / Tugas" },
-      { id: 6, studentId: 15, studentName: "Adifa Safa Azzahra", kelas: "Kelas 3A Al Aliim", tanggal: "2026-10-18", keperluan: "Meminjam Buku" },
-      { id: 7, studentId: 20, studentName: "Aditya Zharif Arkan", kelas: "Kelas 5 Al Kariim", tanggal: "2026-10-15", keperluan: "Membaca Buku" }
+      { id: 5, studentId: 15, studentName: "Adifa Safa Azzahra", kelas: "Kelas 3A Al Aliim", tanggal: "2026-10-10", keperluan: "Kerja Kelompok / Tugas" }
     ];
 
     let books = JSON.parse(localStorage.getItem('makarima_books')) || initialBooks;
     let students = JSON.parse(localStorage.getItem('makarima_students')) || initialStudents;
     let categoryChartInstance = null;
+
+    // PAGINATION STATE FOR KATALOG BUKU
+    let currentPage = 1;
+    let rowsPerPage = 25;
+    let filteredBooks = [];
 
     document.addEventListener("DOMContentLoaded", () => {
       if (sessionStorage.getItem('pustaka_auth') === 'true') {
@@ -1564,7 +1868,7 @@
       initFilters();
       initKunjunganMonthFilter();
       renderDashboard();
-      renderKatalog();
+      filterAndRenderKatalog();
       renderMurid();
       renderSirkulasi();
       renderKunjungan();
@@ -1601,7 +1905,7 @@
 
       const titles = {
         'dashboard': ['Dashboard Perpustakaan', 'Sistem Rekap & Sirkulasi Pustaka Syamilah Makarima'],
-        'katalog': ['Katalog Inventaris Buku', 'Pencarian, Manajemen Stok & Input Koleksi Buku'],
+        'katalog': ['Katalog Inventaris Buku', 'Pencarian, Manajemen Stok & Input Koleksi Buku (342 Judul)'],
         'murid': ['Daftar Murid Sekolah', 'Rekap Keanggotaan Murid SD Islam Makarima'],
         'sirkulasi': ['Sirkulasi Peminjaman', 'Pencatatan Keluar Masuk Buku & Keterlambatan'],
         'kunjungan': ['Presensi Kunjungan Siswa', 'Rekapan Jumlah Kunjungan per Siswa per Bulan']
@@ -1632,6 +1936,12 @@
       document.getElementById(modalId).classList.remove('active');
     }
 
+    function openPrintLabel(kode, judul) {
+      document.getElementById('lblKode').innerText = kode;
+      document.getElementById('lblJudul').innerText = judul;
+      openModal('modalPrintLabel');
+    }
+
     function updateClassDatalists() {
       const uniqueClasses = [...new Set(students.map(s => s.kelas))].sort();
       const optionsHtml = uniqueClasses.map(c => `<option value="${c}">`).join('');
@@ -1640,9 +1950,9 @@
     }
 
     function initFilters() {
-      const categories = [...new Set(books.map(b => b.kategori))];
+      const categories = [...new Set(books.map(b => b.kategori))].sort();
       const catSelect = document.getElementById('filterKategori');
-      catSelect.innerHTML = '<option value="">Semua Kategori</option>';
+      catSelect.innerHTML = `<option value="">Semua Kategori (${categories.length})</option>`;
       categories.forEach(cat => {
         catSelect.innerHTML += `<option value="${cat}">${cat}</option>`;
       });
@@ -1656,7 +1966,11 @@
     }
 
     function renderDashboard() {
-      document.getElementById('statTotalJudul').innerText = books.length;
+      const totalJudul = books.length;
+      const totalEksemplar = books.reduce((acc, b) => acc + (b.stok || 1), 0);
+
+      document.getElementById('statTotalJudul').innerText = totalJudul;
+      document.getElementById('statTotalEksemplar').innerText = totalEksemplar;
       document.getElementById('statTotalMurid').innerText = students.length;
       document.getElementById('statTotalDipinjam').innerText = loans.filter(l => l.status !== 'Dikembalikan').length;
       
@@ -1696,36 +2010,92 @@
       });
     }
 
-    function renderKatalog() {
+    /* KATALOG BUKU WITH PAGINATION & PRINT LABEL */
+    function filterAndRenderKatalog() {
       const q = document.getElementById('searchBuku').value.toLowerCase();
       const cat = document.getElementById('filterKategori').value;
 
-      const filtered = books.filter(b => {
+      filteredBooks = books.filter(b => {
         const matchQ = b.judul.toLowerCase().includes(q) || b.penerbit.toLowerCase().includes(q) || (b.kode && b.kode.toLowerCase().includes(q));
         const matchCat = cat === "" || b.kategori === cat;
         return matchQ && matchCat;
       });
 
+      currentPage = 1;
+      renderKatalogTable();
+    }
+
+    function changeRowsPerPage() {
+      const val = document.getElementById('rowsPerPageSelect').value;
+      rowsPerPage = val === 'ALL' ? filteredBooks.length : parseInt(val);
+      currentPage = 1;
+      renderKatalogTable();
+    }
+
+    function renderKatalogTable() {
       const tbody = document.getElementById('tableKatalogBody');
       tbody.innerHTML = '';
 
-      filtered.forEach((b, idx) => {
+      const totalItems = filteredBooks.length;
+      let startIndex = (currentPage - 1) * rowsPerPage;
+      let endIndex = rowsPerPage === 'ALL' ? totalItems : Math.min(startIndex + rowsPerPage, totalItems);
+
+      if (totalItems === 0) {
+        tbody.innerHTML = `<tr><td colspan="8" style="text-align:center; color:var(--text-muted); padding:20px;">Tidak ada koleksi buku yang cocok.</td></tr>`;
+        document.getElementById('katalogPaginationInfo').innerText = "Menampilkan 0 data";
+        document.getElementById('katalogPaginationControls').innerHTML = "";
+        return;
+      }
+
+      const pageItems = filteredBooks.slice(startIndex, endIndex);
+
+      pageItems.forEach((b) => {
         tbody.innerHTML += `
           <tr>
-            <td><code style="background:#FAF4E5; padding:3px 6px; border-radius:4px; font-weight:700; color:var(--accent-warm);">${b.kode || 'KB/'+(idx+1)}</code></td>
-            <td style="font-weight:600;">${b.judul}</td>
+            <td><code style="background:#FAF4E5; padding:3px 8px; border-radius:6px; font-weight:700; color:var(--accent-warm);">${b.kode || '-'}</code></td>
+            <td style="font-weight:700;">${b.judul}</td>
             <td><span class="badge badge-cat">${b.kategori}</span></td>
             <td>${b.penerbit}</td>
             <td>${b.tahun}</td>
             <td><strong>${b.tersedia}</strong> / ${b.stok}</td>
             <td><span class="badge ${b.kondisi === 'Baik' ? 'badge-success' : 'badge-warning'}">${b.kondisi || 'Baik'}</span></td>
             <td style="text-align: right;">
+              <button class="btn-action print-label" title="Cetak Label Punggung Buku" onclick="openPrintLabel('${b.kode}', '${b.judul.replace(/'/g, "\\'")}')"><i class="fa-solid fa-print"></i></button>
               <button class="btn-action" title="Edit Stok" onclick="editStokBuku(${b.id})"><i class="fa-solid fa-pen"></i></button>
               <button class="btn-action delete" title="Hapus Buku" onclick="hapusBuku(${b.id})"><i class="fa-solid fa-trash"></i></button>
             </td>
           </tr>
         `;
       });
+
+      document.getElementById('katalogPaginationInfo').innerText = `Menampilkan ${startIndex + 1} - ${endIndex} dari ${totalItems} buku`;
+      renderPaginationControls(totalItems);
+    }
+
+    function renderPaginationControls(totalItems) {
+      const controls = document.getElementById('katalogPaginationControls');
+      controls.innerHTML = '';
+
+      if (rowsPerPage >= totalItems) return;
+
+      const totalPages = Math.ceil(totalItems / rowsPerPage);
+
+      controls.innerHTML += `<button class="page-btn" ${currentPage === 1 ? 'disabled' : ''} onclick="goToPage(${currentPage - 1})"><i class="fa-solid fa-chevron-left"></i> Prev</button>`;
+
+      for (let i = 1; i <= totalPages; i++) {
+        if (i === 1 || i === totalPages || (i >= currentPage - 1 && i <= currentPage + 1)) {
+          controls.innerHTML += `<button class="page-btn ${i === currentPage ? 'active' : ''}" onclick="goToPage(${i})">${i}</button>`;
+        } else if (i === currentPage - 2 || i === currentPage + 2) {
+          controls.innerHTML += `<span style="font-size:12px; color:var(--text-muted);">...</span>`;
+        }
+      }
+
+      controls.innerHTML += `<button class="page-btn" ${currentPage === totalPages ? 'disabled' : ''} onclick="goToPage(${currentPage + 1})">Next <i class="fa-solid fa-chevron-right"></i></button>`;
+    }
+
+    function goToPage(page) {
+      currentPage = page;
+      renderKatalogTable();
     }
 
     function renderMurid() {
@@ -1788,7 +2158,7 @@
       });
     }
 
-    /* KUNJUNGAN SISWA LOGIC & RENDER (FITUR BARU) */
+    /* KUNJUNGAN LOGIC */
     function initKunjunganMonthFilter() {
       const select = document.getElementById('filterBulanKunjungan');
       select.innerHTML = '';
@@ -1849,8 +2219,6 @@
 
     function renderKunjungan() {
       const selectedMonth = document.getElementById('filterBulanKunjungan').value || new Date().toISOString().slice(0, 7);
-      
-      // Filter visits for selected month
       const monthVisits = visits.filter(v => v.tanggal.startsWith(selectedMonth));
       
       document.getElementById('statKunjunganBulan').innerText = monthVisits.length;
@@ -1859,7 +2227,6 @@
       const monthLabel = dateObj.toLocaleString('id', { month: 'long', year: 'numeric' });
       document.getElementById('statPeriodeAktif').innerText = `Periode ${monthLabel}`;
 
-      // Calculate Most Active Visitor & Most Active Class
       const studentCounts = {};
       const classCounts = {};
 
@@ -1890,7 +2257,6 @@
       document.getElementById('statKelasTeraktif').innerText = topClass;
       document.getElementById('statKelasTeraktifCount').innerText = `${topClassCount} Presensi`;
 
-      // Render Log Table
       const logTbody = document.getElementById('tableKunjunganBody');
       logTbody.innerHTML = '';
 
@@ -1913,19 +2279,13 @@
         });
       }
 
-      // Render Monthly Summary Table per Student (Sebulan Berapa Kali)
       const q = (document.getElementById('searchRekapKunjungan').value || '').toLowerCase();
       const rekapTbody = document.getElementById('tableRekapFrekuensiBody');
       rekapTbody.innerHTML = '';
 
-      // Count all visits per student for the selected month across all students
       const studentVisitMap = {};
       students.forEach(s => {
-        studentVisitMap[s.id] = {
-          name: s.nama,
-          kelas: s.kelas,
-          count: 0
-        };
+        studentVisitMap[s.id] = { name: s.nama, kelas: s.kelas, count: 0 };
       });
 
       monthVisits.forEach(v => {
@@ -1934,7 +2294,6 @@
         }
       });
 
-      // Filter and sort students by visit count
       const rekapList = Object.values(studentVisitMap)
         .filter(st => st.name.toLowerCase().includes(q))
         .sort((a, b) => b.count - a.count);
@@ -2041,7 +2400,7 @@
       books.unshift(newBook);
       saveData();
       initFilters();
-      renderKatalog();
+      filterAndRenderKatalog();
       renderDashboard();
       closeModal('modalInputBuku');
       document.getElementById('formTambahBuku').reset();
@@ -2058,7 +2417,7 @@
       const bSelect = document.getElementById('pinjamBukuId');
       bSelect.innerHTML = '';
       books.filter(b => b.tersedia > 0).forEach(b => {
-        bSelect.innerHTML += `<option value="${b.id}">${b.judul} [Stok: ${b.tersedia}]</option>`;
+        bSelect.innerHTML += `<option value="${b.id}">[${b.kode}] ${b.judul} (Stok: ${b.tersedia})</option>`;
       });
     }
 
@@ -2098,7 +2457,7 @@
       loans.unshift(newLoan);
       saveData();
       renderDashboard();
-      renderKatalog();
+      filterAndRenderKatalog();
       renderMurid();
       renderSirkulasi();
       closeModal('modalPinjam');
@@ -2116,7 +2475,7 @@
 
       saveData();
       renderDashboard();
-      renderKatalog();
+      filterAndRenderKatalog();
       renderMurid();
       renderSirkulasi();
       showToast("Buku telah dikembalikan!");
@@ -2126,7 +2485,7 @@
       if(confirm("Apakah Anda yakin ingin menghapus buku ini?")) {
         books = books.filter(b => b.id !== id);
         saveData();
-        renderKatalog();
+        filterAndRenderKatalog();
         renderDashboard();
         showToast("Buku berhasil dihapus.");
       }
@@ -2141,7 +2500,7 @@
         bk.stok = parseInt(newStok);
         bk.tersedia = Math.max(0, bk.tersedia + diff);
         saveData();
-        renderKatalog();
+        filterAndRenderKatalog();
         renderDashboard();
         showToast("Stok buku diperbarui!");
       }
@@ -2177,7 +2536,7 @@
     function processImport() {
       const file = document.getElementById('fileInput').files[0];
       if(!file) {
-        alert("Pilih file CSV atau Excel terlebih dahulu!");
+        alert("Pilih file CSV terlebih dahulu!");
         return;
       }
       showToast(`File ${file.name} berhasil disinkronkan!`);
