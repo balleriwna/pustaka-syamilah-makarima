@@ -1245,7 +1245,7 @@
                   <td>08.35 – 09.10</td>
                 </tr>
                 <tr>
-                  <td><span class="badge badge-class">Kelas 1B (Luar)</span></td>
+                  <td><span class="badge badge-class">Kelas 1B</span></td>
                   <td>13.00 – 13.35</td>
                 </tr>
                 <tr>
@@ -1254,7 +1254,7 @@
                   <td>09.45 – 10.20</td>
                 </tr>
                 <tr>
-                  <td><span class="badge badge-class">Kelas 1C (Dalam)</span></td>
+                  <td><span class="badge badge-class">Kelas 1C</span></td>
                   <td>10.35 – 11.10</td>
                 </tr>
               </tbody>
@@ -1394,6 +1394,64 @@
         <div class="modal-footer">
           <button type="button" class="btn-secondary" onclick="closeModal('modalEditKunjungan')">Batal</button>
           <button type="submit" class="quick-btn purple">Simpan Perubahan</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+
+  <!-- MODAL: EDIT BUKU -->
+  <div id="modalEditBuku" class="modal-overlay">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h4><i class="fa-solid fa-pen-to-square"></i> Edit Data Buku</h4>
+        <button class="btn-close" onclick="closeModal('modalEditBuku')">&times;</button>
+      </div>
+      <form id="formEditBuku" onsubmit="handleSimpanEditBuku(event)">
+        <div class="modal-body">
+          <input type="hidden" id="editBukuId"/>
+          <div class="form-group">
+            <label>Judul Buku</label>
+            <input type="text" id="editJudul" class="form-control" required/>
+          </div>
+          <div class="grid-2">
+            <div class="form-group">
+              <label>Kode Label</label>
+              <input type="text" id="editKode" class="form-control" placeholder="Contoh: AI/015"/>
+            </div>
+            <div class="form-group">
+              <label>Kategori</label>
+              <input type="text" id="editKategori" class="form-control" list="kategoriList" required/>
+            </div>
+          </div>
+          <div class="grid-2">
+            <div class="form-group">
+              <label>Penerbit</label>
+              <input type="text" id="editPenerbit" class="form-control"/>
+            </div>
+            <div class="form-group">
+              <label>Tahun</label>
+              <input type="text" id="editTahun" class="form-control"/>
+            </div>
+          </div>
+          <div class="grid-2">
+            <div class="form-group">
+              <label>Stok Total</label>
+              <input type="number" id="editStok" class="form-control" min="0" required/>
+            </div>
+            <div class="form-group">
+              <label>Kondisi</label>
+              <select id="editKondisi" class="form-control">
+                <option value="Baik">Baik</option>
+                <option value="Cukup">Cukup</option>
+                <option value="Rusak">Rusak</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn-secondary" onclick="closeModal('modalEditBuku')">Batal</button>
+          <button type="submit" class="quick-btn">Simpan Perubahan</button>
         </div>
       </form>
     </div>
@@ -2208,51 +2266,51 @@
       { id: 23, nama: "Shaqueena Mikhaylova", kelas: "Kelas 1A" },
       { id: 24, nama: "Sharga Virendra Ahzafani", kelas: "Kelas 1A" },
       { id: 25, nama: "Zahsy Arisha Putri Alista", kelas: "Kelas 1A" },
-      { id: 26, nama: "Adlan Malik Assami", kelas: "Kelas 1B (Luar)" },
-      { id: 27, nama: "Aldi Rafaeyza", kelas: "Kelas 1B (Luar)" },
-      { id: 28, nama: "Alvarendra Arasya Widhiyatmoko", kelas: "Kelas 1B (Luar)" },
-      { id: 29, nama: "Banafsha Alesha Zoya", kelas: "Kelas 1B (Luar)" },
-      { id: 30, nama: "Dhanesh Kalle Nugroho", kelas: "Kelas 1B (Luar)" },
-      { id: 31, nama: "Fisa Efda Al Qisthi", kelas: "Kelas 1B (Luar)" },
-      { id: 32, nama: "Gaffar Sinambrama Mandegani", kelas: "Kelas 1B (Luar)" },
-      { id: 33, nama: "Hamizhan Satria Manggala", kelas: "Kelas 1B (Luar)" },
-      { id: 34, nama: "Hana Mekka Arkadewi", kelas: "Kelas 1B (Luar)" },
-      { id: 35, nama: "Hilya Annasya Zea", kelas: "Kelas 1B (Luar)" },
-      { id: 36, nama: "Kareem Benzema Zehiya Khan", kelas: "Kelas 1B (Luar)" },
-      { id: 37, nama: "Lingga Rajendra Wibowo", kelas: "Kelas 1B (Luar)" },
-      { id: 38, nama: "Mayzura Zayn", kelas: "Kelas 1B (Luar)" },
-      { id: 39, nama: "Muhammad Farell Abdillah", kelas: "Kelas 1B (Luar)" },
-      { id: 40, nama: "Muhammad Faris Akbar", kelas: "Kelas 1B (Luar)" },
-      { id: 41, nama: "Narendra Pasa Alfarizqi", kelas: "Kelas 1B (Luar)" },
-      { id: 42, nama: "Rashdan Ashim Nugroho", kelas: "Kelas 1B (Luar)" },
-      { id: 43, nama: "Rumaysa Nuha Aghnia", kelas: "Kelas 1B (Luar)" },
-      { id: 44, nama: "Sheo Eiji Akira Misdaq", kelas: "Kelas 1B (Luar)" },
-      { id: 45, nama: "Syafika Fauziah", kelas: "Kelas 1B (Luar)" },
-      { id: 46, nama: "Tsaqif Hanan Al Fawwaz", kelas: "Kelas 1B (Luar)" },
-      { id: 47, nama: "Yusya Macaire Abdullah", kelas: "Kelas 1B (Luar)" },
-      { id: 48, nama: "Abiandra Ibrahim", kelas: "Kelas 1C (Dalam)" },
-      { id: 49, nama: "Ahza Apzarini Frastika", kelas: "Kelas 1C (Dalam)" },
-      { id: 50, nama: "Ardan Wardana", kelas: "Kelas 1C (Dalam)" },
-      { id: 51, nama: "Arfan Putra Alfarizqi", kelas: "Kelas 1C (Dalam)" },
-      { id: 52, nama: "Azra Hanina Adira Farzana", kelas: "Kelas 1C (Dalam)" },
-      { id: 53, nama: "Ceisya Ranita Putri Sandiya", kelas: "Kelas 1C (Dalam)" },
-      { id: 54, nama: "Fayyola Inara Naufalyn", kelas: "Kelas 1C (Dalam)" },
-      { id: 55, nama: "Giscara Jan Desmaura", kelas: "Kelas 1C (Dalam)" },
-      { id: 56, nama: "Hamizan Kareem Al Ayari", kelas: "Kelas 1C (Dalam)" },
-      { id: 57, nama: "Khalisa Salwa Azzahra", kelas: "Kelas 1C (Dalam)" },
-      { id: 58, nama: "Kim Solla Kartika Utari", kelas: "Kelas 1C (Dalam)" },
-      { id: 59, nama: "Muhammad Aldebaran Hadiprawira", kelas: "Kelas 1C (Dalam)" },
-      { id: 60, nama: "Muhammad Reyhan Azizan", kelas: "Kelas 1C (Dalam)" },
-      { id: 61, nama: "Musfira Jariyah Ansar", kelas: "Kelas 1C (Dalam)" },
-      { id: 62, nama: "Nabila Chyara Putri Arliansyah", kelas: "Kelas 1C (Dalam)" },
-      { id: 63, nama: "Nameera Aniqah Pamula", kelas: "Kelas 1C (Dalam)" },
-      { id: 64, nama: "Qalesya Alena Kinarian Haryono", kelas: "Kelas 1C (Dalam)" },
-      { id: 65, nama: "Rakai Novendra Artama Kusuma", kelas: "Kelas 1C (Dalam)" },
-      { id: 66, nama: "Rasyid Nur Laqif Gaharutama", kelas: "Kelas 1C (Dalam)" },
-      { id: 67, nama: "Rayyandra Atharizky", kelas: "Kelas 1C (Dalam)" },
-      { id: 68, nama: "Shizasana Ziya Budianta", kelas: "Kelas 1C (Dalam)" },
-      { id: 69, nama: "Tazkiya Putri Azzahra", kelas: "Kelas 1C (Dalam)" },
-      { id: 70, nama: "Zidane Omera Diova", kelas: "Kelas 1C (Dalam)" },
+      { id: 26, nama: "Adlan Malik Assami", kelas: "Kelas 1B" },
+      { id: 27, nama: "Aldi Rafaeyza", kelas: "Kelas 1B" },
+      { id: 28, nama: "Alvarendra Arasya Widhiyatmoko", kelas: "Kelas 1B" },
+      { id: 29, nama: "Banafsha Alesha Zoya", kelas: "Kelas 1B" },
+      { id: 30, nama: "Dhanesh Kalle Nugroho", kelas: "Kelas 1B" },
+      { id: 31, nama: "Fisa Efda Al Qisthi", kelas: "Kelas 1B" },
+      { id: 32, nama: "Gaffar Sinambrama Mandegani", kelas: "Kelas 1B" },
+      { id: 33, nama: "Hamizhan Satria Manggala", kelas: "Kelas 1B" },
+      { id: 34, nama: "Hana Mekka Arkadewi", kelas: "Kelas 1B" },
+      { id: 35, nama: "Hilya Annasya Zea", kelas: "Kelas 1B" },
+      { id: 36, nama: "Kareem Benzema Zehiya Khan", kelas: "Kelas 1B" },
+      { id: 37, nama: "Lingga Rajendra Wibowo", kelas: "Kelas 1B" },
+      { id: 38, nama: "Mayzura Zayn", kelas: "Kelas 1B" },
+      { id: 39, nama: "Muhammad Farell Abdillah", kelas: "Kelas 1B" },
+      { id: 40, nama: "Muhammad Faris Akbar", kelas: "Kelas 1B" },
+      { id: 41, nama: "Narendra Pasa Alfarizqi", kelas: "Kelas 1B" },
+      { id: 42, nama: "Rashdan Ashim Nugroho", kelas: "Kelas 1B" },
+      { id: 43, nama: "Rumaysa Nuha Aghnia", kelas: "Kelas 1B" },
+      { id: 44, nama: "Sheo Eiji Akira Misdaq", kelas: "Kelas 1B" },
+      { id: 45, nama: "Syafika Fauziah", kelas: "Kelas 1B" },
+      { id: 46, nama: "Tsaqif Hanan Al Fawwaz", kelas: "Kelas 1B" },
+      { id: 47, nama: "Yusya Macaire Abdullah", kelas: "Kelas 1B" },
+      { id: 48, nama: "Abiandra Ibrahim", kelas: "Kelas 1C" },
+      { id: 49, nama: "Ahza Apzarini Frastika", kelas: "Kelas 1C" },
+      { id: 50, nama: "Ardan Wardana", kelas: "Kelas 1C" },
+      { id: 51, nama: "Arfan Putra Alfarizqi", kelas: "Kelas 1C" },
+      { id: 52, nama: "Azra Hanina Adira Farzana", kelas: "Kelas 1C" },
+      { id: 53, nama: "Ceisya Ranita Putri Sandiya", kelas: "Kelas 1C" },
+      { id: 54, nama: "Fayyola Inara Naufalyn", kelas: "Kelas 1C" },
+      { id: 55, nama: "Giscara Jan Desmaura", kelas: "Kelas 1C" },
+      { id: 56, nama: "Hamizan Kareem Al Ayari", kelas: "Kelas 1C" },
+      { id: 57, nama: "Khalisa Salwa Azzahra", kelas: "Kelas 1C" },
+      { id: 58, nama: "Kim Solla Kartika Utari", kelas: "Kelas 1C" },
+      { id: 59, nama: "Muhammad Aldebaran Hadiprawira", kelas: "Kelas 1C" },
+      { id: 60, nama: "Muhammad Reyhan Azizan", kelas: "Kelas 1C" },
+      { id: 61, nama: "Musfira Jariyah Ansar", kelas: "Kelas 1C" },
+      { id: 62, nama: "Nabila Chyara Putri Arliansyah", kelas: "Kelas 1C" },
+      { id: 63, nama: "Nameera Aniqah Pamula", kelas: "Kelas 1C" },
+      { id: 64, nama: "Qalesya Alena Kinarian Haryono", kelas: "Kelas 1C" },
+      { id: 65, nama: "Rakai Novendra Artama Kusuma", kelas: "Kelas 1C" },
+      { id: 66, nama: "Rasyid Nur Laqif Gaharutama", kelas: "Kelas 1C" },
+      { id: 67, nama: "Rayyandra Atharizky", kelas: "Kelas 1C" },
+      { id: 68, nama: "Shizasana Ziya Budianta", kelas: "Kelas 1C" },
+      { id: 69, nama: "Tazkiya Putri Azzahra", kelas: "Kelas 1C" },
+      { id: 70, nama: "Zidane Omera Diova", kelas: "Kelas 1C" },
       { id: 71, nama: "Aisyah Pelangi Muslimah", kelas: "Kelas 2A Al Malik" },
       { id: 72, nama: "Almeera Nahla WS", kelas: "Kelas 2A Al Malik" },
       { id: 73, nama: "Almira Savaira Putri", kelas: "Kelas 2A Al Malik" },
@@ -2466,7 +2524,7 @@
 
     let loans = [
       { id: "TRX-101", studentId: 71, studentName: "Aisyah Pelangi Muslimah", kelas: "Kelas 2A Al Malik", bookId: 2, bookTitle: "Bacaan Sholat: Disertai Latin & Terjemah Bahasa Indonesia", tglPinjam: "2026-10-20", tglKembali: "2026-10-27", status: "Dipinjam" },
-      { id: "TRX-102", studentId: 26, studentName: "Adlan Malik Assami", kelas: "Kelas 1B (Luar)", bookId: 186, bookTitle: "10 Kisah Pahlawan Surga", tglPinjam: "2026-10-22", tglKembali: "2026-10-29", status: "Dipinjam" },
+      { id: "TRX-102", studentId: 26, studentName: "Adlan Malik Assami", kelas: "Kelas 1B", bookId: 186, bookTitle: "10 Kisah Pahlawan Surga", tglPinjam: "2026-10-22", tglKembali: "2026-10-29", status: "Dipinjam" },
       { id: "TRX-103", studentId: 146, studentName: "Adifa Safa Azzahra", kelas: "Kelas 3A Al Aliim", bookId: 311, bookTitle: "25 Nabi dan Rasul", tglPinjam: "2026-10-18", tglKembali: "2026-10-25", status: "Terlambat" }
     ];
 
@@ -2476,7 +2534,7 @@
       { id: 3, studentId: 71, studentName: "Aisyah Pelangi Muslimah", kelas: "Kelas 2A Al Malik", tanggal: "2026-10-12", keperluan: "Membaca Buku" },
       { id: 4, studentId: 71, studentName: "Aisyah Pelangi Muslimah", kelas: "Kelas 2A Al Malik", tanggal: "2026-10-20", keperluan: "Meminjam Buku" },
       { id: 5, studentId: 146, studentName: "Adifa Safa Azzahra", kelas: "Kelas 3A Al Aliim", tanggal: "2026-10-10", keperluan: "Kerja Kelompok / Tugas" },
-      { id: 6, studentId: 26, studentName: "Adlan Malik Assami", kelas: "Kelas 1B (Luar)", tanggal: "2026-10-15", keperluan: "Membaca Buku" },
+      { id: 6, studentId: 26, studentName: "Adlan Malik Assami", kelas: "Kelas 1B", tanggal: "2026-10-15", keperluan: "Membaca Buku" },
       { id: 7, studentId: 243, studentName: "Aditya Zharif Arkan", kelas: "Kelas 5 Al Kariim", tanggal: "2026-10-18", keperluan: "Meminjam Buku" },
       { id: 8, studentId: 260, studentName: "Ahmad Alfian Arsyad", kelas: "Kelas 6 Al Fattah", tanggal: "2026-10-22", keperluan: "Membaca Buku" }
     ];
@@ -2484,7 +2542,7 @@
     // ===================================================
     // LOGIKA AUTO-UPDATE MEMORI UNTUK PERANGKAT LAMA & BARU
     // ===================================================
-    const DATA_VERSION = "v7.0_firebase_sync";
+    const DATA_VERSION = "v7.0_kelas1_rename";
 
     function loadAndUpdateBooks() {
       const savedVersion = localStorage.getItem("app_data_version");
@@ -2849,7 +2907,7 @@
             <td style="text-align: right;">
               <button class="btn-action" title="Lihat Detail Buku" onclick="openModalDetail(${b.id})"><i class="fa-solid fa-eye"></i></button>
               <button class="btn-action print-label" title="Cetak Label Punggung Buku" onclick="openPrintLabel('${b.kode}', '${b.judul.replace(/'/g, "\\'")}')"><i class="fa-solid fa-print"></i></button>
-              <button class="btn-action" title="Edit Stok" onclick="editStokBuku(${b.id})"><i class="fa-solid fa-pen"></i></button>
+              <button class="btn-action" title="Edit Data Buku" onclick="editBuku(${b.id})"><i class="fa-solid fa-pen"></i></button>
               <button class="btn-action delete" title="Hapus Buku" onclick="hapusBuku(${b.id})"><i class="fa-solid fa-trash"></i></button>
             </td>
           </tr>
@@ -3415,19 +3473,44 @@
       }
     }
 
-    function editStokBuku(id) {
+    function editBuku(id) {
       const bk = books.find(b => b.id === id);
-      if(!bk) return;
-      const newStok = prompt(`Ubah Total Stok untuk "${bk.judul}":`, bk.stok);
-      if(newStok !== null && !isNaN(newStok)) {
-        const diff = parseInt(newStok) - bk.stok;
-        bk.stok = parseInt(newStok);
-        bk.tersedia = Math.max(0, bk.tersedia + diff);
-        saveData();
-        filterAndRenderKatalog();
-        renderDashboard();
-        showToast("Stok buku diperbarui!");
-      }
+      if (!bk) return;
+      document.getElementById('editBukuId').value = bk.id;
+      document.getElementById('editJudul').value = bk.judul || '';
+      document.getElementById('editKode').value = bk.kode || '';
+      document.getElementById('editKategori').value = bk.kategori || '';
+      document.getElementById('editPenerbit').value = bk.penerbit || '';
+      document.getElementById('editTahun').value = bk.tahun || '';
+      document.getElementById('editStok').value = bk.stok != null ? bk.stok : 1;
+      document.getElementById('editKondisi').value = bk.kondisi || 'Baik';
+      openModal('modalEditBuku');
+    }
+
+    function handleSimpanEditBuku(e) {
+      e.preventDefault();
+      const id = parseInt(document.getElementById('editBukuId').value);
+      const bk = books.find(b => b.id === id);
+      if (!bk) return;
+
+      const newStok = parseInt(document.getElementById('editStok').value) || 0;
+      const diff = newStok - (bk.stok || 0);
+
+      bk.judul = document.getElementById('editJudul').value.trim();
+      bk.kode = document.getElementById('editKode').value.trim();
+      bk.kategori = document.getElementById('editKategori').value.trim();
+      bk.penerbit = document.getElementById('editPenerbit').value.trim() || '-';
+      bk.tahun = document.getElementById('editTahun').value.trim() || '-';
+      bk.stok = newStok;
+      bk.tersedia = Math.max(0, (bk.tersedia || 0) + diff);
+      bk.kondisi = document.getElementById('editKondisi').value;
+
+      saveData();
+      initFilters();
+      filterAndRenderKatalog();
+      renderDashboard();
+      closeModal('modalEditBuku');
+      showToast("Data buku berhasil diperbarui!");
     }
 
     function hapusMurid(id) {
