@@ -1800,6 +1800,28 @@
       });
     }
 
+    function normalizeKelas1Names() {
+      // Paksa nama kelas 1 tanpa (Luar)/(Dalam) — data lama di cloud/local ikut diperbaiki
+      const map = {
+        "Kelas 1B (Luar)": "Kelas 1B",
+        "Kelas 1C (Dalam)": "Kelas 1C"
+      };
+      let changed = false;
+      function fix(list, field) {
+        if (!Array.isArray(list)) return;
+        list.forEach(item => {
+          if (item && item[field] && map[item[field]]) {
+            item[field] = map[item[field]];
+            changed = true;
+          }
+        });
+      }
+      fix(students, "kelas");
+      fix(loans, "kelas");
+      fix(visits, "kelas");
+      return changed;
+    }
+
     function applyCloudData(data) {
       if (!data) return;
       syncingFromCloud = true;
@@ -1825,6 +1847,15 @@
         } else {
           localStorage.removeItem("makarima_kunjungan_bulan_angka");
         }
+        // Perbaiki label kelas 1 dari data lama (jika masih ada)
+        var _kelas1Fixed = false;
+        try { _kelas1Fixed = normalizeKelas1Names(); } catch(e) {}
+        if (_kelas1Fixed) {
+          localStorage.setItem("makarima_students", JSON.stringify(students));
+          localStorage.setItem("makarima_loans", JSON.stringify(loans));
+          localStorage.setItem("makarima_visits", JSON.stringify(visits));
+        }
+
         // refresh tampilan
         try { initFilters(); } catch(e) {}
         try { renderDashboard(); } catch(e) {}
@@ -1834,6 +1865,10 @@
         try { renderKunjungan(); } catch(e) {}
       } finally {
         syncingFromCloud = false;
+        // Push ke cloud hanya jika ada perbaikan nama (hindari loop)
+        if (typeof _kelas1Fixed !== "undefined" && _kelas1Fixed) {
+          setTimeout(function() { pushAllToCloud(); }, 400);
+        }
       }
     }
 
@@ -2585,6 +2620,8 @@
       const savedVisits = localStorage.getItem('makarima_visits');
       if (savedVisits) visits = JSON.parse(savedVisits);
     } catch(e) {}
+    // Perbaiki label kelas 1 bila masih ada bentuk lama di localStorage
+    try { normalizeKelas1Names(); } catch(e) {}
     let categoryChartInstance = null;
 
     let currentPage = 1;
